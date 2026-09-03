@@ -6,21 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:a11y": "wait-on http://localhost:3000 && axe http://localhost:3000/ http://localhost:3000/about http://localhost:3000/experience http://localhost:3000/projects http://localhost:3000/skills http://localhost:3000/blog http://localhost:3000/accessibility http://localhost:3000/contact --exit",
+    "test:lighthouse": "wait-on http://localhost:3000 && lhci autorun"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^1.40.0",
     "next": "16.3.4",
+    "next-mdx-remote": "^6.0.0",
+    "next-themes": "^0.4.6",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.1.0"
   }
 }

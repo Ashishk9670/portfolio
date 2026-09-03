@@ -1,0 +1,50 @@
+---
+title: "Building This Site to WCAG 2.1 AA, From Scratch"
+description: "What actually went into making this portfolio accessible — and where automated tools stop being enough."
+date: "2026-09-03"
+---
+
+I audit software against WCAG 2.1 AA for a living, so when I built this site the bar wasn't
+"looks fine" — it was "would I sign off on this in a client audit." Here's what that meant in
+practice, and where the automated tools I use professionally actually fall short.
+
+## Start with the DOM, not the CSS
+
+The single highest-leverage decision on this site was structural, not visual: every page uses
+real HTML landmarks (`header`, `nav`, `main`, `footer`) and a heading hierarchy that never skips
+a level. That one decision does more for screen-reader users than any amount of ARIA sprinkled on
+afterward. ARIA is a patch for markup that can't be semantic any other way — reaching for it first
+is usually a sign the underlying HTML is wrong.
+
+## Keyboard first, mouse second
+
+Every interactive element on this site — nav links, the theme toggle, the mobile menu button —
+is reachable and operable by keyboard alone, with a visible focus ring that isn't just the
+browser default `outline: none` removed and never replaced (a depressingly common bug). I
+navigate the whole site with `Tab` and `Enter` before I trust a mouse test.
+
+## Contrast, checked in both themes
+
+This site ships a light and dark theme, which doubles the contrast surface area to check. Every
+color pairing — body text, muted text, the accent color on both backgrounds — is verified at
+4.5:1 for text and 3:1 for UI elements in *both* themes, not just the one I designed in.
+
+## What automated tools catch — and what they miss
+
+axe-core and Lighthouse run in this site's CI pipeline on every deploy, and they're genuinely
+useful: they catch missing alt text, insufficient contrast, and malformed ARIA fast, before a
+human ever looks. But the honest number from accessibility research is that automated tools catch
+roughly a third of real-world issues. They can't tell you whether your heading structure actually
+makes sense when read linearly, whether a screen reader announces your form errors usefully, or
+whether your focus order matches the visual order after a layout change.
+
+That's why the actual gate before anything ships here is a manual pass: keyboard-only navigation
+through the full page, and a screen reader (VoiceOver locally, spot-checked against NVDA) reading
+it start to finish. If something reads awkwardly out loud, it gets rewritten — that's usually a
+content problem, not a code problem.
+
+## The takeaway
+
+Automated accessibility tooling is necessary and not sufficient. Treat a clean axe-core run as a
+baseline you had to clear, not a finish line — the actual test is whether someone using a screen
+reader or a keyboard can use the thing as easily as someone clicking around with a mouse.
