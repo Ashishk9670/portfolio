@@ -1,3 +1,5 @@
+export const siteUrl = "https://ashishk9670.github.io/portfolio";
+
 export const profile = {
   name: "Ashish Kumar",
   role: "Software Development Engineer in Test II (SDET II)",

@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { profile } from "@/lib/data";
+import { profile, siteUrl } from "@/lib/data";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: `%s — ${profile.name}`,
   },
   description: profile.tagline,
-  metadataBase: new URL("https://ashishkumar.dev"),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: `${profile.name} — ${profile.role}`,
     description: profile.tagline,

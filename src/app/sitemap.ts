@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/lib/data";
+import { projects, siteUrl } from "@/lib/data";
+import { getAllPosts } from "@/lib/posts";
 
-const BASE_URL = "https://ashishkumar.dev";
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -14,14 +15,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/accessibility",
     "/contact",
   ].map((route) => ({
-    url: `${BASE_URL}${route}`,
+    url: `${siteUrl}${route}`,
     lastModified: new Date(),
   }));
 
   const projectRoutes = projects.map((project) => ({
-    url: `${BASE_URL}/projects/${project.slug}`,
+    url: `${siteUrl}/projects/${project.slug}`,
     lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...projectRoutes];
+  const postRoutes = getAllPosts().map((post) => ({
+    url: `${siteUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+  }));
+
+  return [...staticRoutes, ...projectRoutes, ...postRoutes];
 }
