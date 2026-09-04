@@ -5,6 +5,7 @@ const NAV_PAGES = [
   { href: "/experience", navLabel: "Experience", heading: "Experience" },
   { href: "/projects", navLabel: "Projects", heading: "Projects" },
   { href: "/skills", navLabel: "Skills", heading: "Skills" },
+  { href: "/uses", navLabel: "Uses", heading: "Uses" },
   { href: "/blog", navLabel: "Writing", heading: "Writing" },
   { href: "/accessibility", navLabel: "Accessibility", heading: "Accessibility Statement" },
   { href: "/contact", navLabel: "Contact", heading: "Contact" },

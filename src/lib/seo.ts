@@ -7,17 +7,22 @@ export function pageMetadata({
   title,
   description,
   path,
+  feed = false,
 }: {
   title: string;
   description: string;
   path: string;
+  feed?: boolean;
 }): Metadata {
   const url = `${siteUrl}${path}`;
 
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      ...(feed ? { types: { "application/rss+xml": `${siteUrl}/feed.xml` } } : {}),
+    },
     openGraph: {
       title: `${title} — ${profile.name}`,
       description,

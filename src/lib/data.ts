@@ -176,6 +176,41 @@ export const skills: SkillGroup[] = [
   { category: "AI-Assisted Development", items: ["Claude Code", "Cursor", "GitHub Copilot", "MCP Server", "ChatGPT"] },
 ];
 
+export type UsesGroup = { category: string; blurb: string; items: string[] };
+
+export const usesStack: UsesGroup[] = [
+  {
+    category: "UI & mobile automation",
+    blurb: "Playwright is what I reach for first on new projects; Selenium and Appium still earn their keep on legacy suites and cross-browser/mobile coverage.",
+    items: ["Playwright", "Selenium", "Cypress", "Appium", "TestNG", "Cucumber"],
+  },
+  {
+    category: "API & performance",
+    blurb: "REST Assured plus SQL-level checks for backend data consistency, JMeter when I need load numbers, not just pass/fail.",
+    items: ["REST Assured", "JMeter"],
+  },
+  {
+    category: "AI-assisted workflow",
+    blurb: "Cursor and Claude Code for first-draft test scaffolding and debugging flaky failures fast; GitHub Copilot inline; ChatGPT for one-off research. None of these replace deciding what actually needs coverage — that part stays manual.",
+    items: ["Cursor", "Claude Code", "GitHub Copilot", "MCP Server", "ChatGPT"],
+  },
+  {
+    category: "CI/CD & infra",
+    blurb: "GitHub Actions for anything greenfield, Jenkins where it's already entrenched, Docker to keep environments reproducible, AWS for the infra underneath.",
+    items: ["GitHub Actions", "Jenkins", "Docker", "AWS"],
+  },
+  {
+    category: "Data & observability",
+    blurb: "MySQL/MongoDB for the systems under test, Redis and Sentry mostly from side-project infra work.",
+    items: ["MySQL", "MongoDB", "Redis", "Sentry"],
+  },
+  {
+    category: "Process",
+    blurb: "Git and Bitbucket for version control, Jira for tracking, TestRail when a project needs formal test-case management.",
+    items: ["Git", "Bitbucket", "Jira", "TestRail"],
+  },
+];
+
 export const education = {
   school: "National Institute of Technology, Warangal",
   degree: "Bachelor of Technology",
