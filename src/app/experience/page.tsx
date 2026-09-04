@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import { experience, profile } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Experience",
   description: `${profile.name}'s work experience as an SDET.`,
-};
+  path: "/experience",
+});
 
 export default function ExperiencePage() {
   return (

@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import { achievements, certifications, education, profile } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description: `About ${profile.name}, ${profile.role}.`,
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

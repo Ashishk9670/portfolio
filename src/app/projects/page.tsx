@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { profile, projects } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Projects",
   description: `Test automation projects and case studies by ${profile.name}.`,
-};
+  path: "/projects",
+});
 
 export default function ProjectsPage() {
   return (

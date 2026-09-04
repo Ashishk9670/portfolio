@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Accessibility Statement",
   description: "How this site was built and audited against WCAG 2.1 AA.",
-};
+  path: "/accessibility",
+});
 
 const CHECKLIST = [
   "Semantic HTML5 landmarks (header, nav, main, footer) and a logical heading order on every page.",

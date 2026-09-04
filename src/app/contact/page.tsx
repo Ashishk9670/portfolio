@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import { Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { profile } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
   description: `Get in touch with ${profile.name}.`,
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

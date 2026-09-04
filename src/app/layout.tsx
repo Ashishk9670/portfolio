@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { profile, siteUrl } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,17 +19,27 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  ...pageMetadata({
+    title: profile.role,
+    description: profile.tagline,
+    path: "/",
+  }),
   title: {
     default: `${profile.name} — ${profile.role}`,
     template: `%s — ${profile.name}`,
   },
-  description: profile.tagline,
   metadataBase: new URL(siteUrl),
-  openGraph: {
-    title: `${profile.name} — ${profile.role}`,
-    description: profile.tagline,
-    type: "website",
-  },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  description: profile.tagline,
+  url: siteUrl,
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.github, profile.linkedin],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -38,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
+        <JsonLd data={personJsonLd} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <a
             href="#main-content"
