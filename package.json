@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:a11y": "wait-on http://localhost:3000 && axe http://localhost:3000/ http://localhost:3000/about http://localhost:3000/experience http://localhost:3000/projects http://localhost:3000/skills http://localhost:3000/blog http://localhost:3000/accessibility http://localhost:3000/contact --exit",
+    "test:a11y": "wait-on http://localhost:3000 && node scripts/axe-check.mjs",
     "test:lighthouse": "wait-on http://localhost:3000 && lhci autorun",
     "test:e2e": "playwright test"
   },
@@ -21,7 +21,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@axe-core/cli": "^4.13.0",
+    "@axe-core/playwright": "^4.13.0",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",

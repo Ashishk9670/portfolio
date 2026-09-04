@@ -26,10 +26,13 @@ jobs:
       - name: Type check & build
         run: npm run build
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
       - name: Start production server
         run: npm run start &
 
-      - name: Accessibility audit (axe-core)
+      - name: Accessibility audit (axe-core via Playwright)
         run: npm run test:a11y
 
       - name: Lighthouse CI (accessibility, best practices, SEO)
