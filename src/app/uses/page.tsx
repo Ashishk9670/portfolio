@@ -23,7 +23,19 @@ export default function UsesPage() {
         {usesStack.map((group) => (
           <div key={group.category}>
             <h2 className="text-lg font-semibold">{group.category}</h2>
-            <p className="mt-2 text-muted">{group.blurb}</p>
+            <p className="mt-2 text-muted">
+              {group.blurb}
+              {group.category === "AI-assisted workflow" && (
+                <>
+                  {" "}
+                  I also built an{" "}
+                  <a href="/mcp" className="text-accent underline underline-offset-2">
+                    MCP server for this portfolio
+                  </a>{" "}
+                  — a concrete example, not just a tools list.
+                </>
+              )}
+            </p>
             <ul className="mt-3 flex flex-wrap gap-2">
               {group.items.map((item) => (
                 <li key={item} className="rounded-md border border-border px-3 py-1.5 font-mono text-sm">

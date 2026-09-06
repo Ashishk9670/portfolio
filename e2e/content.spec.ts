@@ -9,12 +9,43 @@ test.describe("projects", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Playwright UI & Automation Framework"
     );
-    for (const section of ["Problem", "Approach", "Outcome"]) {
+    for (const section of ["Problem", "Approach", "Results", "Outcome", "Business Impact"]) {
       await expect(page.getByRole("heading", { name: section })).toBeVisible();
     }
     await expect(page.getByRole("link", { name: "Repository" })).toHaveAttribute(
       "href",
       /github\.com/
+    );
+  });
+
+  test("MCP server case study links to the standalone /mcp page and its repo", async ({ page }) => {
+    await page.goto("/projects/portfolio-mcp-server");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Portfolio MCP Server");
+    await expect(page.getByRole("link", { name: "Repository" })).toHaveAttribute(
+      "href",
+      "https://github.com/Ashishk9670/ashish-portfolio-mcp"
+    );
+  });
+});
+
+test.describe("mcp page", () => {
+  test("lists all 7 tools and links to the repo", async ({ page }) => {
+    await page.goto("/mcp");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCP Server");
+    for (const tool of [
+      "get_experience",
+      "get_projects",
+      "get_skills",
+      "get_about",
+      "get_contact_info",
+      "list_blog_posts",
+      "get_blog_post",
+    ]) {
+      await expect(page.getByText(tool, { exact: true })).toBeVisible();
+    }
+    await expect(page.getByRole("link", { name: /Repository/ })).toHaveAttribute(
+      "href",
+      "https://github.com/Ashishk9670/ashish-portfolio-mcp"
     );
   });
 });

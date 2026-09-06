@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects",
     "/skills",
     "/uses",
+    "/mcp",
     "/blog",
     "/accessibility",
     "/contact",

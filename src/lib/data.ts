@@ -108,11 +108,36 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "portfolio-mcp-server",
+    title: "Portfolio MCP Server",
+    tagline: "Exposing this site's data as MCP tools any AI client can query.",
+    stack: ["Cloudflare Workers", "MCP SDK", "TypeScript", "Zod"],
+    featured: true,
+    problem:
+      "Recruiters and AI assistants can only learn about a candidate by scraping HTML — brittle, lossy, and disconnected from whatever the candidate actually maintains. I wanted any MCP-aware AI client to be able to query my experience, projects, and skills as accurate, structured data instead.",
+    approach: [
+      "Built a Cloudflare Worker using the agents SDK's McpAgent, exposing 7 tools (get_experience, get_projects, get_skills, get_about, get_contact_info, list_blog_posts, get_blog_post) over both Streamable HTTP and legacy SSE.",
+      "Added a prebuild step to this site that exports the same data.ts/posts.ts modules it renders from as static JSON — single source of truth, no duplicated resume data between the site and the server.",
+      "Validated every fetched payload with Zod schemas, since the data crosses a network boundary between two separately deployed repos.",
+      "Shipped both a remote transport (zero-install, via Claude Code/Desktop) and a bundled stdio entry point for local use.",
+    ],
+    results: [
+      { value: "7", label: "MCP tools covering experience, projects, skills, and writing" },
+      { value: "2", label: "transports — remote (Streamable HTTP/SSE) and local (stdio)" },
+      { value: "5 min", label: "edge cache — new site data propagates with no server redeploy" },
+    ],
+    outcome:
+      "A deployed MCP server that any MCP client can query for structured information about my background — verified end-to-end with the MCP Inspector CLI against both transports before calling it done.",
+    businessImpact:
+      "A working demonstration of the exact skill I'm selling — deliberate AI-tooling integration — not just a bullet point claiming I know MCP.",
+    links: { repo: "https://github.com/Ashishk9670/ashish-portfolio-mcp" },
+  },
+  {
     slug: "demowebshop-automation-framework",
     title: "DemoWebShop Automation Framework",
     tagline: "A modular Selenium framework built to be maintained, not just to pass.",
     stack: ["Selenium", "Java", "TestNG", "Log4j", "Extent Reports", "GitHub Actions"],
-    featured: true,
+    featured: false,
     problem:
       "Most reference Selenium frameworks online are single-file demos that don't reflect how a real regression suite has to be organized, reported on, or run in CI. I wanted a framework I could point to that shows how I actually structure automation code.",
     approach: [
@@ -192,6 +217,21 @@ export const projects: Project[] = [
     businessImpact: "Ashish: fill in once the problem/outcome above are set.",
   },
 ];
+
+export const mcpServer = {
+  repoUrl: "https://github.com/Ashishk9670/ashish-portfolio-mcp",
+  // Set once `wrangler deploy` has actually been run against a real Cloudflare account.
+  remoteUrl: null as string | null,
+  tools: [
+    { name: "get_experience", description: "Work history with quantified results and business impact per role." },
+    { name: "get_projects", description: "Project case studies — problem, approach, results, outcome, impact." },
+    { name: "get_skills", description: "Skills by category, plus the tools actually used and why." },
+    { name: "get_about", description: "Career timeline, engineering philosophy, education, certifications." },
+    { name: "get_contact_info", description: "Email, GitHub, LinkedIn, and current availability status." },
+    { name: "list_blog_posts", description: "Blog post titles, descriptions, and dates." },
+    { name: "get_blog_post", description: "Full Markdown content of one post, by slug." },
+  ],
+};
 
 export type SkillGroup = { category: string; items: string[] };
 
