@@ -220,8 +220,7 @@ export const projects: Project[] = [
 
 export const mcpServer = {
   repoUrl: "https://github.com/Ashishk9670/ashish-portfolio-mcp",
-  // Set once `wrangler deploy` has actually been run against a real Cloudflare account.
-  remoteUrl: null as string | null,
+  remoteUrl: "https://ashish-portfolio-mcp.ashishk.workers.dev" as string | null,
   tools: [
     { name: "get_experience", description: "Work history with quantified results and business impact per role." },
     { name: "get_projects", description: "Project case studies — problem, approach, results, outcome, impact." },
