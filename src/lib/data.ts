@@ -235,7 +235,7 @@ export const mcpServer = {
 export type SkillGroup = { category: string; items: string[] };
 
 export const skills: SkillGroup[] = [
-  { category: "Languages", items: ["Java", "JavaScript", "C++"] },
+  { category: "Languages", items: ["Java", "TypeScript", "JavaScript", "C++"] },
   {
     category: "Test Automation",
     items: ["Playwright", "Selenium", "Cypress", "TestNG", "Appium", "REST Assured", "Cucumber"],
@@ -256,9 +256,9 @@ export const skills: SkillGroup[] = [
       "Accessibility (WCAG)",
     ],
   },
-  { category: "CI/CD & DevOps", items: ["GitHub Actions", "Jenkins", "Docker", "AWS"] },
-  { category: "Databases", items: ["MySQL", "MongoDB", "Redis"] },
-  { category: "Tooling", items: ["Git", "Bitbucket", "Jira", "TestRail", "Sentry"] },
+  { category: "CI/CD & Cloud", items: ["GitHub Actions", "Jenkins", "Azure DevOps", "Docker", "AWS"] },
+  { category: "Data & Observability", items: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Sentry"] },
+  { category: "Version Control & PM", items: ["Git", "Bitbucket", "Jira", "TestRail"] },
   { category: "AI-Assisted Development", items: ["Claude Code", "Cursor", "GitHub Copilot", "MCP Server", "ChatGPT"] },
 ];
 
