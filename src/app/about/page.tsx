@@ -1,4 +1,4 @@
-import { achievements, certifications, education, profile } from "@/lib/data";
+import { achievements, certifications, education, milestones, philosophy, profile } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -44,7 +44,36 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="mt-12 grid gap-8 sm:grid-cols-2">
+      <div className="mt-16">
+        <h2 className="text-xl font-semibold">The Journey So Far</h2>
+        <ol className="mt-8 space-y-8 border-l border-border pl-8">
+          {milestones.map((milestone) => (
+            <li key={milestone.year} className="relative">
+              <span
+                className="absolute -left-[calc(2rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full bg-accent"
+                aria-hidden="true"
+              />
+              <p className="font-mono text-sm text-accent">{milestone.year}</p>
+              <h3 className="mt-1 font-semibold">{milestone.title}</h3>
+              <p className="mt-1 text-sm text-muted">{milestone.blurb}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="mt-16">
+        <h2 className="text-xl font-semibold">How I Think About Quality</h2>
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+          {philosophy.map((principle) => (
+            <div key={principle.title} className="rounded-lg border border-border p-5">
+              <h3 className="font-semibold">{principle.title}</h3>
+              <p className="mt-2 text-sm text-muted">{principle.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-16 grid gap-8 sm:grid-cols-2">
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Education</h2>
           <p className="mt-2 font-medium">{education.school}</p>

@@ -5,6 +5,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { GitHubIcon } from "@/components/BrandIcons";
 import { projects } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
+import { StatGrid } from "@/components/StatGrid";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -89,8 +90,20 @@ export default async function ProjectPage({ params }: Props) {
         </section>
 
         <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Results</h2>
+          <div className="mt-3">
+            <StatGrid stats={project.results} />
+          </div>
+        </section>
+
+        <section>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Outcome</h2>
           <p className="mt-3">{project.outcome}</p>
+        </section>
+
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Business Impact</h2>
+          <p className="mt-3 border-l-2 border-accent py-1 pl-4 text-muted">{project.businessImpact}</p>
         </section>
       </div>
     </div>

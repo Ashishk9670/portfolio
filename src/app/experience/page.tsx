@@ -1,5 +1,6 @@
 import { experience, profile } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
+import { StatGrid } from "@/components/StatGrid";
 
 export const metadata = pageMetadata({
   title: "Experience",
@@ -32,6 +33,15 @@ export default function ExperiencePage() {
                 <li key={i}>{bullet}</li>
               ))}
             </ul>
+
+            <div className="mt-5">
+              <StatGrid stats={entry.stats} />
+            </div>
+
+            <p className="mt-4 border-l-2 border-accent py-1 pl-4 text-sm text-muted">
+              <span className="font-mono text-xs uppercase tracking-wide text-accent">Impact — </span>
+              {entry.impact}
+            </p>
           </li>
         ))}
       </ol>

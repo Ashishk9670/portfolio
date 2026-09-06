@@ -11,7 +11,10 @@ export const profile = {
   email: "ak1545861@gmail.com",
   github: "https://github.com/Ashishk9670",
   linkedin: "https://linkedin.com/in/as9670",
+  availableForOpportunities: true,
 };
+
+export type Stat = { value: string; label: string };
 
 export type ExperienceEntry = {
   company: string;
@@ -20,6 +23,8 @@ export type ExperienceEntry = {
   start: string;
   end: string;
   bullets: string[];
+  stats: Stat[];
+  impact: string;
 };
 
 export const experience: ExperienceEntry[] = [
@@ -32,6 +37,12 @@ export const experience: ExperienceEntry[] = [
     bullets: [
       "Authored the automation suite from scratch for an oncology clinical-trial matching platform, in a HIPAA-regulated environment.",
     ],
+    stats: [
+      { value: "0 → 1", label: "automation suite built from scratch" },
+      { value: "HIPAA", label: "regulated environment — compliance-aware test design" },
+    ],
+    impact:
+      "Establishing the testing foundation for a healthcare platform where a missed regression carries real clinical-trial-matching risk, not just a support ticket.",
   },
   {
     company: "LiveSwitch",
@@ -49,6 +60,13 @@ export const experience: ExperienceEntry[] = [
       "Applied AI-powered coding agents (Claude Code, Cursor, MCP Server) to generate test cases, debug automation failures, and streamline manual and automated testing workflows.",
       "Performed API load and performance testing with JMeter to identify bottlenecks and ensure system stability.",
     ],
+    stats: [
+      { value: "~40%", label: "reduction in regression execution time" },
+      { value: "4 + 2", label: "browsers and mobile platforms covered end-to-end" },
+      { value: "AI-assisted", label: "workflow using Claude Code, Cursor, and MCP Server" },
+    ],
+    impact:
+      "Turned a slow, manual-heavy release process into a fast, cross-platform regression system the team could trust before every release.",
   },
   {
     company: "Mastercard Data & Services",
@@ -63,6 +81,13 @@ export const experience: ExperienceEntry[] = [
       "Improved defect resolution speed by ~20% by initiating structured QA-Dev syncs and better triaging practices.",
       "Worked in Agile (Scrum) teams with CI/CD-driven delivery pipelines supporting high-volume commercial payments workflows.",
     ],
+    stats: [
+      { value: "1000+", label: "automated test cases (Cypress + Selenium)" },
+      { value: "95%+", label: "test coverage across releases" },
+      { value: "~20%", label: "faster defect resolution via structured QA-Dev syncs" },
+    ],
+    impact:
+      "Gave a high-volume commercial payments platform release confidence at a scale where manual testing alone couldn't keep up.",
   },
 ];
 
@@ -75,7 +100,9 @@ export type Project = {
   placeholder?: boolean;
   problem: string;
   approach: string[];
+  results: Stat[];
   outcome: string;
+  businessImpact: string;
   links?: { repo?: string; live?: string };
 };
 
@@ -93,8 +120,14 @@ export const projects: Project[] = [
       "Added Log4j logging and Extent Reports so failures are diagnosable from the report alone, without re-running locally.",
       "Wired the suite into GitHub Actions so every push runs the full regression pack and publishes a report artifact.",
     ],
+    results: [
+      { value: "100%", label: "of the regression pack runs unattended in CI" },
+      { value: "POM", label: "architecture — locators separated from test logic" },
+    ],
     outcome:
       "A CI-integrated regression suite that runs unattended on every push and produces a readable failure report — the same pattern I use for production frameworks, minus the proprietary code.",
+    businessImpact:
+      "A framework I can walk through end-to-end in an interview — the same structure I use in production, without the proprietary code attached.",
     links: { repo: "https://github.com/Ashishk9670" },
   },
   {
@@ -110,8 +143,14 @@ export const projects: Project[] = [
       "Set up Maven profiles for targeted test execution (smoke vs. full regression).",
       "Automated execution and reporting through GitHub Actions on every commit.",
     ],
+    results: [
+      { value: "100%", label: "automated execution and reporting on every commit" },
+      { value: "2", label: "Maven profiles — smoke vs. full regression" },
+    ],
     outcome:
       "A self-contained API regression suite with automated execution and reporting, requiring no manual trigger to stay current.",
+    businessImpact:
+      "Proves the CI wiring holds up on its own — nobody has to remember to trigger it before a release.",
     links: { repo: "https://github.com/Ashishk9670" },
   },
   {
@@ -126,8 +165,14 @@ export const projects: Project[] = [
       "Built a Playwright framework structured so AI-generated test drafts still land in the right architecture instead of sprawling into one-off scripts.",
       "Used an MCP server + GitHub Copilot inside the loop for faster first drafts and faster debugging of failures, with manual review on what actually gets committed.",
     ],
+    results: [
+      { value: "AI-assisted", label: "first-draft test authoring and failure debugging" },
+      { value: "Manual", label: "review gate on everything that ships to the suite" },
+    ],
     outcome:
       "Faster test creation and maintenance without giving up control over what the suite actually verifies — a workflow, not just a tool swap.",
+    businessImpact:
+      "A concrete, honest answer to \"how do you actually use AI in testing\" — not a hype answer and not a dismissal.",
     links: { repo: "https://github.com/Ashishk9670" },
   },
   {
@@ -142,7 +187,9 @@ export const projects: Project[] = [
     approach: [
       "Ashish: fill in the architecture decisions — e.g. what Redis is used for (caching, queues, pub/sub), how Sentry is wired in, and why.",
     ],
+    results: [{ value: "Ashish:", label: "add a real stat once the details above are filled in" }],
     outcome: "Ashish: fill in the outcome — what it does today, what you learned, or what's next.",
+    businessImpact: "Ashish: fill in once the problem/outcome above are set.",
   },
 ];
 
@@ -222,3 +269,48 @@ export const education = {
 export const certifications = ["Cypress End-to-End JavaScript Testing", "HackerRank – Problem Solving"];
 
 export const achievements = ["CodeChef 4-star", "Merit Scholarship (3x) – NIT Warangal & CBSE"];
+
+export type Milestone = { year: string; title: string; blurb: string };
+
+export const milestones: Milestone[] = [
+  {
+    year: "2017",
+    title: "Started at NIT Warangal",
+    blurb: "B.Tech, graduated 2021 with an 8.69 CGPA.",
+  },
+  {
+    year: "2021",
+    title: "Joined Mastercard Data & Services",
+    blurb: "Built 1000+ automated tests and hit 95%+ coverage on a commercial payments platform.",
+  },
+  {
+    year: "2024",
+    title: "Joined LiveSwitch",
+    blurb: "Owned cross-platform UI/API automation, cut regression execution time by ~40%.",
+  },
+  {
+    year: "2026",
+    title: "Joined Triomics Healthcare",
+    blurb: "Building the automation suite from scratch for an oncology clinical-trial matching platform.",
+  },
+];
+
+export type Principle = { title: string; description: string };
+
+export const philosophy: Principle[] = [
+  {
+    title: "Quality is architecture, not a checklist",
+    description:
+      "A test suite is a piece of software. Page objects, reusable API clients, and CI wiring are design decisions, not busywork — treating them that way is what keeps a suite alive past the first few sprints.",
+  },
+  {
+    title: "Accessibility is a constraint, not an audit",
+    description:
+      "WCAG compliance works when it's designed in from the first component, not checked for after launch. I hold my own work — including this site — to the same bar I audit other software against.",
+  },
+  {
+    title: "AI is a tool with judgment attached",
+    description:
+      "AI-assisted coding is genuinely useful for first-draft scaffolding and debugging flaky failures fast. Deciding what actually needs test coverage stays a human, strategic call — that part doesn't get automated away.",
+  },
+];

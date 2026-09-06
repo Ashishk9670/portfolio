@@ -9,6 +9,12 @@ export default function Home() {
   return (
     <>
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+        {profile.availableForOpportunities && (
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm text-muted">
+            <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+            Available for opportunities
+          </div>
+        )}
         <p className="font-mono text-sm text-accent">{profile.role}</p>
         <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
           {profile.tagline}

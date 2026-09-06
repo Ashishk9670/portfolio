@@ -2,7 +2,19 @@ import { chromium } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
-const PATHS = ["/", "/about", "/experience", "/projects", "/skills", "/uses", "/blog", "/accessibility", "/contact"];
+const PATHS = [
+  "/",
+  "/about",
+  "/experience",
+  "/projects",
+  "/projects/playwright-ai-assisted-framework",
+  "/skills",
+  "/uses",
+  "/blog",
+  "/blog/wcag-2-1-aa-from-scratch",
+  "/accessibility",
+  "/contact",
+];
 
 const browser = await chromium.launch();
 const context = await browser.newContext();
