@@ -11,6 +11,7 @@
   --surface: #f8fafc;
   --accent: #0d7d74;
   --accent-foreground: #ffffff;
+  --accent-wash: rgba(13, 125, 116, 0.08);
   --focus-ring: #0d7d74;
 }
 
@@ -22,6 +23,7 @@
   --surface: #141414;
   --accent: #2dd4bf;
   --accent-foreground: #06120f;
+  --accent-wash: rgba(45, 212, 191, 0.09);
   --focus-ring: #2dd4bf;
 }
 
@@ -33,6 +35,7 @@
   --color-surface: var(--surface);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-wash: var(--accent-wash);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }
