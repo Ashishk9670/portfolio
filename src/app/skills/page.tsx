@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Bot, Braces, Database, FolderKanban, GitBranch, ListChecks, Sparkles } from "lucide-react";
+import { Bot, Braces, Database, FolderKanban, GitBranch, ListChecks, MonitorSmartphone, Sparkles } from "lucide-react";
 import { profile, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { SKILL_ICONS } from "@/lib/skillIcons";
@@ -14,6 +14,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   Languages: Braces,
   "Test Automation": Bot,
   "Testing Disciplines": ListChecks,
+  Platforms: MonitorSmartphone,
   "CI/CD & Cloud": GitBranch,
   "Data & Observability": Database,
   "Version Control & PM": FolderKanban,

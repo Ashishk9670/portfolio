@@ -1,6 +1,8 @@
 import type { ComponentType, SVGProps } from "react";
 import {
+  SiAndroid,
   SiApachejmeter,
+  SiApple,
   SiAppium,
   SiBitbucket,
   SiClaudecode,
@@ -25,7 +27,7 @@ import {
   SiTestrail,
   SiTypescript,
 } from "react-icons/si";
-import { FaAws } from "react-icons/fa6";
+import { FaAws, FaWindows } from "react-icons/fa6";
 import { PlaywrightIcon } from "@/components/BrandIcons";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
@@ -71,4 +73,9 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   "GitHub Copilot": { Icon: SiGithubcopilot, color: "#000000" },
 
   "Performance (JMeter)": { Icon: SiApachejmeter, color: "#D22128" },
+
+  Android: { Icon: SiAndroid, color: "#3DDC84" },
+  iOS: { Icon: SiApple, color: "#000000" },
+  macOS: { Icon: SiApple, color: "#000000" },
+  Windows: { Icon: FaWindows, color: "#00A4EF" },
 };
