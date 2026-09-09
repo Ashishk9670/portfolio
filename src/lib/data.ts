@@ -248,6 +248,8 @@ export const skills: SkillGroup[] = [
       "Regression",
       "Smoke Testing",
       "Performance (JMeter)",
+      "Load Testing (k6)",
+      "Contract Testing (Pact)",
       "UAT",
       "Integration Testing",
       "Cross-Browser Testing",

@@ -17,6 +17,7 @@ import {
   SiJavascript,
   SiJenkins,
   SiJira,
+  SiK6,
   SiMongodb,
   SiMysql,
   SiOpenjdk,
@@ -37,8 +38,8 @@ export type SkillIcon = { Icon: IconComponent; color: string };
 /**
  * Real, verified brand icons only — no invented logos. Items not listed here
  * (methodologies like "UI Testing", or tools with no available/reliable brand
- * mark, e.g. Azure DevOps, TestNG, REST Assured, MCP Server, ChatGPT) render
- * as plain text, matched against @/lib/data's exact skill item strings.
+ * mark, e.g. Azure DevOps, TestNG, REST Assured, Pact, MCP Server, ChatGPT)
+ * render as plain text, matched against @/lib/data's exact skill item strings.
  */
 export const SKILL_ICONS: Record<string, SkillIcon> = {
   Java: { Icon: SiOpenjdk, color: "#000000" },
@@ -73,6 +74,7 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   "GitHub Copilot": { Icon: SiGithubcopilot, color: "#000000" },
 
   "Performance (JMeter)": { Icon: SiApachejmeter, color: "#D22128" },
+  "Load Testing (k6)": { Icon: SiK6, color: "#7D64FF" },
 
   Android: { Icon: SiAndroid, color: "#3DDC84" },
   iOS: { Icon: SiApple, color: "#000000" },
