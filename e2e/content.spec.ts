@@ -74,7 +74,21 @@ test.describe("skills", () => {
   test("renders grouped skill categories", async ({ page }) => {
     await page.goto("/skills");
     await expect(page.getByRole("heading", { name: "Test Automation" })).toBeVisible();
-    await expect(page.getByText("Playwright", { exact: true })).toBeVisible();
+    await expect(page.locator("#skill-grid").getByText("Playwright", { exact: true })).toBeVisible();
+  });
+
+  test("shows a 'Right now' skill timeline with since-dates", async ({ page }) => {
+    await page.goto("/skills");
+    await expect(page.getByRole("heading", { name: "Right now" })).toBeVisible();
+    await expect(page.getByText(/since Sep 2024/).first()).toBeVisible();
+  });
+});
+
+test.describe("about", () => {
+  test("principles include a concrete in-practice example", async ({ page }) => {
+    await page.goto("/about");
+    await expect(page.getByRole("heading", { name: "How I Think About Quality" })).toBeVisible();
+    await expect(page.getByText("In practice —").first()).toBeVisible();
   });
 });
 

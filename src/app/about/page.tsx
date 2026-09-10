@@ -68,6 +68,10 @@ export default function AboutPage() {
             <div key={principle.title} className="rounded-lg border border-border p-5">
               <h3 className="font-semibold">{principle.title}</h3>
               <p className="mt-2 text-sm text-muted">{principle.description}</p>
+              <p className="mt-3 border-t border-border pt-3 text-xs text-muted">
+                <span className="font-semibold text-foreground">In practice — </span>
+                {principle.practice}
+              </p>
             </div>
           ))}
         </div>

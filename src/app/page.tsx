@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { experience, profile, projects } from "@/lib/data";
+import { experience, impactHighlights, profile, projects } from "@/lib/data";
 import { AvailabilityBadge } from "@/components/AvailabilityBadge";
 import { withBasePath } from "@/lib/basePath";
 
@@ -59,6 +59,22 @@ export default function Home() {
               {latestRole.role} · {latestRole.company} · {latestRole.start} – {latestRole.end}
             </p>
             <p className="mt-2 text-foreground">{latestRole.bullets[0]}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-surface">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
+          <h2 className="text-xl font-semibold">By the Numbers</h2>
+          <p className="mt-2 text-sm text-muted">Measured before and after the work, on the roles themselves.</p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-4">
+            {impactHighlights.map((stat) => (
+              <div key={`${stat.company}-${stat.label}`} className="rounded-lg border border-border bg-background p-5">
+                <p className="text-2xl font-semibold text-accent">{stat.value}</p>
+                <p className="mt-1 text-sm text-muted">{stat.label}</p>
+                <p className="mt-3 font-mono text-xs text-muted">{stat.company}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

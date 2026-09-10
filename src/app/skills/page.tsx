@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Bot, Braces, Database, FolderKanban, GitBranch, ListChecks, MonitorSmartphone, Sparkles } from "lucide-react";
-import { profile, skills } from "@/lib/data";
+import { profile, skillTimeline, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { SKILL_ICONS } from "@/lib/skillIcons";
 import { Reveal } from "@/components/Reveal";
@@ -40,7 +40,23 @@ export default function SkillsPage() {
         .
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 [grid-auto-flow:dense]">
+      <div className="mt-10">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Right now</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {skillTimeline.map((entry) => (
+            <div key={entry.skill} className="rounded-lg border border-border p-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="font-medium">{entry.skill}</p>
+                <p className="shrink-0 font-mono text-xs text-accent">{entry.years}</p>
+              </div>
+              <p className="mt-1 font-mono text-xs text-muted">since {entry.since}</p>
+              <p className="mt-2 text-sm text-muted">{entry.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="skill-grid" className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 [grid-auto-flow:dense]">
         {skills.map((group, i) => {
           const CategoryIcon = CATEGORY_ICONS[group.category] ?? Braces;
           const isHero = HERO_CATEGORIES.includes(group.category);

@@ -6,7 +6,10 @@ export function Footer() {
   return (
     <footer className="border-t border-border print:hidden">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-8 text-sm text-muted sm:flex-row sm:justify-between sm:px-6">
-        <p>© {new Date().getFullYear()} {profile.name}. Built with Next.js, checked against WCAG 2.1 AA.</p>
+        <p>
+          © {new Date().getFullYear()} {profile.name}. Built with Next.js, checked against WCAG 2.1 AA,
+          and covered by its own Playwright e2e suite on every push.
+        </p>
         <div className="flex items-center gap-4">
           <a
             href={`mailto:${profile.email}`}

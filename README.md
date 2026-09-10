@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# portfolio
 
-## Getting Started
+[Ashish Kumar's](https://ashishk9670.github.io/portfolio/) portfolio and resume — written by hand, statically
+exported, and checked against WCAG 2.1 AA on every push.
 
-First, run the development server:
+**Live:** [ashishk9670.github.io/portfolio](https://ashishk9670.github.io/portfolio/)
+
+## Why static export, not a hosted Next.js app
+
+GitHub Pages only serves static files, so `next.config.ts` switches to `output: "export"` behind a
+`GITHUB_PAGES` env var, with `basePath`/`assetPrefix` set to `/portfolio` in that mode only. Anything
+that needs a real server — none of this site does — would need a different host; a resume site
+doesn't earn that complexity.
+
+## What ships on every push
+
+- `next build` in both modes (default and `GITHUB_PAGES=true`) — the two configs diverge just enough
+  (basePath, raw `<a href>` links) that only building one has let bugs through before.
+- Lint and typecheck.
+- An axe-core accessibility audit (`scripts/axe-check.mjs`) across every route.
+- A Lighthouse CI run, gated on accessibility ≥0.95.
+- The Playwright e2e suite (`e2e/*.spec.ts`) — navigation, content, theme, and mobile nav — against a
+  production build.
+- On `main`, a deploy to GitHub Pages.
+
+The e2e suite also runs on its own schedule (`.github/workflows/e2e.yml`), independent of a push, so a
+regression surfaces even on a day nothing changed here.
+
+## Companion project
+
+[`ashish-portfolio-mcp`](https://github.com/Ashishk9670/ashish-portfolio-mcp) exposes this site's data
+as MCP tools. `npm run export:data` (a `prebuild` step) writes `lib/data.ts` / `lib/posts.ts` out as
+static JSON under `public/data/`, which that server fetches at request time — one source of truth,
+two deploys, no duplicated resume data.
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev              # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build             # default build
+GITHUB_PAGES=true npm run build   # GitHub Pages build — basePath, static export
+npm run lint
+npm run test:a11y         # needs a server already running on :3000
+npm run test:lighthouse   # needs a server already running on :3000
+npm run test:e2e
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/app/          routes (App Router)
+src/components/   shared UI
+src/content/posts/  blog posts, MDX
+src/lib/          data.ts (single source of truth for resume content), seo.ts, basePath.ts
+e2e/              Playwright specs
+scripts/          axe audit, OG image generation, resume PDF generation
+```

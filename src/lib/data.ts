@@ -338,22 +338,64 @@ export const milestones: Milestone[] = [
   },
 ];
 
-export type Principle = { title: string; description: string };
+export type Principle = { title: string; description: string; practice: string };
 
 export const philosophy: Principle[] = [
   {
     title: "Quality is architecture, not a checklist",
     description:
       "A test suite is a piece of software. Page objects, reusable API clients, and CI wiring are design decisions, not busywork — treating them that way is what keeps a suite alive past the first few sprints.",
+    practice:
+      "Every framework I've built — LiveSwitch, the DemoWebShop suite, the API Automation project — starts from Page Object Model and reusable clients before the first test case is written.",
   },
   {
     title: "Accessibility is a constraint, not an audit",
     description:
       "WCAG compliance works when it's designed in from the first component, not checked for after launch. I hold my own work — including this site — to the same bar I audit other software against.",
+    practice:
+      "This site runs an axe-core audit and a Lighthouse accessibility gate (≥95) in CI on every push, not just a one-time check before launch.",
   },
   {
     title: "AI is a tool with judgment attached",
     description:
       "AI-assisted coding is genuinely useful for first-draft scaffolding and debugging flaky failures fast. Deciding what actually needs test coverage stays a human, strategic call — that part doesn't get automated away.",
+    practice:
+      "Claude Code and Cursor draft first-pass tests and chase down flaky failures at LiveSwitch and on this site's own tooling; what actually ships is still a manual review call.",
   },
+];
+
+export type SkillTimelineEntry = { skill: string; since: string; years: string; note: string };
+
+export const skillTimeline: SkillTimelineEntry[] = [
+  {
+    skill: "Playwright",
+    since: "Sep 2024",
+    years: "~2y",
+    note: "Built from scratch for new workflows at LiveSwitch, enabling early regression coverage.",
+  },
+  {
+    skill: "Selenium + TestNG",
+    since: "Jul 2021",
+    years: "~5y",
+    note: "1000+ automated tests and 95%+ coverage on a commercial payments platform at Mastercard.",
+  },
+  {
+    skill: "AI-assisted testing",
+    since: "Sep 2024",
+    years: "~2y",
+    note: "Claude Code, Cursor, and MCP for first-draft test generation and flaky-failure debugging — manual review before anything ships.",
+  },
+  {
+    skill: "API Testing (REST Assured)",
+    since: "Jul 2021",
+    years: "~5y",
+    note: "Request/response validation and backend data consistency, cross-checked with SQL.",
+  },
+];
+
+export const impactHighlights: (Stat & { company: string })[] = [
+  { ...experience[1].stats[0], company: experience[1].company },
+  { ...experience[2].stats[1], company: experience[2].company },
+  { ...experience[2].stats[0], company: experience[2].company },
+  { ...experience[2].stats[2], company: experience[2].company },
 ];

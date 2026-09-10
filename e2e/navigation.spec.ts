@@ -25,6 +25,7 @@ test.describe("primary navigation", () => {
     await expect(
       page.locator("#main-content").getByRole("link", { name: "Contact", exact: true })
     ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "By the Numbers" })).toBeVisible();
   });
 
   for (const { href, navLabel, heading } of NAV_PAGES) {
