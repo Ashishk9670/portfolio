@@ -3,6 +3,7 @@ import { Bot, Braces, Database, FolderKanban, GitBranch, ListChecks, MonitorSmar
 import { profile, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { SKILL_ICONS } from "@/lib/skillIcons";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata = pageMetadata({
   title: "Skills",
@@ -40,14 +41,15 @@ export default function SkillsPage() {
       </p>
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 [grid-auto-flow:dense]">
-        {skills.map((group) => {
+        {skills.map((group, i) => {
           const CategoryIcon = CATEGORY_ICONS[group.category] ?? Braces;
           const isHero = HERO_CATEGORIES.includes(group.category);
           const isWide = isHero || group.items.length >= 8;
 
           return (
-            <div
+            <Reveal
               key={group.category}
+              delay={i * 60}
               className={`rounded-xl border p-5 transition-colors ${
                 isWide ? "sm:col-span-2" : ""
               } ${
@@ -92,7 +94,7 @@ export default function SkillsPage() {
                   );
                 })}
               </ul>
-            </div>
+            </Reveal>
           );
         })}
       </div>

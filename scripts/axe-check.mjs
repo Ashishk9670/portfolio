@@ -12,6 +12,7 @@ const PATHS = [
   "/skills",
   "/uses",
   "/mcp",
+  "/resume",
   "/blog",
   "/blog/wcag-2-1-aa-from-scratch",
   "/accessibility",

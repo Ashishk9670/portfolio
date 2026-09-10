@@ -2,12 +2,14 @@ import Link from "next/link";
 import { Rss } from "lucide-react";
 import { getAllPosts } from "@/lib/posts";
 import { pageMetadata } from "@/lib/seo";
+import { withBasePath } from "@/lib/basePath";
 
 export const metadata = pageMetadata({
   title: "Writing",
   description: "Notes on test automation, accessibility, and AI-assisted engineering.",
   path: "/blog",
   feed: true,
+  ogImage: "/og-image-writing.png",
 });
 
 export default function BlogPage() {
@@ -23,7 +25,7 @@ export default function BlogPage() {
           </p>
         </div>
         <a
-          href="/feed.xml"
+          href={withBasePath("/feed.xml")}
           className="flex shrink-0 items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted transition-colors hover:border-accent hover:text-accent"
         >
           <Rss className="h-4 w-4" aria-hidden="true" />
@@ -48,7 +50,8 @@ export default function BlogPage() {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                })}
+                })}{" "}
+                · {post.readTimeMinutes} min read
               </p>
               <h2 className="mt-2 text-lg font-semibold group-hover:text-accent">{post.title}</h2>
               <p className="mt-2 text-muted">{post.description}</p>

@@ -25,6 +25,14 @@ test.describe("projects", () => {
       "href",
       "https://github.com/Ashishk9670/ashish-portfolio-mcp"
     );
+    await expect(page.getByRole("heading", { name: "How it flows" })).toBeVisible();
+    await expect(page.getByText("fetch + 5min cache")).toBeVisible();
+  });
+
+  test("listing renders real tool icons on project cards", async ({ page }) => {
+    await page.goto("/projects");
+    const heroCard = page.locator("a", { hasText: "Portfolio MCP Server" });
+    await expect(heroCard.locator("svg")).not.toHaveCount(0);
   });
 });
 
@@ -80,5 +88,28 @@ test.describe("blog", () => {
     await expect(page).toHaveURL(/\/blog\/wcag-2-1-aa-from-scratch$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("WCAG 2.1 AA");
     await expect(page.getByRole("heading", { name: "Start with the DOM, not the CSS" })).toBeVisible();
+    await expect(page.getByText(/min read/)).toBeVisible();
+  });
+});
+
+test.describe("contact", () => {
+  test("shows availability, a resume download, and what I'm looking for", async ({ page }) => {
+    await page.goto("/contact");
+    await expect(page.getByText("Available for opportunities")).toBeVisible();
+    await expect(page.getByRole("link", { name: /Resume/ })).toHaveAttribute("href", "/resume.pdf");
+    await expect(page.getByRole("heading", { name: "What I'm looking for" })).toBeVisible();
+  });
+});
+
+test.describe("resume", () => {
+  test("renders a printable resume with a working PDF download link", async ({ page }) => {
+    await page.goto("/resume");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ashish Kumar");
+    await expect(page.getByRole("heading", { name: "Experience" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Skills" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Download PDF" })).toHaveAttribute(
+      "href",
+      "/resume.pdf"
+    );
   });
 });

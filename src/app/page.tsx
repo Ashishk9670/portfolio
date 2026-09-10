@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { experience, profile, projects } from "@/lib/data";
+import { AvailabilityBadge } from "@/components/AvailabilityBadge";
+import { withBasePath } from "@/lib/basePath";
 
 export default function Home() {
   const featuredProjects = projects.filter((p) => p.featured);
@@ -8,11 +10,11 @@ export default function Home() {
 
   return (
     <>
-      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      <section className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="dot-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-full" aria-hidden="true" />
         {profile.availableForOpportunities && (
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm text-muted">
-            <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
-            Available for opportunities
+          <div className="mb-6">
+            <AvailabilityBadge />
           </div>
         )}
         <p className="font-mono text-sm text-accent">{profile.role}</p>
@@ -23,18 +25,18 @@ export default function Home() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/experience"
+            href="/projects"
             className="inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
           >
-            View Experience
+            View Projects
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
-          <Link
-            href="/projects"
+          <a
+            href={withBasePath("/resume.pdf")}
             className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-surface"
           >
-            View Projects
-          </Link>
+            Download Resume
+          </a>
           <Link
             href="/contact"
             className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-surface"

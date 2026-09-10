@@ -4,7 +4,7 @@ import { profile } from "@/lib/data";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border print:hidden">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-8 text-sm text-muted sm:flex-row sm:justify-between sm:px-6">
         <p>© {new Date().getFullYear()} {profile.name}. Built with Next.js, checked against WCAG 2.1 AA.</p>
         <div className="flex items-center gap-4">

@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.description,
     path: `/blog/${post.slug}`,
+    ogImage: "/og-image-writing.png",
   });
 }
 
@@ -54,7 +55,8 @@ export default async function BlogPostPage({ params }: Props) {
           year: "numeric",
           month: "long",
           day: "numeric",
-        })}
+        })}{" "}
+        · {post.readTimeMinutes} min read
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">{post.title}</h1>
       <p className="mt-3 text-lg text-muted">{post.description}</p>

@@ -11,6 +11,7 @@
         "http://localhost:3000/skills",
         "http://localhost:3000/uses",
         "http://localhost:3000/mcp",
+        "http://localhost:3000/resume",
         "http://localhost:3000/blog",
         "http://localhost:3000/blog/wcag-2-1-aa-from-scratch",
         "http://localhost:3000/accessibility",

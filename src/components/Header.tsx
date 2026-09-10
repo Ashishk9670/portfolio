@@ -22,7 +22,7 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur print:hidden">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="font-mono text-sm font-semibold tracking-tight">
           ashish<span className="text-accent">.</span>kumar

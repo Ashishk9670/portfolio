@@ -17,8 +17,14 @@ test.describe("primary navigation", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "test automation and accessibility systems"
     );
-    await expect(page.getByRole("link", { name: "View Experience" })).toBeVisible();
     await expect(page.getByRole("link", { name: "View Projects" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Download Resume" })).toHaveAttribute(
+      "href",
+      "/resume.pdf"
+    );
+    await expect(
+      page.locator("#main-content").getByRole("link", { name: "Contact", exact: true })
+    ).toBeVisible();
   });
 
   for (const { href, navLabel, heading } of NAV_PAGES) {

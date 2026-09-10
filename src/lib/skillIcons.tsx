@@ -2,10 +2,12 @@ import type { ComponentType, SVGProps } from "react";
 import {
   SiAndroid,
   SiApachejmeter,
+  SiApachemaven,
   SiApple,
   SiAppium,
   SiBitbucket,
   SiClaudecode,
+  SiCloudflareworkers,
   SiCplusplus,
   SiCucumber,
   SiCursor,
@@ -18,6 +20,7 @@ import {
   SiJenkins,
   SiJira,
   SiK6,
+  SiModelcontextprotocol,
   SiMongodb,
   SiMysql,
   SiOpenjdk,
@@ -27,6 +30,7 @@ import {
   SiSentry,
   SiTestrail,
   SiTypescript,
+  SiZod,
 } from "react-icons/si";
 import { FaAws, FaWindows } from "react-icons/fa6";
 import { PlaywrightIcon } from "@/components/BrandIcons";
@@ -80,4 +84,10 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   iOS: { Icon: SiApple, color: "#000000" },
   macOS: { Icon: SiApple, color: "#000000" },
   Windows: { Icon: FaWindows, color: "#00A4EF" },
+
+  // Project tech-stack icons (portfolio-mcp-server, DemoWebShop, API framework)
+  "Cloudflare Workers": { Icon: SiCloudflareworkers, color: "#F38020" },
+  "MCP SDK": { Icon: SiModelcontextprotocol, color: "#000000" },
+  Zod: { Icon: SiZod, color: "#408AFF" },
+  Maven: { Icon: SiApachemaven, color: "#C71A36" },
 };
