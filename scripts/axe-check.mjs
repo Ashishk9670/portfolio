@@ -12,6 +12,7 @@ const PATHS = [
   "/skills",
   "/uses",
   "/mcp",
+  "/qa-suite",
   "/resume",
   "/blog",
   "/blog/wcag-2-1-aa-from-scratch",
@@ -28,7 +29,10 @@ let hadViolations = false;
 for (const path of PATHS) {
   const url = `${BASE_URL}${path}`;
   await page.goto(url, { waitUntil: "networkidle" });
-  const results = await new AxeBuilder({ page }).analyze();
+  // Excludes iframe content: the /qa-suite page embeds a third-party Allure
+  // report (a separately deployed GitHub Pages site under the same github.io
+  // host, so same-origin) whose markup and styling this repo doesn't own.
+  const results = await new AxeBuilder({ page }).exclude("iframe").analyze();
 
   if (results.violations.length === 0) {
     console.log(`✓ ${url} — 0 violations`);

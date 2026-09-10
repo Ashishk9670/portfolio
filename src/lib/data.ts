@@ -201,6 +201,34 @@ export const projects: Project[] = [
     links: { repo: "https://github.com/Ashishk9670" },
   },
   {
+    slug: "sauce-demo-playwright-suite",
+    title: "Sauce Demo Playwright Suite",
+    tagline: "A real E2E suite against a live public store, with its report published and replayable here.",
+    stack: ["Playwright", "TypeScript", "Allure", "GitHub Actions", "Shopify"],
+    featured: true,
+    problem:
+      "A portfolio project is easy to dismiss as a toy — a single-file demo nobody could point coworkers at. I wanted a suite that runs against a real, live target with real failure modes, and a report a stranger could open and trust, not a screenshot.",
+    approach: [
+      "Built 25 functional cases (catalog, cart, checkout, account, and a chained signup-to-checkout journey) in Playwright + TypeScript, Page Object Model, typed fixtures, matrixed across Chromium, Firefox, and WebKit in CI.",
+      "Wired Allure reporting into the pipeline and added a GitHub Pages publish step, so every push to main produces a public, browsable report with history and trends, not just a CI artifact.",
+      "Documented two real constraints from the live target instead of hiding them: Cloudflare's bot management can challenge automated browsers regardless of IP reputation, and hCaptcha hard-blocks registration/login under CDP-driven automation entirely — confirmed via network inspection, not treated as a bug in the suite.",
+      "Built this site's own /qa-suite page to fetch that published report's JSON at request time and replay it case by case, with the full Allure report embedded underneath.",
+    ],
+    results: [
+      { value: "25", label: "functional cases across catalog, cart, checkout, account, and journey" },
+      { value: "3", label: "browsers — Chromium, Firefox, WebKit, matrixed in CI" },
+      { value: "Public", label: "Allure report published to GitHub Pages on every push, with trend history" },
+    ],
+    outcome:
+      "A suite that runs against a real store and is honest when the store — not the suite — is the reason a run goes red, with a report anyone can open and check for themselves.",
+    businessImpact:
+      "The same discipline I bring to production suites — a flaky test is a defect to diagnose, not weather to retry away — applied somewhere anyone can verify it firsthand.",
+    links: {
+      repo: "https://github.com/Ashishk9670/sauce-demo-playwright-suite",
+      live: "https://ashishk9670.github.io/portfolio/qa-suite",
+    },
+  },
+  {
     slug: "cloud-infra-side-project",
     title: "Cloud Infra Side Project (Redis / Sentry)",
     tagline: "Details pending — flagged as a placeholder case study.",

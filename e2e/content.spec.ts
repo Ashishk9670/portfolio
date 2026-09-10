@@ -84,6 +84,17 @@ test.describe("skills", () => {
   });
 });
 
+test.describe("qa suite", () => {
+  test("runner page loads and links to the suite repo", async ({ page }) => {
+    await page.goto("/qa-suite");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("QA Suite Runner");
+    await expect(page.getByRole("link", { name: "Repository" })).toHaveAttribute(
+      "href",
+      "https://github.com/Ashishk9670/sauce-demo-playwright-suite"
+    );
+  });
+});
+
 test.describe("about", () => {
   test("principles include a concrete in-practice example", async ({ page }) => {
     await page.goto("/about");

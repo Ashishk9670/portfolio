@@ -28,6 +28,7 @@ import {
   SiRedis,
   SiSelenium,
   SiSentry,
+  SiShopify,
   SiTestrail,
   SiTypescript,
   SiZod,
@@ -53,6 +54,7 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
 
   Playwright: { Icon: PlaywrightIcon, color: "" },
   Selenium: { Icon: SiSelenium, color: "#43B02A" },
+  Shopify: { Icon: SiShopify, color: "#7AB55C" },
   Cypress: { Icon: SiCypress, color: "#69D3A7" },
   Appium: { Icon: SiAppium, color: "#EE376D" },
   Cucumber: { Icon: SiCucumber, color: "#23D96C" },

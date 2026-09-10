@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/skills",
     "/uses",
     "/mcp",
+    "/qa-suite",
     "/resume",
     "/blog",
     "/accessibility",
