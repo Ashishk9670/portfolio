@@ -11,6 +11,7 @@ type LoadState = "loading" | "error" | "ready";
 export function QaSuiteRunner() {
   const [state, setState] = useState<LoadState>("loading");
   const [run, setRun] = useState<QaSuiteRun | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const [visibleCount, setVisibleCount] = useState(0);
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -31,11 +32,11 @@ export function QaSuiteRunner() {
   }, []);
 
   useEffect(() => {
-    if (state !== "ready" || !run) return;
+    if (state !== "ready" || !run || !hasStarted) return;
     if (visibleCount >= run.cases.length) return;
     const timer = setTimeout(() => setVisibleCount((n) => n + 1), STEP_INTERVAL_MS);
     return () => clearTimeout(timer);
-  }, [state, run, visibleCount]);
+  }, [state, run, hasStarted, visibleCount]);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
@@ -89,6 +90,7 @@ export function QaSuiteRunner() {
         <p className="text-muted">
           {"> "}npx playwright test — replaying {run.reportName}
         </p>
+        {!hasStarted && <p className="mt-1.5 text-muted">{"> "}Waiting for a run.</p>}
         {visibleCases.map((c) => (
           <div key={c.uid} className="mt-1.5 flex items-start gap-2">
             {c.status === "passed" ? (
@@ -100,13 +102,27 @@ export function QaSuiteRunner() {
             <span className="ml-auto shrink-0 text-muted">{(c.duration / 1000).toFixed(1)}s</span>
           </div>
         ))}
-        {!isDone && (
+        {hasStarted && !isDone && (
           <p className="mt-1.5 flex items-center gap-1.5 text-muted">
             <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" aria-hidden="true" />
             {"> "}running…
           </p>
         )}
         {isDone && <p className="mt-2 text-muted">{"> "}done — {visibleCount} of {run.cases.length} results replayed.</p>}
+      </div>
+
+      <div className="mt-4 flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => setHasStarted(true)}
+          disabled={hasStarted}
+          className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Run the QA suites
+        </button>
+        <p className="text-xs text-muted">
+          Replays the last run recorded in the report, then opens that report below.
+        </p>
       </div>
 
       <p className="mt-3 text-xs text-muted">

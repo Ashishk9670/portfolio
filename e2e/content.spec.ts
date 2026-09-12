@@ -93,6 +93,18 @@ test.describe("qa suite", () => {
       "https://github.com/Ashishk9670/sauce-demo-playwright-suite"
     );
   });
+
+  test("waits for a click before replaying, like the reference site", async ({ page }) => {
+    await page.goto("/qa-suite");
+    const runButton = page.getByRole("button", { name: "Run the QA suites" });
+    await expect(runButton).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText("Waiting for a run.")).toBeVisible();
+
+    await runButton.click();
+
+    await expect(runButton).toBeDisabled();
+    await expect(page.getByText("Waiting for a run.")).toHaveCount(0);
+  });
 });
 
 test.describe("about", () => {
