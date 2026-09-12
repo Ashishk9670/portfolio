@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { experience, impactHighlights, profile, projects } from "@/lib/data";
 import { AvailabilityBadge } from "@/components/AvailabilityBadge";
+import { VisitorsMap } from "@/components/VisitorsMap";
 import { withBasePath } from "@/lib/basePath";
 
 export default function Home() {
@@ -76,6 +77,13 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="dot-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-full" aria-hidden="true" />
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
+          <VisitorsMap />
         </div>
       </section>
 
