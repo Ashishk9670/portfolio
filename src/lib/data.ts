@@ -229,20 +229,32 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "cloud-infra-side-project",
-    title: "Cloud Infra Side Project (Redis / Sentry)",
-    tagline: "Details pending — flagged as a placeholder case study.",
-    stack: ["Redis", "Sentry"],
+    slug: "food-recommendations",
+    title: "Food Recommendations",
+    tagline: "A no-login food and dish recommendation board, built and load-hardened like a real product.",
+    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Redis", "Sentry"],
     featured: false,
-    placeholder: true,
     problem:
-      "Ashish: replace this with the real problem statement for the Redis/Sentry side project (what it does, why you built it, what constraint mattered).",
+      "A recommendation board only works if anyone can post without friction, but \"no accounts\" creates real problems the moment it's live: who can edit a post, what stops one person from spamming submissions or likes, and what happens when something breaks with no user account to trace it back to.",
     approach: [
-      "Ashish: fill in the architecture decisions — e.g. what Redis is used for (caching, queues, pub/sub), how Sentry is wired in, and why.",
+      "Ownership without accounts: each submission gets a secret edit token at creation time, so the original poster's browser can edit or delete it later with no login — moderation (reports, an admin panel to review and dismiss them) covers the rest.",
+      "Rate limiting on submissions, likes, comments, and reports via Upstash Redis. It replaced an in-memory limiter that only worked per warm serverless instance — on Vercel that was close to no protection at all, since the next request can land on a different instance with no shared memory.",
+      "Sentry wired into both the server and edge runtimes, so a failure in either surfaces with a real stack trace instead of a silent 500 a user just bounces off.",
+      "Postgres via Prisma, with a trigram-search migration for the browse/search page, and a 28-case Playwright suite (happy path, submission validation, admin auth, filtering/pagination, accessibility, SEO/error pages) run in CI on every push and on a daily schedule.",
     ],
-    results: [{ value: "Ashish:", label: "add a real stat once the details above are filled in" }],
-    outcome: "Ashish: fill in the outcome — what it does today, what you learned, or what's next.",
-    businessImpact: "Ashish: fill in once the problem/outcome above are set.",
+    results: [
+      { value: "28", label: "Playwright cases — happy path, admin, validation, a11y, SEO/errors" },
+      { value: "Redis", label: "rate limiting that actually holds across serverless instances" },
+      { value: "Daily", label: "scheduled CI run, independent of whether anything changed that day" },
+    ],
+    outcome:
+      "A live, publicly usable app that handles the unglamorous parts of \"no login required\" honestly — abuse prevention and ownership — instead of skipping them because there's no user table to hang them off of.",
+    businessImpact:
+      "The same instinct I bring to test strategy — what actually needs to hold up under real, unauthenticated traffic — applied to building the thing, not just testing it.",
+    links: {
+      repo: "https://github.com/Ashishk9670/food-recommendations",
+      live: "https://food-recommendations-six.vercel.app",
+    },
   },
 ];
 
