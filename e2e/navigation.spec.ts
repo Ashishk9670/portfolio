@@ -26,10 +26,6 @@ test.describe("primary navigation", () => {
       page.locator("#main-content").getByRole("link", { name: "Contact", exact: true })
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: "By the Numbers" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Visitors" })).toBeVisible();
-    await expect(
-      page.getByRole("img", { name: "World map with approximate visitor locations" })
-    ).toBeVisible();
   });
 
   for (const { href, navLabel, heading } of NAV_PAGES) {

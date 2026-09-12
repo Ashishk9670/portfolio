@@ -107,6 +107,56 @@ test.describe("qa suite", () => {
   });
 });
 
+test.describe("visitors map", () => {
+  const WORKER = "https://ashish-portfolio-mcp.ashishk.workers.dev";
+  const SAMPLE_VISITS = [
+    { lat: 12.9, lon: 77.6, country: "IN", city: "Bengaluru", count: 5 },
+    { lat: 51.5, lon: -0.1, country: "GB", city: "London", count: 2 },
+  ];
+
+  // Stubbed rather than hitting the real Worker: keeps the test deterministic
+  // (not dependent on live visitor counts) and stops every test run from
+  // beaconing a fake visit into real production data.
+  test.beforeEach(async ({ page }) => {
+    await page.route(`${WORKER}/visit`, (route) => route.fulfill({ status: 204 }));
+    await page.route(`${WORKER}/visits`, (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(SAMPLE_VISITS),
+      })
+    );
+  });
+
+  test("renders the world map with a real land-mass silhouette and the aggregate summary", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "Visitors" })).toBeVisible();
+    await expect(page.getByText("2 locations · 7 visits")).toBeVisible();
+
+    const map = page.getByRole("img", { name: "World map with approximate visitor locations" });
+    await expect(map).toBeVisible();
+    // Land-mass dots come from bundled real-geography data, independent of the network stub above —
+    // a large count here is what distinguishes real continent shapes from an empty/placeholder map.
+    const landDotCount = await map.locator("circle.fill-muted").count();
+    expect(landDotCount).toBeGreaterThan(500);
+
+    await expect(page.getByText(/no IP address or personally identifying information/)).toBeVisible();
+  });
+
+  test("hovering a visitor pin shows a city, country, and count tooltip", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByText("2 locations · 7 visits")).toBeVisible();
+
+    const pin = page.locator("circle.cursor-pointer").first();
+    await pin.hover();
+
+    await expect(page.getByText("Bengaluru, IN")).toBeVisible();
+    await expect(page.getByText("5", { exact: true })).toBeVisible();
+  });
+});
+
 test.describe("about", () => {
   test("principles include a concrete in-practice example", async ({ page }) => {
     await page.goto("/about");
