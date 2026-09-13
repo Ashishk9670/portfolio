@@ -22,6 +22,13 @@ const PATHS = [
 
 const browser = await chromium.launch();
 const context = await browser.newContext();
+
+// Stubbed so this audit doesn't beacon a fake visit into real production data —
+// the Home page fires this on every load, and this script visits it repeatedly.
+await context.route("https://ashish-portfolio-mcp.ashishk.workers.dev/visit", (route) =>
+  route.fulfill({ status: 204 })
+);
+
 const page = await context.newPage();
 
 let hadViolations = false;

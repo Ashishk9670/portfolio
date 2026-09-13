@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { stubVisitorBeacon } from "./stubVisitorBeacon";
+
+test.beforeEach(({ page }) => stubVisitorBeacon(page));
 
 test.describe("theme toggle", () => {
   test("switches theme and persists across reload", async ({ page }) => {

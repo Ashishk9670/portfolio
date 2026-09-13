@@ -18,7 +18,10 @@
         "http://localhost:3000/accessibility",
         "http://localhost:3000/contact"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 1,
+      "settings": {
+        "blockedUrlPatterns": ["https://ashish-portfolio-mcp.ashishk.workers.dev/visit"]
+      }
     },
     "assert": {
       "assertions": {

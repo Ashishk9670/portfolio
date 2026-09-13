@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { stubVisitorBeacon } from "./stubVisitorBeacon";
+
+test.beforeEach(({ page }) => stubVisitorBeacon(page));
 
 const NAV_PAGES = [
   { href: "/about", navLabel: "About", heading: "About" },

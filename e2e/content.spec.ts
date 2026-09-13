@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { stubVisitorBeacon } from "./stubVisitorBeacon";
+
+test.beforeEach(({ page }) => stubVisitorBeacon(page));
 
 test.describe("projects", () => {
   test("listing links through to a case study with all sections", async ({ page }) => {
@@ -114,11 +117,10 @@ test.describe("visitors map", () => {
     { lat: 51.5, lon: -0.1, country: "GB", city: "London", count: 2 },
   ];
 
-  // Stubbed rather than hitting the real Worker: keeps the test deterministic
-  // (not dependent on live visitor counts) and stops every test run from
-  // beaconing a fake visit into real production data.
+  // Stubbed with fixed sample data (the file-level beforeEach above already
+  // suppresses the /visit write) so these two tests are deterministic instead
+  // of depending on whatever real visitor count happens to exist.
   test.beforeEach(async ({ page }) => {
-    await page.route(`${WORKER}/visit`, (route) => route.fulfill({ status: 204 }));
     await page.route(`${WORKER}/visits`, (route) =>
       route.fulfill({
         status: 200,
