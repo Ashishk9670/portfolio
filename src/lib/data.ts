@@ -256,6 +256,30 @@ export const projects: Project[] = [
       live: "https://food-recommendations-six.vercel.app",
     },
   },
+  {
+    slug: "screenshot-to-drive-extension",
+    title: "Screenshot to Drive",
+    tagline: "A Chrome extension that gets a screenshot from the active tab into a shared Drive folder in two clicks.",
+    stack: ["Chrome Extension", "JavaScript", "Google Drive API", "OAuth"],
+    featured: false,
+    problem:
+      "Sharing a screenshot with a team sounds trivial until it's a daily habit: capture, find the right shared folder, rename it to something searchable, upload, repeat. I wanted that down to two clicks, with no native helper app or screen-recording permission prompt to set up first.",
+    approach: [
+      "Built as a Manifest V3 extension using chrome.tabs.captureVisibleTab instead of the desktopCapture screen-picker — it captures the focused tab directly on click, with no \"choose what to share\" dialog and no offscreen document needed just to draw a video frame to canvas.",
+      "The rename-before-saving review window opens via chrome.windows.create rather than a default_popup, specifically because a popup bubble auto-closes the instant it loses focus — a real bug hit in an earlier iteration, where the OS's own share-picker dialog stole focus and silently killed the popup mid-capture.",
+      "Local save and the Drive upload run concurrently via Promise.allSettled, so one failing doesn't block the other, with a single OS notification summarizing both outcomes.",
+      "Uses the broader `drive` OAuth scope instead of the narrower `drive.file` — the target folder is shared with each teammate rather than created by their own account, and `drive.file` only ever grants access to files a user's own token created.",
+    ],
+    results: [
+      { value: "2 clicks", label: "from toolbar icon to a saved, uploaded screenshot" },
+      { value: "2", label: "independent save paths (local + Drive) via Promise.allSettled" },
+      { value: "0", label: "native helper apps or extra permission dialogs beyond one-time sign-in" },
+    ],
+    outcome:
+      "A small tool the team actually uses instead of the manual screenshot-then-upload routine it replaced — proof that cutting friction doesn't always need a big system, just the right two Chrome APIs.",
+    businessImpact:
+      "The same instinct I bring to test tooling — cut the manual steps between \"I need this artifact\" and \"it's where it needs to be\" — applied to a small internal tool instead of a test framework.",
+  },
 ];
 
 export const mcpServer = {

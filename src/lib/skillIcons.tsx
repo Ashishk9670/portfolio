@@ -16,6 +16,8 @@ import {
   SiGit,
   SiGithubactions,
   SiGithubcopilot,
+  SiGooglechrome,
+  SiGoogledrive,
   SiJavascript,
   SiJenkins,
   SiJira,
@@ -62,6 +64,8 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   Cucumber: { Icon: SiCucumber, color: "#23D96C" },
 
   "GitHub Actions": { Icon: SiGithubactions, color: "#2088FF" },
+  "Chrome Extension": { Icon: SiGooglechrome, color: "#4285F4" },
+  "Google Drive API": { Icon: SiGoogledrive, color: "#4285F4" },
   Jenkins: { Icon: SiJenkins, color: "#D24939" },
   Docker: { Icon: SiDocker, color: "#2496ED" },
   AWS: { Icon: FaAws, color: "#FF9900" },
