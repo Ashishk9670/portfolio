@@ -202,3 +202,58 @@ test.describe("resume", () => {
     );
   });
 });
+
+test.describe("contact widget", () => {
+  const MESSAGE_URL = "https://ashish-portfolio-mcp.ashishk.workers.dev/message";
+
+  test("opens on click, traps focus, and Escape returns focus to the trigger", async ({ page }) => {
+    await page.goto("/");
+    const trigger = page.getByRole("button", { name: "Send a message" });
+    await trigger.click();
+
+    const dialog = page.getByRole("dialog", { name: "Send a message" });
+    await expect(dialog).toBeVisible();
+    await expect(page.getByLabel("Name (optional)")).toBeFocused();
+
+    await page.keyboard.press("Escape");
+    await expect(dialog).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+  });
+
+  test("the honeypot field is unreachable by keyboard and hidden from screen readers", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Send a message" }).click();
+
+    const honeypot = page.locator('input[name="website"]');
+    await expect(honeypot).toHaveAttribute("aria-hidden", "true");
+    await expect(honeypot).toHaveAttribute("tabindex", "-1");
+  });
+
+  test("a successful submission shows the confirmation and resets the form", async ({ page }) => {
+    await page.route(MESSAGE_URL, (route) =>
+      route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) })
+    );
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "Send a message" }).click();
+    await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
+    await page.getByLabel("Message", { exact: true }).fill("Hello — loved the portfolio.");
+    await page.getByRole("button", { name: "Send" }).click();
+
+    await expect(page.getByText("Thanks — I'll get back to you soon.")).toBeVisible();
+  });
+
+  test("a rate-limited response shows the retry message", async ({ page }) => {
+    await page.route(MESSAGE_URL, (route) =>
+      route.fulfill({ status: 429, contentType: "application/json", body: JSON.stringify({ error: "rate_limited" }) })
+    );
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "Send a message" }).click();
+    await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
+    await page.getByLabel("Message", { exact: true }).fill("Testing rate limiting.");
+    await page.getByRole("button", { name: "Send" }).click();
+
+    await expect(page.getByText(/Too many messages from here recently/)).toBeVisible();
+  });
+});
