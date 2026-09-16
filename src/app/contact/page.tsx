@@ -1,6 +1,7 @@
 import { FileDown, Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { AvailabilityBadge } from "@/components/AvailabilityBadge";
+import { RelocationBadge } from "@/components/RelocationBadge";
 import { profile } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { withBasePath } from "@/lib/basePath";
@@ -15,8 +16,9 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
       {profile.availableForOpportunities && (
-        <div className="mb-6">
+        <div className="mb-6 flex flex-wrap gap-2">
           <AvailabilityBadge />
+          <RelocationBadge />
         </div>
       )}
       <h1 className="text-3xl font-semibold tracking-tight">Contact</h1>

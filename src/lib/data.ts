@@ -63,6 +63,7 @@ export const experience: ExperienceEntry[] = [
     stats: [
       { value: "~40%", label: "reduction in regression execution time" },
       { value: "4 + 2", label: "browsers and mobile platforms covered end-to-end" },
+      { value: "90%+", label: "automation suite coverage across Web, Android, and iOS" },
       { value: "AI-assisted", label: "workflow using Claude Code, Cursor, and MCP Server" },
     ],
     impact:
@@ -459,6 +460,7 @@ export const skillTimeline: SkillTimelineEntry[] = [
 
 export const impactHighlights: (Stat & { company: string })[] = [
   { ...experience[1].stats[0], company: experience[1].company },
+  { ...experience[1].stats[2], company: experience[1].company },
   { ...experience[2].stats[1], company: experience[2].company },
   { ...experience[2].stats[0], company: experience[2].company },
   { ...experience[2].stats[2], company: experience[2].company },
