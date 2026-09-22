@@ -303,7 +303,18 @@ export const skills: SkillGroup[] = [
   { category: "Languages", items: ["Java", "TypeScript", "JavaScript", "C++"] },
   {
     category: "Test Automation",
-    items: ["Playwright", "Selenium", "Cypress", "TestNG", "Appium", "REST Assured", "Cucumber"],
+    items: [
+      "Playwright",
+      "Selenium",
+      "Cypress",
+      "TestNG",
+      "Appium",
+      "REST Assured",
+      "Cucumber",
+      "Android Studio",
+      "Xcode",
+      "Node.js",
+    ],
   },
   {
     category: "Testing Disciplines",
@@ -329,6 +340,7 @@ export const skills: SkillGroup[] = [
   { category: "Data & Observability", items: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Sentry"] },
   { category: "Version Control & PM", items: ["Git", "Bitbucket", "Jira", "TestRail"] },
   { category: "AI-Assisted Development", items: ["Claude Code", "Cursor", "GitHub Copilot", "MCP Server", "ChatGPT"] },
+  { category: "AI Testing & Evaluation", items: ["LLM Testing", "RAG Evaluation", "Evals", "MCP"] },
 ];
 
 export type UsesGroup = { category: string; blurb: string; items: string[] };

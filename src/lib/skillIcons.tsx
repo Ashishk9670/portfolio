@@ -1,6 +1,7 @@
 import type { ComponentType, SVGProps } from "react";
 import {
   SiAndroid,
+  SiAndroidstudio,
   SiApachejmeter,
   SiApachemaven,
   SiApple,
@@ -26,6 +27,7 @@ import {
   SiMongodb,
   SiMysql,
   SiNextdotjs,
+  SiNodedotjs,
   SiOpenjdk,
   SiPostgresql,
   SiPrisma,
@@ -35,6 +37,7 @@ import {
   SiShopify,
   SiTestrail,
   SiTypescript,
+  SiXcode,
   SiZod,
 } from "react-icons/si";
 import { FaAws, FaWindows } from "react-icons/fa6";
@@ -62,6 +65,9 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   Cypress: { Icon: SiCypress, color: "#69D3A7" },
   Appium: { Icon: SiAppium, color: "#EE376D" },
   Cucumber: { Icon: SiCucumber, color: "#23D96C" },
+  "Android Studio": { Icon: SiAndroidstudio, color: "#3DDC84" },
+  Xcode: { Icon: SiXcode, color: "#147EFB" },
+  "Node.js": { Icon: SiNodedotjs, color: "#5FA04E" },
 
   "GitHub Actions": { Icon: SiGithubactions, color: "#2088FF" },
   "Chrome Extension": { Icon: SiGooglechrome, color: "#4285F4" },
@@ -98,6 +104,7 @@ export const SKILL_ICONS: Record<string, SkillIcon> = {
   // Project tech-stack icons (portfolio-mcp-server, DemoWebShop, API framework)
   "Cloudflare Workers": { Icon: SiCloudflareworkers, color: "#F38020" },
   "MCP SDK": { Icon: SiModelcontextprotocol, color: "#000000" },
+  MCP: { Icon: SiModelcontextprotocol, color: "#000000" },
   Zod: { Icon: SiZod, color: "#408AFF" },
   Maven: { Icon: SiApachemaven, color: "#C71A36" },
 };

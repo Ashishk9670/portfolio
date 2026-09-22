@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Bot, Braces, Database, FolderKanban, GitBranch, ListChecks, MonitorSmartphone, Sparkles } from "lucide-react";
+import { Bot, Braces, Database, FlaskConical, FolderKanban, GitBranch, ListChecks, MonitorSmartphone, Sparkles } from "lucide-react";
 import { profile, skillTimeline, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { SKILL_ICONS } from "@/lib/skillIcons";
@@ -20,6 +20,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "Data & Observability": Database,
   "Version Control & PM": FolderKanban,
   "AI-Assisted Development": Sparkles,
+  "AI Testing & Evaluation": FlaskConical,
 };
 
 // Featured tiles get the wider, filled treatment in the bento grid below —
