@@ -5,6 +5,7 @@ import {
   certifications,
   education,
   experience,
+  leadership,
   milestones,
   philosophy,
   profile,
@@ -29,7 +30,7 @@ writeJson("profile.json", { ...profile, siteUrl });
 writeJson("experience.json", experience);
 writeJson("projects.json", projects);
 writeJson("skills.json", { skills, usesStack });
-writeJson("about.json", { milestones, philosophy, education, certifications, achievements });
+writeJson("about.json", { milestones, philosophy, leadership, education, certifications, achievements });
 
 const postsMeta = getAllPosts();
 writeJson("posts.json", postsMeta);

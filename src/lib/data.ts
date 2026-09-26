@@ -36,10 +36,15 @@ export const experience: ExperienceEntry[] = [
     end: "Present",
     bullets: [
       "Authored the automation suite from scratch for an oncology clinical-trial matching platform, in a HIPAA-regulated environment.",
+      "Lead the automation effort as the team scales test coverage, cutting into the product team's testing time and unblocking faster releases.",
+      "Onboard new team members with structured product knowledge transfer instead of leaving them to learn the domain unassisted.",
+      "Introduced a mandatory accessibility checklist before any new feature ships to production, and moved the org from twice-yearly accessibility reporting to a monthly review across every product shipped.",
     ],
     stats: [
       { value: "0 → 1", label: "automation suite built from scratch" },
       { value: "HIPAA", label: "regulated environment — compliance-aware test design" },
+      { value: "Leading", label: "the automation effort to scale coverage and unblock releases" },
+      { value: "2x/yr → Monthly", label: "accessibility review cadence, driven as a personal initiative" },
     ],
     impact:
       "Establishing the testing foundation for a healthcare platform where a missed regression carries real clinical-trial-matching risk, not just a support ticket.",
@@ -52,12 +57,11 @@ export const experience: ExperienceEntry[] = [
     end: "Mar 2026",
     bullets: [
       "Designed and owned scalable UI and API automation frameworks using Selenium, TestNG, REST Assured, Appium, and BDD (Cucumber) across Chrome, Safari, Edge, Firefox, and Android/iOS.",
-      "Built Playwright test suites from scratch for new workflows, enabling early regression coverage and reducing production defects.",
+      "Proposed and led the migration of all web automation from Selenium to Playwright, then layered in AI-assisted workflows (Claude Code, Cursor, MCP Server) on top of it to cut regression execution time by ~40%.",
       "Authored feature-level test plans and detailed test cases for comprehensive coverage.",
-      "Optimized test execution strategy, cutting regression execution time by ~40%.",
+      "Onboarded new joiners with product knowledge transfer, a walkthrough of the existing testing landscape, and how to use AI to speed up day-to-day testing work.",
       "Validated API responses and backend data consistency using SQL queries and schema validation.",
       "Integrated automated test suites into CI/CD pipelines (GitHub Actions, Jenkins).",
-      "Applied AI-powered coding agents (Claude Code, Cursor, MCP Server) to generate test cases, debug automation failures, and streamline manual and automated testing workflows.",
       "Performed API load and performance testing with JMeter to identify bottlenecks and ensure system stability.",
     ],
     stats: [
@@ -81,6 +85,7 @@ export const experience: ExperienceEntry[] = [
       "Built and maintained 1000+ automated test cases using Cypress (JavaScript) and Selenium, achieving 95%+ test coverage across multiple releases.",
       "Improved defect resolution speed by ~20% by initiating structured QA-Dev syncs and better triaging practices.",
       "Worked in Agile (Scrum) teams with CI/CD-driven delivery pipelines supporting high-volume commercial payments workflows.",
+      "Mentored interns and new joiners from both a product and quality perspective, aiming to get them contributing within their first month rather than just shadowing.",
     ],
     stats: [
       { value: "1000+", label: "automated test cases (Cypress + Selenium)" },
@@ -438,6 +443,37 @@ export const philosophy: Principle[] = [
       "AI-assisted coding is genuinely useful for first-draft scaffolding and debugging flaky failures fast. Deciding what actually needs test coverage stays a human, strategic call — that part doesn't get automated away.",
     practice:
       "Claude Code and Cursor draft first-pass tests and chase down flaky failures at LiveSwitch and on this site's own tooling; what actually ships is still a manual review call.",
+  },
+];
+
+export const leadership: Principle[] = [
+  {
+    title: "Mentoring, from day one",
+    description:
+      "New joiners and interns ramp up faster when someone actually walks them through the domain and the testing landscape, not just points them at documentation.",
+    practice:
+      "Mentored interns and new joiners at Mastercard from both a product and quality perspective, aiming to get them contributing within their first month; did the same with product knowledge transfer and structured onboarding at Triomics and LiveSwitch.",
+  },
+  {
+    title: "Proposed the move, then made it pay off",
+    description:
+      "The shift from Selenium to Playwright at LiveSwitch wasn't assigned to me — I proposed it, then paired it with AI-assisted workflows so the payoff was bigger than the migration alone.",
+    practice:
+      "Proposed and led the migration of all web automation from Selenium to Playwright, then layered in Claude Code, Cursor, and an MCP server on top of it to cut regression execution time by ~40%.",
+  },
+  {
+    title: "Leading automation, not just writing it",
+    description:
+      "Scaling test coverage only matters if it actually shortens the path to release — that's the bar I hold automation work to, not just case count.",
+    practice:
+      "Leading the automation effort at Triomics, scaling test coverage in a way that's cutting into the product team's testing time and unblocking faster releases.",
+  },
+  {
+    title: "Made accessibility a gate, not an afterthought",
+    description:
+      "A checklist that only gets reviewed twice a year isn't a practice, it's a compliance exercise nobody remembers until it's due. I wanted it in the path of every release instead.",
+    practice:
+      "Proposed and drove a mandatory accessibility checklist before any new feature ships to production at Triomics, and moved the org from twice-yearly accessibility reporting to a monthly review across every product shipped.",
   },
 ];
 

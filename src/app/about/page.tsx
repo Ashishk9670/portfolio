@@ -1,4 +1,4 @@
-import { achievements, certifications, education, milestones, philosophy, profile } from "@/lib/data";
+import { achievements, certifications, education, leadership, milestones, philosophy, profile } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -65,6 +65,22 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold">How I Think About Quality</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
           {philosophy.map((principle) => (
+            <div key={principle.title} className="rounded-lg border border-border p-5">
+              <h3 className="font-semibold">{principle.title}</h3>
+              <p className="mt-2 text-sm text-muted">{principle.description}</p>
+              <p className="mt-3 border-t border-border pt-3 text-xs text-muted">
+                <span className="font-semibold text-foreground">In practice — </span>
+                {principle.practice}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-16">
+        <h2 className="text-xl font-semibold">Leadership &amp; Mentoring</h2>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {leadership.map((principle) => (
             <div key={principle.title} className="rounded-lg border border-border p-5">
               <h3 className="font-semibold">{principle.title}</h3>
               <p className="mt-2 text-sm text-muted">{principle.description}</p>
