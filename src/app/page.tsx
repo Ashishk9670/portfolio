@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { experience, impactHighlights, profile, projects } from "@/lib/data";
+import { experience, impactHighlights, now, profile, projects } from "@/lib/data";
 import { AvailabilityBadge } from "@/components/AvailabilityBadge";
+import { RecruiterSnapshot } from "@/components/RecruiterSnapshot";
 import { RelocationBadge } from "@/components/RelocationBadge";
 import { VisitorsMap } from "@/components/VisitorsMap";
 import { withBasePath } from "@/lib/basePath";
@@ -49,20 +50,33 @@ export default function Home() {
         </div>
       </section>
 
+      <RecruiterSnapshot />
+
       <section className="border-t border-border bg-surface">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
           <div className="flex items-baseline justify-between">
-            <h2 className="text-xl font-semibold">Currently</h2>
+            <h2 className="text-xl font-semibold">Now</h2>
             <Link href="/experience" className="text-sm text-accent hover:underline">
               Full experience →
             </Link>
           </div>
-          <div className="mt-4 rounded-lg border border-border bg-background p-6">
-            <p className="font-mono text-sm text-muted">
-              {latestRole.role} · {latestRole.company} · {latestRole.start} – {latestRole.end}
-            </p>
-            <p className="mt-2 text-foreground">{latestRole.bullets[0]}</p>
-          </div>
+          <p className="mt-2 text-sm text-muted">
+            {latestRole.role} · {latestRole.company} · since {latestRole.start} ·{" "}
+            <span className="font-mono">updated {now.updated}</span>
+          </p>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            {now.items.map((item) => (
+              <li key={item.label} className="rounded-lg border border-border bg-background p-5">
+                <p className="font-mono text-xs uppercase tracking-wide text-accent">{item.label}</p>
+                <p className="mt-2 text-sm text-foreground">{item.text}</p>
+                {item.link && (
+                  <Link href={item.link.href} className="mt-3 inline-block text-sm text-accent hover:underline">
+                    {item.link.label} →
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

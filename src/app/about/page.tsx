@@ -1,5 +1,6 @@
-import { achievements, certifications, education, leadership, milestones, philosophy, profile } from "@/lib/data";
+import { achievements, certifications, education, leadership, milestones, philosophy, profile, siteUrl } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 export const metadata = pageMetadata({
   title: "About",
@@ -7,9 +8,18 @@ export const metadata = pageMetadata({
   path: "/about",
 });
 
+const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  url: `${siteUrl}/about`,
+  name: `About ${profile.name}`,
+  mainEntity: { "@id": `${siteUrl}/#person` },
+};
+
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <JsonLd data={profilePageJsonLd} />
       <h1 className="text-3xl font-semibold tracking-tight">About</h1>
 
       <div className="mt-8 space-y-5 text-foreground">

@@ -257,3 +257,38 @@ test.describe("contact widget", () => {
     await expect(page.getByText(/Too many messages from here recently/)).toBeVisible();
   });
 });
+
+test.describe("home page for recruiters", () => {
+  test("TL;DR snapshot exposes key facts and contact actions", async ({ page }) => {
+    await page.goto("/");
+    const snapshot = page.getByRole("region", { name: "For recruiters & hiring managers" });
+    for (const term of ["Current role", "Experience", "Looking for", "Location", "Leadership"]) {
+      await expect(snapshot.getByRole("term").filter({ hasText: term })).toBeVisible();
+    }
+    await expect(snapshot.getByRole("link", { name: "Resume (PDF)" })).toHaveAttribute("href", /resume\.pdf$/);
+    await expect(snapshot.getByRole("link", { name: "Email me" })).toHaveAttribute("href", /^mailto:/);
+  });
+
+  test("Now section links out to live work and contact", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "Now", exact: true })).toBeVisible();
+    await page.getByRole("link", { name: "See the live report →" }).click();
+    await expect(page).toHaveURL(/\/qa-suite$/);
+  });
+
+  test("structured data describes a Person linked from the About ProfilePage", async ({ page }) => {
+    const readJsonLd = () =>
+      page.locator('script[type="application/ld+json"]').evaluateAll((nodes) =>
+        nodes.map((n) => JSON.parse(n.textContent ?? "{}"))
+      );
+
+    await page.goto("/about");
+    const blocks = await readJsonLd();
+    const person = blocks.flatMap((b) => b["@graph"] ?? []).find((n) => n["@type"] === "Person");
+    const profilePage = blocks.find((b) => b["@type"] === "ProfilePage");
+
+    expect(person.worksFor.name).toBe("Triomics Healthcare");
+    expect(person.sameAs).toContain("https://github.com/Ashishk9670");
+    expect(profilePage.mainEntity["@id"]).toBe(person["@id"]);
+  });
+});

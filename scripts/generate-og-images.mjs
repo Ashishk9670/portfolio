@@ -3,6 +3,19 @@ import { ogCardHtml } from "./og-card-template.mjs";
 
 const VARIANTS = [
   {
+    file: "public/og-image.png",
+    eyebrow: "Ashish Kumar · SDET II",
+    heading: "I build test automation and accessibility systems that scale.",
+    subtext: "Playwright, Selenium, API & mobile automation — healthcare and fintech.",
+    badge: "Open to SDET &amp; Lead SDET roles",
+    stats: [
+      { value: "5+ yrs", label: "UI, API &amp; mobile test automation" },
+      { value: "~40%", label: "faster regression runs at LiveSwitch" },
+      { value: "1000+", label: "automated tests at Mastercard" },
+      { value: "WCAG AA", label: "accessibility audits, done professionally" },
+    ],
+  },
+  {
     file: "public/og-image-projects.png",
     eyebrow: "Projects",
     heading: "Case studies on how I structure automation frameworks.",

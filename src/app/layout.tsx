@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ContactWidget } from "@/components/ContactWidget";
-import { profile, siteUrl } from "@/lib/data";
+import { certifications, education, experience, profile, siteUrl, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -32,15 +32,52 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 };
 
-const personJsonLd = {
+const personId = `${siteUrl}/#person`;
+const [city, country] = profile.location.split(", ");
+
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: profile.name,
-  jobTitle: profile.role,
-  description: profile.tagline,
-  url: siteUrl,
-  email: `mailto:${profile.email}`,
-  sameAs: [profile.github, profile.linkedin],
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: profile.name,
+      jobTitle: profile.role,
+      description: profile.summary,
+      url: siteUrl,
+      image: `${siteUrl}/og-image.png`,
+      email: `mailto:${profile.email}`,
+      sameAs: [profile.github, profile.linkedin],
+      address: { "@type": "PostalAddress", addressLocality: city, addressCountry: country },
+      worksFor: { "@type": "Organization", name: experience[0].company },
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: education.school },
+        ...experience.slice(1).map((role) => ({ "@type": "Organization", name: role.company })),
+      ],
+      hasOccupation: {
+        "@type": "Occupation",
+        name: profile.role,
+        occupationLocation: { "@type": "City", name: city },
+        skills: skills.flatMap((group) => group.items).join(", "),
+      },
+      knowsAbout: [...new Set(["Test Automation", "Accessibility (WCAG 2.1 AA)", ...skills.slice(0, 3).flatMap((g) => g.items)])],
+      hasCredential: certifications.map((name) => ({
+        "@type": "EducationalOccupationalCredential",
+        name,
+        credentialCategory: "certificate",
+      })),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: `${profile.name} — ${profile.role}`,
+      description: profile.tagline,
+      inLanguage: "en",
+      author: { "@id": personId },
+      publisher: { "@id": personId },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -51,7 +88,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
-        <JsonLd data={personJsonLd} />
+        <JsonLd data={structuredData} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <a
             href="#main-content"

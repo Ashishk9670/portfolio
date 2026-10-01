@@ -477,7 +477,47 @@ export const leadership: Principle[] = [
   },
 ];
 
-export type SkillTimelineEntry = { skill: string; since: string; years: string; note: string };
+export const recruiterSnapshot = {
+  experience: "5+ years",
+  targetRoles: "SDET and Lead SDET",
+  relocation: "Open to relocation — India and overseas",
+  domains: "Healthcare (HIPAA), commercial payments",
+  coreStack: ["Playwright", "Selenium", "Cypress", "Appium", "REST Assured", "TypeScript", "Java", "GitHub Actions"],
+  leadership: "Leading automation at Triomics; mentored interns and new joiners at every company",
+  highlights: [
+    "Cut regression execution time by ~40% at LiveSwitch",
+    "Built 1000+ automated tests at 95%+ coverage at Mastercard",
+    "Moved accessibility reviews from twice-yearly to monthly at Triomics",
+  ],
+};
+
+export type NowItem = { label: string; text: string; link?: { href: string; label: string } };
+
+export const now: { updated: string; items: NowItem[] } = {
+  updated: "October 2026",
+  items: [
+    {
+      label: "Building",
+      text: "The automation suite for an oncology clinical-trial matching platform at Triomics, and leading the effort to scale its coverage.",
+    },
+    {
+      label: "Driving",
+      text: "A pre-production accessibility checklist for every new feature, and a monthly accessibility review across every product Triomics ships.",
+    },
+    {
+      label: "On the side",
+      text: "A live Playwright suite against a public store, with its Allure report published on every push and replayable on this site.",
+      link: { href: "/qa-suite", label: "See the live report" },
+    },
+    {
+      label: "Looking for",
+      text: "SDET and Lead SDET roles where I can own automation strategy and grow a team — in India or overseas.",
+      link: { href: "/contact", label: "Get in touch" },
+    },
+  ],
+};
+
+export type SkillTimelineEntry ={ skill: string; since: string; years: string; note: string };
 
 export const skillTimeline: SkillTimelineEntry[] = [
   {
