@@ -12,6 +12,7 @@ export function RecruiterSnapshot() {
     { term: "Location", detail: `${profile.location} · ${recruiterSnapshot.relocation}` },
     { term: "Domains", detail: recruiterSnapshot.domains },
     { term: "Leadership", detail: recruiterSnapshot.leadership },
+    { term: "Global teams", detail: recruiterSnapshot.globalTeams },
     { term: "Education", detail: `${education.degree}, ${education.school}` },
   ];
 

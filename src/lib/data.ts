@@ -62,6 +62,7 @@ export const experience: ExperienceEntry[] = [
       "Onboarded new joiners with product knowledge transfer, a walkthrough of the existing testing landscape, and how to use AI to speed up day-to-day testing work.",
       "Validated API responses and backend data consistency using SQL queries and schema validation.",
       "Integrated automated test suites into CI/CD pipelines (GitHub Actions, Jenkins).",
+      "Worked with distributed teams in New York City, North Carolina, and Canada, collaborating across time zones.",
       "Performed API load and performance testing with JMeter to identify bottlenecks and ensure system stability.",
     ],
     stats: [
@@ -85,6 +86,7 @@ export const experience: ExperienceEntry[] = [
       "Built and maintained 1000+ automated test cases using Cypress (JavaScript) and Selenium, achieving 95%+ test coverage across multiple releases.",
       "Improved defect resolution speed by ~20% by initiating structured QA-Dev syncs and better triaging practices.",
       "Worked in Agile (Scrum) teams with CI/CD-driven delivery pipelines supporting high-volume commercial payments workflows.",
+      "Worked with globally distributed teams in Singapore, Dublin, Sydney, New York City, and Arlington, collaborating across time zones.",
       "Mentored interns and new joiners from both a product and quality perspective, aiming to get them contributing within their first month rather than just shadowing.",
     ],
     stats: [
@@ -484,6 +486,7 @@ export const recruiterSnapshot = {
   domains: "Healthcare (HIPAA), commercial payments",
   coreStack: ["Playwright", "Selenium", "Cypress", "Appium", "REST Assured", "TypeScript", "Java", "GitHub Actions"],
   leadership: "Leading automation at Triomics; mentored interns and new joiners at every company",
+  globalTeams: "Singapore, Dublin, Sydney, New York City, Arlington, North Carolina, Canada",
   highlights: [
     "Cut regression execution time by ~40% at LiveSwitch",
     "Built 1000+ automated tests at 95%+ coverage at Mastercard",
