@@ -479,6 +479,11 @@ export const leadership: Principle[] = [
   },
 ];
 
+export const globalTeams: { company: string; locations: string[] }[] = [
+  { company: "Mastercard Data & Services", locations: ["Singapore", "Dublin", "Sydney", "New York City", "Arlington"] },
+  { company: "LiveSwitch", locations: ["New York City", "North Carolina", "Canada"] },
+];
+
 export const recruiterSnapshot = {
   experience: "5+ years",
   targetRoles: "SDET and Lead SDET",
@@ -486,7 +491,7 @@ export const recruiterSnapshot = {
   domains: "Healthcare (HIPAA), commercial payments",
   coreStack: ["Playwright", "Selenium", "Cypress", "Appium", "REST Assured", "TypeScript", "Java", "GitHub Actions"],
   leadership: "Leading automation at Triomics; mentored interns and new joiners at every company",
-  globalTeams: "Singapore, Dublin, Sydney, New York City, Arlington, North Carolina, Canada",
+  globalTeams: [...new Set(globalTeams.flatMap((team) => team.locations))].join(", "),
   highlights: [
     "Cut regression execution time by ~40% at LiveSwitch",
     "Built 1000+ automated tests at 95%+ coverage at Mastercard",

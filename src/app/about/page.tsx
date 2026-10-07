@@ -1,4 +1,4 @@
-import { achievements, certifications, education, leadership, milestones, philosophy, profile, siteUrl } from "@/lib/data";
+import { achievements, certifications, education, globalTeams, leadership, milestones, philosophy, profile, siteUrl } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -126,6 +126,18 @@ export default function AboutPage() {
           <ul className="mt-2 space-y-1 text-sm">
             {achievements.map((item) => (
               <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Global Teams</h2>
+          <ul className="mt-2 space-y-2 text-sm">
+            {globalTeams.map((team) => (
+              <li key={team.company}>
+                <span className="font-medium">{team.company}</span>
+                <span className="block text-muted">{team.locations.join(" · ")}</span>
+              </li>
             ))}
           </ul>
         </div>
