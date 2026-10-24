@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ContactWidget } from "@/components/ContactWidget";
-import { certifications, education, experience, profile, siteUrl, skills } from "@/lib/data";
+import { certifications, education, experience, mentoring, profile, siteUrl, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -47,7 +47,7 @@ const structuredData = {
       url: siteUrl,
       image: `${siteUrl}/og-image.png`,
       email: `mailto:${profile.email}`,
-      sameAs: [profile.github, profile.linkedin],
+      sameAs: [profile.github, profile.linkedin, mentoring.url],
       address: { "@type": "PostalAddress", addressLocality: city, addressCountry: country },
       worksFor: { "@type": "Organization", name: experience[0].company },
       alumniOf: [

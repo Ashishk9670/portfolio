@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { CalendarCheck, Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { Container } from "@/components/ui";
-import { profile } from "@/lib/data";
+import { mentoring, profile } from "@/lib/data";
 import { withBasePath } from "@/lib/basePath";
 
 const SECTIONS = [
@@ -20,6 +20,7 @@ const SECTIONS = [
     title: "More",
     links: [
       { href: "/blog", label: "Writing" },
+      { href: "/mentoring", label: "Mentoring" },
       { href: "/skills", label: "Skills timeline" },
       { href: "/uses", label: "Uses" },
       { href: "/mcp", label: "MCP server" },
@@ -93,6 +94,18 @@ export function Footer() {
               >
                 <LinkedInIcon className="h-4 w-4" />
                 LinkedIn
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={mentoring.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex min-h-6 items-center gap-2 text-muted transition-colors hover:text-accent"
+              >
+                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                Topmate (mentoring)
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
             </li>

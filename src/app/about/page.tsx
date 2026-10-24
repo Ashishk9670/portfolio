@@ -238,6 +238,13 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
+            <Link
+              href="/mentoring"
+              className="mt-6 inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline"
+            >
+              Mentoring the wider QA community — career guidance for QA &amp; SDETs
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </Card>
         </Container>
       </section>

@@ -566,6 +566,41 @@ export const recruiterSnapshot = {
   ],
 };
 
+export const mentoring = {
+  url: "https://topmate.io/ashish_kumar02",
+  audiences: [
+    {
+      title: "Moving from manual testing into automation",
+      body: "Where to start, which tools are worth learning first, and how to build a portfolio that shows it.",
+    },
+    {
+      title: "Preparing for SDET and QA interviews",
+      body: "Framework design questions, coding rounds, test-strategy cases, and how to talk about your work.",
+    },
+    {
+      title: "Planning the next step in a QA career",
+      body: "Role transitions, a realistic QA/SDET roadmap, and what senior and lead roles actually expect.",
+    },
+  ],
+  topics: [
+    "SDET / QA interview prep",
+    "Automation testing & test strategy",
+    "Career guidance & role transitions",
+    "Resume & LinkedIn review",
+    "Mock interviews",
+    "QA / SDET career roadmap",
+  ],
+  sessions: [
+    { name: "Discovery call", format: "1:1 video call", length: "15 min", free: true },
+    { name: "Ask me anything", format: "Priority DM", length: "Reply within 2 days", free: true },
+    { name: "1:1 Mentorship", format: "1:1 video call", length: "30 min", free: false },
+    { name: "Career guidance", format: "1:1 video call", length: "30 min", free: false },
+    { name: "Resume review", format: "1:1 video call", length: "30 min", free: false },
+    { name: "Interview prep & tips", format: "1:1 video call", length: "30 min", free: false },
+    { name: "Mock interview", format: "1:1 video call", length: "60 min", free: false },
+  ],
+};
+
 export const recruiterFaq: { question: string; answer: string; meta: string }[] = [
   {
     question: "Notice period",

@@ -348,3 +348,28 @@ test.describe("quality engineering", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 });
+
+test.describe("mentoring", () => {
+  test("offers Topmate sessions without listing prices", async ({ page }) => {
+    await page.goto("/mentoring");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Career Guidance for QA & SDETs");
+    await expect(
+      page.locator("#main-content").getByRole("link", { name: /Book a free discovery call/ }).first()
+    ).toHaveAttribute("href", "https://topmate.io/ashish_kumar02");
+
+    const sessions = page.getByRole("region", { name: "Ways to work together" }).getByRole("heading", { level: 3 });
+    await expect(sessions).toHaveCount(7);
+    await expect(page.locator("#main-content")).not.toContainText("₹");
+  });
+
+  test("stays out of the primary nav but is reachable from the footer and contact page", async ({ page }) => {
+    await page.goto("/contact");
+    await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Mentoring" })).toHaveCount(0);
+    await page.locator("#main-content").getByRole("link", { name: "mentoring page" }).click();
+    await expect(page).toHaveURL(/\/mentoring$/);
+    await expect(page.locator("footer").getByRole("link", { name: /Topmate/ })).toHaveAttribute(
+      "href",
+      "https://topmate.io/ashish_kumar02"
+    );
+  });
+});

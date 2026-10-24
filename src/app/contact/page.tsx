@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FileDown, Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { AvailabilityBadge } from "@/components/AvailabilityBadge";
@@ -79,9 +80,21 @@ export default function ContactPage() {
       <div className="mt-10 border-t border-border pt-8">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">What I&apos;m looking for</h2>
         <p className="mt-3 text-muted">
-          SDET / QA engineering roles centered on test automation architecture, framework design, or
+          Senior and Lead SDET roles centered on test automation architecture, framework design, or
           accessibility-focused engineering — not pure manual QA. If that&apos;s what you&apos;re hiring
           for, say hello.
+        </p>
+      </div>
+
+      <div className="mt-8 rounded-lg border border-border bg-surface p-5">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Looking for career guidance?</h2>
+        <p className="mt-2 text-muted">
+          If you&apos;re a QA engineer or SDET looking for mentoring, interview prep, or a resume review rather
+          than hiring, the{" "}
+          <Link href="/mentoring" className="text-accent underline underline-offset-2">
+            mentoring page
+          </Link>{" "}
+          has the details, and sessions are booked on Topmate.
         </p>
       </div>
     </div>

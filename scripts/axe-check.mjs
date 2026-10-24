@@ -23,6 +23,7 @@ const PATHS = [
   "/blog/wcag-2-1-aa-from-scratch",
   "/accessibility",
   "/contact",
+  "/mentoring",
 ];
 
 const browser = await chromium.launch();
