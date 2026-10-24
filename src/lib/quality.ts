@@ -36,11 +36,11 @@ export const qualityStatement = {
 
 export type QualityMetric = {
   name: string;
-  value?: string;
+  value: string;
   context?: string;
   shows: string;
   evidence: string;
-  source: "Measured at work" | "Public project" | "How I use it";
+  source: "Measured at work" | "Public project";
 };
 
 export const qualityMetrics: QualityMetric[] = [
@@ -81,10 +81,12 @@ export const qualityMetrics: QualityMetric[] = [
   },
   {
     name: "Flaky-test rate",
+    value: "2–3%",
+    context: "Triomics · LiveSwitch",
     shows: "Share of tests with inconsistent outcomes — the thing that teaches a team to ignore red builds.",
     evidence:
-      "Failures get triaged into product defects vs. automation issues before anyone re-runs. In my public multi-layer framework, any test that only passes on retry is listed in a pull-request comment instead of being hidden by the retry.",
-    source: "How I use it",
+      "A 2–3% flaky-test rate at Triomics and LiveSwitch, kept there by triaging every failure into product defect vs. automation issue before anyone re-runs. In my public multi-layer framework, any test that only passes on retry is listed in a pull-request comment instead of being hidden by the retry.",
+    source: "Measured at work",
   },
   {
     name: "Release readiness",

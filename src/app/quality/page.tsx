@@ -11,10 +11,9 @@ export const metadata = pageMetadata({
   path: "/quality",
 });
 
-const SOURCE_TONE: Record<QualityMetric["source"], "success" | "accent" | "neutral"> = {
+const SOURCE_TONE: Record<QualityMetric["source"], "success" | "accent"> = {
   "Measured at work": "success",
   "Public project": "accent",
-  "How I use it": "neutral",
 };
 
 type PanelRow = { label: string; value: string; bar?: number; ok?: boolean };
@@ -98,7 +97,7 @@ const COMPARISON = {
       "Flaky tests",
       "Re-run until green",
       "Triage product defect vs. automation issue; tests that pass only on retry are surfaced",
-      "Retries visible in every PR (public framework)",
+      "2–3% flaky-test rate (Triomics · LiveSwitch)",
     ],
   ],
 };
@@ -115,9 +114,8 @@ export default function QualityPage() {
                 Metrics &amp; Impact
               </h1>
               <p className="mt-4 text-[17px] leading-7 text-muted">
-                The signals I use to make quality decisions. Real figures are labeled with where they came from;
-                where I don&apos;t have a number I can publish, I explain how I use the metric instead of inventing
-                one.
+                The signals I use to make quality decisions, each labeled with where the figure came from and
+                how it feeds a release decision.
               </p>
             </div>
             <ButtonLink href="/contact" variant="primary" icon={Mail}>
@@ -139,13 +137,9 @@ export default function QualityPage() {
                   </h3>
                   <Chip tone={SOURCE_TONE[metric.source]}>{metric.source}</Chip>
                 </div>
-                {metric.value ? (
-                  <p className="mt-4 font-mono text-[28px] font-bold leading-9 tracking-[-0.02em] text-success sm:text-[36px] sm:leading-[44px]">
-                    {metric.value}
-                  </p>
-                ) : (
-                  <p className="mt-4 font-mono text-lg font-semibold text-muted">Method, not a number</p>
-                )}
+                <p className="mt-4 font-mono text-[28px] font-bold leading-9 tracking-[-0.02em] text-success sm:text-[36px] sm:leading-[44px]">
+                  {metric.value}
+                </p>
                 {metric.context && (
                   <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">{metric.context}</p>
                 )}
