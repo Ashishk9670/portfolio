@@ -34,8 +34,18 @@ test.describe("projects", () => {
 
   test("listing renders real tool icons on project cards", async ({ page }) => {
     await page.goto("/projects");
-    const heroCard = page.locator("a", { hasText: "Portfolio MCP Server" });
-    await expect(heroCard.locator("svg")).not.toHaveCount(0);
+    const card = page.getByRole("listitem").filter({ has: page.getByRole("heading", { name: "Portfolio MCP Server" }) });
+    await expect(card.getByRole("list", { name: "Portfolio MCP Server stack" }).locator("svg")).not.toHaveCount(0);
+  });
+
+  test("featured frameworks show real code excerpts that link to their source", async ({ page }) => {
+    await page.goto("/projects");
+    const excerpt = page.getByRole("region", { name: "Code excerpt from tests/e2e/order-flow.spec.ts" });
+    await expect(excerpt).toContainText("One business transaction verified at every layer.");
+    await expect(page.getByRole("link", { name: /Real excerpt · view source/ }).first()).toHaveAttribute(
+      "href",
+      "https://github.com/Ashishk9670/plawight-ui-api-wss-db-kafka"
+    );
   });
 });
 
@@ -64,12 +74,22 @@ test.describe("mcp page", () => {
 test.describe("experience", () => {
   test("lists all roles in reverse-chronological order", async ({ page }) => {
     await page.goto("/experience");
-    const companies = page.getByRole("heading", { level: 2 });
+    const roles = page.getByRole("region", { name: "Engineering Work, Role by Role" }).getByRole("heading", { level: 3 });
 
-    await expect(companies).toHaveCount(3);
-    await expect(page.getByText("Triomics Healthcare")).toBeVisible();
-    await expect(page.getByText("LiveSwitch")).toBeVisible();
-    await expect(page.getByText("Mastercard Data & Services")).toBeVisible();
+    await expect(roles).toHaveCount(3);
+    await expect(roles.first()).toHaveText("Software Development Engineer in Test II (SDET II)");
+    const timeline = page.getByRole("region", { name: "Engineering Work, Role by Role" });
+    for (const company of ["Triomics Healthcare", "LiveSwitch", "Mastercard Data & Services"]) {
+      await expect(timeline.getByText(company, { exact: true })).toBeVisible();
+    }
+  });
+
+  test("answers the recruiter FAQ with real logistics", async ({ page }) => {
+    await page.goto("/experience");
+    const faq = page.getByRole("region", { name: "Interview & Logistics FAQ" });
+    await expect(faq.getByRole("heading", { name: "Notice period" })).toBeVisible();
+    await expect(faq.getByText("30 days.")).toBeVisible();
+    await expect(faq.getByText(/visa sponsorship/)).toBeVisible();
   });
 });
 
@@ -185,7 +205,7 @@ test.describe("contact", () => {
   test("shows availability, a resume download, and what I'm looking for", async ({ page }) => {
     await page.goto("/contact");
     await expect(page.getByText("Available for opportunities")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Resume/ })).toHaveAttribute("href", "/resume.pdf");
+    await expect(page.locator("#main-content").getByRole("link", { name: /Resume/ })).toHaveAttribute("href", "/resume.pdf");
     await expect(page.getByRole("heading", { name: "What I'm looking for" })).toBeVisible();
   });
 });
@@ -261,9 +281,9 @@ test.describe("contact widget", () => {
 test.describe("home page for recruiters", () => {
   test("TL;DR snapshot exposes key facts and contact actions", async ({ page }) => {
     await page.goto("/");
-    const snapshot = page.getByRole("region", { name: "For recruiters & hiring managers" });
-    for (const term of ["Current role", "Experience", "Looking for", "Location", "Leadership"]) {
-      await expect(snapshot.getByRole("term").filter({ hasText: term })).toBeVisible();
+    const snapshot = page.getByRole("region", { name: "Recruiter TL;DR" });
+    for (const term of ["Looking for", "Notice period", "Core stack", "Location", "Relocation", "Education"]) {
+      await expect(snapshot.getByRole("term").filter({ hasText: new RegExp(`^${term}$`) })).toBeVisible();
     }
     await expect(snapshot.getByRole("link", { name: "Resume (PDF)" })).toHaveAttribute("href", /resume\.pdf$/);
     await expect(snapshot.getByRole("link", { name: "Email me" })).toHaveAttribute("href", /^mailto:/);
@@ -271,8 +291,8 @@ test.describe("home page for recruiters", () => {
 
   test("Now section links out to live work and contact", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "Now", exact: true })).toBeVisible();
-    await page.getByRole("link", { name: "See the live report →" }).click();
+    await expect(page.getByRole("heading", { name: "What I'm working on" })).toBeVisible();
+    await page.getByRole("link", { name: "See the live report" }).click();
     await expect(page).toHaveURL(/\/qa-suite$/);
   });
 
@@ -296,16 +316,17 @@ test.describe("home page for recruiters", () => {
 test.describe("quality engineering", () => {
   test("hub links to every deep dive and labels each metric's source", async ({ page }) => {
     await page.goto("/quality");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Quality starts at product discovery");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Metrics & Impact");
+    await expect(page.getByRole("heading", { name: /Quality starts at product discovery/ })).toBeVisible();
 
     const metrics = page.getByRole("region", { name: "Quality metrics" });
     for (const name of ["Regression duration", "Escaped defects", "Flaky-test rate", "AI effectiveness"]) {
       await expect(metrics.getByRole("heading", { name })).toBeVisible();
     }
 
-    const deepDives = page.getByRole("region", { name: "Deep dives" }).getByRole("link");
+    const deepDives = page.getByRole("region", { name: "Deep dives" }).getByRole("heading", { level: 3 });
     await expect(deepDives).toHaveCount(4);
-    await deepDives.filter({ hasText: "End-to-End Quality Strategy" }).click();
+    await deepDives.getByRole("link", { name: /One order, every layer/ }).click();
     await expect(page).toHaveURL(/\/quality\/end-to-end-quality-strategy$/);
     await expect(page.getByRole("heading", { name: "Test layers" })).toBeVisible();
   });

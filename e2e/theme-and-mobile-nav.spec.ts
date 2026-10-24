@@ -31,7 +31,7 @@ test.describe("mobile navigation", () => {
     await expect(mobileNav).toBeHidden();
     await openButton.click();
     await expect(mobileNav).toBeVisible();
-    await expect(mobileNav.getByRole("link", { name: "About" })).toBeVisible();
+    await expect(mobileNav.getByRole("link", { name: "Recruiter Dossier" })).toBeVisible();
 
     await page.getByRole("button", { name: "Close menu" }).click();
     await expect(mobileNav).toBeHidden();
@@ -40,9 +40,9 @@ test.describe("mobile navigation", () => {
   test("selecting a link from the mobile menu navigates and closes it", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Open menu" }).click();
-    await page.locator("#mobile-nav").getByRole("link", { name: "Skills" }).click();
+    await page.locator("#mobile-nav").getByRole("link", { name: "Metrics & Impact" }).click();
 
-    await expect(page).toHaveURL(/\/skills$/);
+    await expect(page).toHaveURL(/\/quality$/);
     await expect(page.locator("#mobile-nav")).toBeHidden();
   });
 });

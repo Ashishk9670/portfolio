@@ -3,39 +3,93 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Light: DESIGN.md light context. */
 :root {
-  --background: #ffffff;
+  --background: #f9fafb;
   --foreground: #111827;
-  --muted: #5b6472;
+  --muted: #4b5563;
+  --subtle: #64748b;
   --border: #e5e7eb;
-  --surface: #f8fafc;
-  --accent: #0d7d74;
+  --border-strong: #d1d5db;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --accent: #0f766e;
   --accent-foreground: #ffffff;
-  --accent-wash: rgba(13, 125, 116, 0.08);
-  --focus-ring: #0d7d74;
+  --accent-wash: rgba(15, 118, 110, 0.07);
+  --success: #047857;
+  --success-wash: rgba(4, 120, 87, 0.08);
+  --info: #0369a1;
+  --code-bg: #0b0f17;
+  --code-fg: #e2e8f0;
+  --glow: rgba(15, 118, 110, 0.08);
+  --focus-ring: #0f766e;
 }
 
+/* Dark (default): "Precision QA Engineering" slate canvas. */
 .dark {
-  --background: #0a0a0a;
-  --foreground: #f2f2f2;
-  --muted: #a3a3a3;
-  --border: #27272a;
-  --surface: #141414;
+  --background: #0b0f17;
+  --foreground: #e2e8f0;
+  --muted: #9ca3af;
+  --subtle: #7c8ba1;
+  --border: #1f2937;
+  --border-strong: #374151;
+  --surface: #111827;
+  --surface-2: #1e293b;
   --accent: #2dd4bf;
-  --accent-foreground: #06120f;
-  --accent-wash: rgba(45, 212, 191, 0.09);
+  --accent-foreground: #042f2e;
+  --accent-wash: rgba(45, 212, 191, 0.08);
+  --success: #34d399;
+  --success-wash: rgba(16, 185, 129, 0.1);
+  --info: #38bdf8;
+  --code-bg: #060a12;
+  --code-fg: #e2e8f0;
+  --glow: rgba(45, 212, 191, 0.1);
   --focus-ring: #2dd4bf;
+}
+
+/* Print always uses the light palette (the resume PDF is generated from print media). */
+@media print {
+  :root,
+  .dark {
+    --background: #ffffff;
+    --foreground: #111827;
+    --muted: #4b5563;
+    --subtle: #64748b;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --accent: #0f766e;
+    --accent-foreground: #ffffff;
+    --accent-wash: rgba(15, 118, 110, 0.07);
+    --success: #047857;
+    --success-wash: rgba(4, 120, 87, 0.08);
+    --info: #0369a1;
+  }
+
+  html {
+    color-scheme: light !important;
+    background: #ffffff;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-wash: var(--accent-wash);
+  --color-success: var(--success);
+  --color-success-wash: var(--success-wash);
+  --color-info: var(--info);
+  --color-code-bg: var(--code-bg);
+  --color-code-fg: var(--code-fg);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }
@@ -105,6 +159,37 @@ body {
   }
   100% {
     transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.hero-glow {
+  background: radial-gradient(60% 50% at 50% 0%, var(--glow), transparent 70%);
+}
+
+.status-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--success);
+  box-shadow: 0 0 0 3px var(--success-wash);
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--success);
+  animation: status-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes status-ping {
+  75%,
+  100% {
+    transform: scale(2.2);
     opacity: 0;
   }
 }

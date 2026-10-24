@@ -65,14 +65,14 @@ export default async function QualityStudyPage({ params }: Props) {
   if (!study) notFound();
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="hero-glow mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <Link href="/quality" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        Quality engineering
+        Metrics &amp; Impact
       </Link>
 
-      <p className="mt-6 font-mono text-sm text-accent">{study.eyebrow}</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight">{study.title}</h1>
+      <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-accent">{`// ${study.eyebrow}`}</p>
+      <h1 className="mt-2 text-[30px] font-bold leading-[38px] tracking-[-0.025em] sm:text-[40px] sm:leading-[48px]">{study.title}</h1>
       <p className="mt-3 text-lg text-muted">{study.summary}</p>
 
       {study.notice && (

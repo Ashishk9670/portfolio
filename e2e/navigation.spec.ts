@@ -4,31 +4,29 @@ import { stubVisitorBeacon } from "./stubVisitorBeacon";
 test.beforeEach(({ page }) => stubVisitorBeacon(page));
 
 const NAV_PAGES = [
-  { href: "/about", navLabel: "About", heading: "About" },
-  { href: "/experience", navLabel: "Experience", heading: "Experience" },
-  { href: "/quality", navLabel: "Quality", heading: "Quality starts at product discovery" },
-  { href: "/projects", navLabel: "Projects", heading: "Projects" },
-  { href: "/skills", navLabel: "Skills", heading: "Skills" },
-  { href: "/uses", navLabel: "Uses", heading: "Uses" },
-  { href: "/blog", navLabel: "Writing", heading: "Writing" },
-  { href: "/accessibility", navLabel: "Accessibility", heading: "Accessibility Statement" },
-  { href: "/contact", navLabel: "Contact", heading: "Contact" },
+  { href: "/experience", navLabel: "Recruiter Dossier", heading: "Recruiter Dossier" },
+  { href: "/projects", navLabel: "Projects & Frameworks", heading: "Projects & Frameworks" },
+  { href: "/quality", navLabel: "Metrics & Impact", heading: "Metrics & Impact" },
+  { href: "/about", navLabel: "Philosophy & Stack", heading: "Quality Engineering Philosophy" },
+];
+
+const FOOTER_PAGES = [
+  { href: "/blog", label: "Writing", heading: "Writing" },
+  { href: "/skills", label: "Skills timeline", heading: "Skills" },
+  { href: "/uses", label: "Uses", heading: "Uses" },
+  { href: "/accessibility", label: "Accessibility statement", heading: "Accessibility Statement" },
 ];
 
 test.describe("primary navigation", () => {
   test("home page shows the hero and CTAs", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quality engineering beyond test automation.");
-    await expect(page.getByRole("link", { name: "View Projects" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "How I approach quality" })).toHaveAttribute("href", "/quality");
-    await expect(page.getByRole("link", { name: "Download Resume" })).toHaveAttribute(
-      "href",
-      "/resume.pdf"
-    );
-    await expect(
-      page.locator("#main-content").getByRole("link", { name: "Contact", exact: true })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quality Engineering Beyond Test Automation.");
+    const hero = page.locator("#main-content section").first();
+    await expect(hero.getByRole("link", { name: "Explore case studies" })).toHaveAttribute("href", "/quality");
+    await expect(hero.getByRole("link", { name: "Resume (PDF)" })).toHaveAttribute("href", "/resume.pdf");
+    await expect(hero.getByRole("link", { name: /Real GitHub Actions run/ })).toHaveAttribute("href", /actions\/runs\//);
     await expect(page.getByRole("heading", { name: "By the Numbers" })).toBeVisible();
+    await expect(page.getByRole("banner").getByRole("link", { name: "Get in Touch", exact: true })).toHaveAttribute("href", "/contact");
   });
 
   for (const { href, navLabel, heading } of NAV_PAGES) {
@@ -41,6 +39,23 @@ test.describe("primary navigation", () => {
       await expect(page).toHaveURL(new RegExp(`${href}$`));
       await expect(page.getByRole("heading", { level: 1 })).toContainText(heading);
       await expect(navLink).toHaveAttribute("aria-current", "page");
+    });
+  }
+
+  test("Overview nav link returns home and is marked current there", async ({ page }) => {
+    await page.goto("/projects");
+    const overview = page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Overview" });
+    await overview.click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(overview).toHaveAttribute("aria-current", "page");
+  });
+
+  for (const { href, label, heading } of FOOTER_PAGES) {
+    test(`footer link to ${href} loads the ${heading} page`, async ({ page }) => {
+      await page.goto("/");
+      await page.locator("footer").getByRole("link", { name: label, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`${href}$`));
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(heading);
     });
   }
 

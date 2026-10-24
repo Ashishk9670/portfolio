@@ -4,7 +4,7 @@ export const profile = {
   name: "Ashish Kumar",
   role: "Software Development Engineer in Test II (SDET II)",
   location: "Bangalore, India",
-  headline: "Quality engineering beyond test automation.",
+  headline: "Quality Engineering Beyond Test Automation.",
   tagline: "I build quality systems that help product teams ship reliable software with confidence.",
   intro: [
     "My approach combines risk-based testing, end-to-end automation, API and backend validation, exploratory testing, CI/CD integration, accessibility, and AI-assisted quality engineering.",
@@ -29,6 +29,7 @@ export type ExperienceEntry = {
   bullets: string[];
   stats: Stat[];
   impact: string;
+  stack: string[];
 };
 
 export const experience: ExperienceEntry[] = [
@@ -55,6 +56,7 @@ export const experience: ExperienceEntry[] = [
     ],
     impact:
       "Establishing the testing foundation for a healthcare platform where a missed regression carries real clinical-trial-matching risk, not just a support ticket.",
+    stack: ["Playwright", "TypeScript", "axe-core", "Claude Code"],
   },
   {
     company: "LiveSwitch",
@@ -82,6 +84,7 @@ export const experience: ExperienceEntry[] = [
     ],
     impact:
       "Turned a slow, manual-heavy release process into a fast, cross-platform regression system the team could trust before every release.",
+    stack: ["Playwright", "Selenium", "TestNG", "REST Assured", "Appium", "Cucumber", "JMeter", "SQL", "GitHub Actions", "Jenkins"],
   },
   {
     company: "Mastercard Data & Services",
@@ -106,6 +109,7 @@ export const experience: ExperienceEntry[] = [
     ],
     impact:
       "Gave a high-volume commercial payments platform release confidence at a scale where manual testing alone couldn't keep up.",
+    stack: ["Cypress", "Selenium", "JavaScript", "CI/CD", "Agile (Scrum)"],
   },
 ];
 
@@ -125,6 +129,31 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "multi-layer-playwright-framework",
+    title: "Multi-Layer Playwright Framework",
+    tagline: "One order verified at every layer: UI, REST/GraphQL, Postgres, Kafka, and WebSocket.",
+    stack: ["Playwright", "TypeScript", "Docker", "PostgreSQL", "Kafka", "GraphQL", "GitHub Actions"],
+    featured: true,
+    problem:
+      "In an event-driven app, the expensive failures live between layers: an order that's saved but never announced, stock that goes negative under concurrent orders, events out of order, or a real-time update reaching the wrong user. UI tests alone can't see most of that.",
+    approach: [
+      "Built a shop app to test (Express, Postgres, Kafka, WebSocket, GraphQL) in Docker Compose, and one Playwright + TypeScript framework with page objects, typed REST/GraphQL/WebSocket/Kafka clients, and worker-scoped DB and Kafka fixtures.",
+      "Put each risk at the layer that checks it directly: OpenAPI contract validation and security cases at the API, persistence and rollback checks in Postgres, schema, keys, and ordering on Kafka, per-user pushes over WebSocket, and a thin end-to-end layer proving the layers agree.",
+      "Tiered CI by risk: a @smoke set on every pull request, the full suite nightly, sharded API and UI jobs, and cross-browser and mobile runs limited to smoke.",
+      "Opt-in chaos tests stop Kafka mid-flow; one exposed a real defect (the order is saved but the API returns 500), kept as an expected failure that documents it.",
+    ],
+    results: [
+      { value: "154", label: "tests across UI, API, DB, Kafka, WebSocket, and E2E" },
+      { value: "34", label: "@smoke tests on every pull request" },
+      { value: "12", label: "parallel test jobs in every nightly full run" },
+    ],
+    outcome:
+      "A public framework that tests a real event-driven system layer by layer, with CI tiers that match cost to risk and a documented defect the chaos tests caught.",
+    businessImpact:
+      "The way I'd structure quality for any multi-service product: test each risk where it's cheapest to catch, and keep end-to-end tests for proving the layers agree.",
+    links: { repo: "https://github.com/Ashishk9670/plawight-ui-api-wss-db-kafka" },
+  },
   {
     slug: "portfolio-mcp-server",
     title: "Portfolio MCP Server",
@@ -228,14 +257,14 @@ export const projects: Project[] = [
       "A portfolio project is easy to dismiss as a toy — a single-file demo nobody could point coworkers at. I wanted a suite that runs against a real, live target with real failure modes, and a report a stranger could open and trust, not a screenshot.",
     approach: [
       "Built 25 functional cases (catalog, cart, checkout, account, and a chained signup-to-checkout journey) in Playwright + TypeScript, Page Object Model, typed fixtures, matrixed across Chromium, Firefox, and WebKit in CI.",
-      "Wired Allure reporting into the pipeline and added a GitHub Pages publish step, so every push to main produces a public, browsable report with history and trends, not just a CI artifact.",
+      "Wired Allure reporting into the pipeline and added a GitHub Pages publish step, so every push to main produces a public, browsable report, not just a CI artifact.",
       "Documented two real constraints from the live target instead of hiding them: Cloudflare's bot management can challenge automated browsers regardless of IP reputation, and hCaptcha hard-blocks registration/login under CDP-driven automation entirely — confirmed via network inspection, not treated as a bug in the suite.",
       "Built this site's own /qa-suite page to fetch that published report's JSON at request time and replay it case by case, with the full Allure report embedded underneath.",
     ],
     results: [
       { value: "25", label: "functional cases across catalog, cart, checkout, account, and journey" },
       { value: "3", label: "browsers — Chromium, Firefox, WebKit, matrixed in CI" },
-      { value: "Public", label: "Allure report published to GitHub Pages on every push, with trend history" },
+      { value: "Public", label: "Allure report published to GitHub Pages on every push" },
     ],
     outcome:
       "A suite that runs against a real store and is honest when the store — not the suite — is the reason a run goes red, with a report anyone can open and check for themselves.",
@@ -517,7 +546,7 @@ export const globalTeams: { company: string; locations: string[] }[] = [
 
 export const recruiterSnapshot = {
   experience: "5+ years",
-  targetRoles: "SDET and Lead SDET",
+  targetRoles: "Senior SDET and Lead SDET",
   relocation: "Open to relocation — India and overseas",
   domains: "Healthcare (HIPAA), commercial payments",
   coreStrengths: [
@@ -536,6 +565,32 @@ export const recruiterSnapshot = {
     "Moved accessibility reviews from twice-yearly to monthly at Triomics",
   ],
 };
+
+export const recruiterFaq: { question: string; answer: string; meta: string }[] = [
+  {
+    question: "Notice period",
+    answer: "30 days.",
+    meta: "Availability: 30-day notice",
+  },
+  {
+    question: "Work authorization and relocation",
+    answer:
+      "Authorized to work in India. Open to relocating within India and overseas; roles outside India would need employer visa sponsorship.",
+    meta: "Mobility: India and overseas",
+  },
+  {
+    question: "Target roles",
+    answer:
+      "Senior SDET and Lead SDET roles where I own automation strategy, quality gates in CI, and help grow the people around me.",
+    meta: "Levels: Senior SDET · Lead SDET",
+  },
+  {
+    question: "Interview formats",
+    answer:
+      "Comfortable with automation framework design from scratch (Playwright/TypeScript or REST Assured/Java), live coding and problem solving, risk-based test strategy cases, and system design for test infrastructure and CI/CD.",
+    meta: "Formats: framework design · live coding · strategy · system design",
+  },
+];
 
 export type NowItem = { label: string; text: string; link?: { href: string; label: string } };
 

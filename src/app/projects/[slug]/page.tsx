@@ -7,6 +7,8 @@ import { projects } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { StatGrid } from "@/components/StatGrid";
 import { FlowDiagram, type FlowStep } from "@/components/FlowDiagram";
+import { CodePanel } from "@/components/ui";
+import { projectSnippets } from "@/lib/snippets";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -49,15 +51,16 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound();
 
   const diagram = DIAGRAMS[project.slug];
+  const snippet = projectSnippets[project.slug];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="hero-glow mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <Link href="/projects" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         All projects
       </Link>
 
-      <h1 className="mt-6 text-3xl font-semibold tracking-tight">{project.title}</h1>
+      <h1 className="mt-6 text-[30px] font-bold leading-[38px] tracking-[-0.025em] sm:text-[40px] sm:leading-[48px]">{project.title}</h1>
       <p className="mt-2 text-lg text-muted">{project.tagline}</p>
 
       {project.placeholder && (
@@ -123,6 +126,15 @@ export default async function ProjectPage({ params }: Props) {
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">How it flows</h2>
             <div className="mt-4">
               <FlowDiagram steps={diagram} />
+            </div>
+          </section>
+        )}
+
+        {snippet && (
+          <section>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">From the code</h2>
+            <div className="mt-4">
+              <CodePanel snippet={snippet} />
             </div>
           </section>
         )}

@@ -7,7 +7,7 @@ const VARIANTS = [
     eyebrow: "Ashish Kumar · SDET II",
     heading: "Quality engineering beyond test automation.",
     subtext: "I build quality systems that help product teams ship reliable software with confidence.",
-    badge: "Open to SDET &amp; Lead SDET roles",
+    badge: "Open to Senior &amp; Lead SDET roles",
     stats: [
       { value: "5+ yrs", label: "UI, API &amp; mobile test automation" },
       { value: "~40%", label: "faster regression runs at LiveSwitch" },

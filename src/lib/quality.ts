@@ -36,6 +36,8 @@ export const qualityStatement = {
 
 export type QualityMetric = {
   name: string;
+  value?: string;
+  context?: string;
   shows: string;
   evidence: string;
   source: "Measured at work" | "Public project" | "How I use it";
@@ -44,6 +46,8 @@ export type QualityMetric = {
 export const qualityMetrics: QualityMetric[] = [
   {
     name: "Critical journey coverage",
+    value: "90%+",
+    context: "LiveSwitch · Web, Android, iOS",
     shows: "How many of the user journeys that matter most are protected by tests — not raw test count.",
     evidence:
       "90%+ automation coverage across Web, Android, and iOS at LiveSwitch; 95%+ test coverage across releases at Mastercard. In public: a 34-test smoke tier covering every critical layer runs on every pull request.",
@@ -51,6 +55,8 @@ export const qualityMetrics: QualityMetric[] = [
   },
   {
     name: "Regression duration",
+    value: "~40%",
+    context: "LiveSwitch · faster regression runs",
     shows: "How fast the team gets a trustworthy answer before a release.",
     evidence:
       "~40% lower regression execution time at LiveSwitch, before vs. after the Selenium-to-Playwright migration and AI-assisted workflow.",
@@ -58,12 +64,16 @@ export const qualityMetrics: QualityMetric[] = [
   },
   {
     name: "Defect resolution speed",
+    value: "~20%",
+    context: "Mastercard · faster resolution",
     shows: "Whether QA and Dev are closing the loop on what testing finds.",
     evidence: "~20% faster defect resolution at Mastercard after introducing structured QA-Dev syncs and better triage.",
     source: "Measured at work",
   },
   {
     name: "Escaped defects",
+    value: "<5%",
+    context: "Triomics · LiveSwitch",
     shows: "Production defects that testing should have caught — the clearest signal of whether the suite guards the right things.",
     evidence:
       "Under 5% of defects escaped to production at Triomics and LiveSwitch. Each one that did was traced back to the test that should have caught it, and that test was added to regression so the same defect can't escape twice.",
@@ -78,13 +88,17 @@ export const qualityMetrics: QualityMetric[] = [
   },
   {
     name: "Release readiness",
+    value: "4 gates",
+    context: "This site · every push, plus daily e2e",
     shows: "Whether a build is safe to ship: defect severity, critical-workflow results, and unresolved risks together.",
     evidence:
-      "Every push to this site runs lint, a type-checked build, an axe-core audit of every page, a Lighthouse accessibility gate (≥95), and the full Playwright e2e suite.",
+      "Every push to this site runs lint, a type-checked build, an axe-core audit of every page, and a Lighthouse accessibility gate (≥95); the full Playwright e2e suite runs on a daily schedule.",
     source: "Public project",
   },
   {
     name: "AI effectiveness",
+    value: "70%+",
+    context: "Triomics · LiveSwitch · less time writing & debugging",
     shows: "Time saved by AI-assisted testing, weighed against the review effort it adds and the quality of what it produces.",
     evidence:
       "70%+ less time spent writing and debugging tests at Triomics and LiveSwitch, with every AI-generated test still passing a manual review gate. That's separate from the ~40% regression-time figure, which covers the Playwright migration and AI workflow together.",
@@ -154,7 +168,7 @@ export const qualityStudies: QualityStudy[] = [
         heading: "Measurable outcome",
         bullets: [
           "154 tests across 24 files, covering every layer of the app.",
-          "A full nightly run finishes in about 12 minutes, and most of that is Docker start-up — the tests themselves take seconds per layer (84 API tests in under 8 seconds across two shards).",
+          "Nightly full runs take roughly 3 to 15 minutes end to end, and most of that is Docker start-up — the tests themselves take seconds per layer (84 API tests in under 8 seconds across two shards).",
           "As of October 2026, the last 20 CI runs are green. Tests that pass only on retry are listed in a pull-request comment instead of being hidden by the retry.",
           "Results publish as merged HTML, JUnit, and Allure reports.",
         ],
