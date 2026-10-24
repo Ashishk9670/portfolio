@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { sendContactMessage } from "@/lib/contact";
+import { trackAction } from "@/components/Analytics";
 
 type Status = "idle" | "submitting" | "sent" | "rate_limited" | "error";
 
@@ -58,6 +59,7 @@ export function ContactWidget() {
 
     if (result === "ok") {
       setStatus("sent");
+      trackAction("message", "Contact widget message sent");
       form.reset();
     } else {
       setStatus(result);

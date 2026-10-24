@@ -45,6 +45,21 @@ export default function AccessibilityPage() {
       </section>
 
       <section className="mt-10">
+        <h2 className="text-xl font-semibold">Privacy &amp; analytics</h2>
+        <p className="mt-3">
+          This site counts page views and link clicks with its own cookieless analytics, so I can see which pages are
+          useful. It stores the page, the link clicked, the referring site, your country, and a rough device size —
+          never your IP address, browser fingerprint, or anything that identifies you. A random visit id lives only in
+          your browser tab and disappears when you close it, and raw events are deleted after 90 days.
+        </p>
+        <p className="mt-3">
+          If your browser sends Do Not Track or Global Privacy Control, nothing is recorded at all. Separately, the
+          visitor map on the home page keeps an aggregate count per approximate city-level location (rounded to about
+          11 km), again without storing IP addresses.
+        </p>
+      </section>
+
+      <section className="mt-10">
         <h2 className="text-xl font-semibold">Found a problem?</h2>
         <p className="mt-3">
           If something on this site doesn&apos;t work well with assistive technology, I want to know —

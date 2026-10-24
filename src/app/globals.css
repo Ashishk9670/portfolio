@@ -22,6 +22,8 @@
   --code-bg: #0b0f17;
   --code-fg: #e2e8f0;
   --glow: rgba(15, 118, 110, 0.08);
+  --chart: #0d9488;
+  --danger: #be123c;
   --focus-ring: #0f766e;
 }
 
@@ -44,6 +46,9 @@
   --code-bg: #060a12;
   --code-fg: #e2e8f0;
   --glow: rgba(45, 212, 191, 0.1);
+  /* Chart marks: validated against the dark card surface (lightness band, chroma, 3:1). */
+  --chart: #12a597;
+  --danger: #fb7185;
   --focus-ring: #2dd4bf;
 }
 
@@ -90,6 +95,8 @@
   --color-info: var(--info);
   --color-code-bg: var(--code-bg);
   --color-code-fg: var(--code-fg);
+  --color-chart: var(--chart);
+  --color-danger: var(--danger);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }

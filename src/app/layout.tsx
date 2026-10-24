@@ -8,6 +8,7 @@ import { ContactWidget } from "@/components/ContactWidget";
 import { certifications, education, experience, mentoring, profile, siteUrl, skills } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { Analytics } from "@/components/Analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
           <ContactWidget />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

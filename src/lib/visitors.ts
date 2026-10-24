@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { mcpServer } from "@/lib/data";
+import { trackingAllowed } from "@/lib/analytics";
 
 const VisitLocationSchema = z.object({
   lat: z.number(),
@@ -14,7 +15,7 @@ export type VisitLocation = z.infer<typeof VisitLocationSchema>;
 const VISITORS_BASE = mcpServer.remoteUrl;
 
 export async function recordVisit(): Promise<void> {
-  if (!VISITORS_BASE) return;
+  if (!VISITORS_BASE || !trackingAllowed()) return;
   try {
     await fetch(`${VISITORS_BASE}/visit`, { method: "POST", keepalive: true });
   } catch {

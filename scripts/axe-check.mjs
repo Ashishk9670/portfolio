@@ -24,6 +24,7 @@ const PATHS = [
   "/accessibility",
   "/contact",
   "/mentoring",
+  "/insights",
 ];
 
 const browser = await chromium.launch();
