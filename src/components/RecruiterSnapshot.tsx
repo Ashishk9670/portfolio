@@ -49,6 +49,18 @@ export function RecruiterSnapshot() {
               </div>
 
               <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wide text-muted">Core strengths</h3>
+                <ul className="mt-2 space-y-2 text-sm">
+                  {recruiterSnapshot.coreStrengths.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-muted">Core stack</h3>
                 <ul className="mt-2 flex flex-wrap gap-2">
                   {recruiterSnapshot.coreStack.map((tool) => (

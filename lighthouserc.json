@@ -6,6 +6,8 @@
         "http://localhost:3000/",
         "http://localhost:3000/about",
         "http://localhost:3000/experience",
+        "http://localhost:3000/quality",
+        "http://localhost:3000/quality/end-to-end-quality-strategy",
         "http://localhost:3000/projects",
         "http://localhost:3000/projects/playwright-ai-assisted-framework",
         "http://localhost:3000/skills",

@@ -4,10 +4,14 @@ export const profile = {
   name: "Ashish Kumar",
   role: "Software Development Engineer in Test II (SDET II)",
   location: "Bangalore, India",
-  tagline:
-    "I build test automation and accessibility systems that scale — not just test scripts.",
+  headline: "Quality engineering beyond test automation.",
+  tagline: "I build quality systems that help product teams ship reliable software with confidence.",
+  intro: [
+    "My approach combines risk-based testing, end-to-end automation, API and backend validation, exploratory testing, CI/CD integration, accessibility, and AI-assisted quality engineering.",
+    "I focus on identifying customer-impacting risks early, choosing the right balance of manual and automated testing, and using actionable quality signals to improve release decisions.",
+  ],
   summary:
-    "SDET with 5+ years designing scalable UI and API automation frameworks for web and mobile applications across healthcare and fintech. Strong expertise in Playwright, Selenium, API testing, CI/CD, and performance testing. I use AI-assisted tooling to move faster without cutting corners, and I treat accessibility as a first-class engineering requirement, not an afterthought.",
+    "SDET with 5+ years building quality systems for web and mobile products across healthcare and fintech: risk-based test strategy, UI and API automation frameworks, backend validation, CI/CD, and performance testing. Strong expertise in Playwright, Selenium, Cypress, and REST Assured. I use AI-assisted tooling to move faster without cutting corners, and I treat accessibility as a first-class engineering requirement, not an afterthought.",
   email: "ak1545861@gmail.com",
   github: "https://github.com/Ashishk9670",
   linkedin: "https://linkedin.com/in/as9670",
@@ -36,7 +40,10 @@ export const experience: ExperienceEntry[] = [
     end: "Present",
     bullets: [
       "Authored the automation suite from scratch for an oncology clinical-trial matching platform, in a HIPAA-regulated environment.",
+      "Define test strategies for critical user journeys across UI, API, and database layers, prioritizing coverage by business risk, customer impact, and integration complexity.",
       "Lead the automation effort as the team scales test coverage, cutting into the product team's testing time and unblocking faster releases.",
+      "Use Claude Code and AI-assisted workflows to speed up test generation, automation development, and failure investigation, and evaluate AI-generated scenarios against business requirements and deterministic assertions before they join the suite.",
+      "Use test execution results, defect trends, and regression coverage to inform release readiness, and turn production incidents into regression tests so they don't recur.",
       "Onboard new team members with structured product knowledge transfer instead of leaving them to learn the domain unassisted.",
       "Introduced a mandatory accessibility checklist before any new feature ships to production, and moved the org from twice-yearly accessibility reporting to a monthly review across every product shipped.",
     ],
@@ -58,10 +65,12 @@ export const experience: ExperienceEntry[] = [
     bullets: [
       "Designed and owned scalable UI and API automation frameworks using Selenium, TestNG, REST Assured, Appium, and BDD (Cucumber) across Chrome, Safari, Edge, Firefox, and Android/iOS.",
       "Proposed and led the migration of all web automation from Selenium to Playwright, then layered in AI-assisted workflows (Claude Code, Cursor, MCP Server) on top of it to cut regression execution time by ~40%.",
-      "Authored feature-level test plans and detailed test cases for comprehensive coverage.",
+      "Authored feature-level test plans and test cases, prioritizing coverage by business risk, customer impact, and integration complexity.",
+      "Explored AI-assisted approaches to identify test coverage gaps and improve regression efficiency.",
       "Onboarded new joiners with product knowledge transfer, a walkthrough of the existing testing landscape, and how to use AI to speed up day-to-day testing work.",
       "Validated API responses and backend data consistency using SQL queries and schema validation.",
-      "Integrated automated test suites into CI/CD pipelines (GitHub Actions, Jenkins).",
+      "Integrated automated quality checks into CI/CD pipelines (GitHub Actions, Jenkins) for fast feedback on critical workflows, and triaged failures to separate product defects from automation issues, improving regression suite reliability.",
+      "Traced production incidents and customer-reported issues back to regression tests to prevent recurrence, using application logs, error reports, and service metrics to support root-cause analysis.",
       "Worked with distributed teams in New York City, North Carolina, and Canada, collaborating across time zones.",
       "Performed API load and performance testing with JMeter to identify bottlenecks and ensure system stability.",
     ],
@@ -82,9 +91,10 @@ export const experience: ExperienceEntry[] = [
     end: "Sep 2024",
     bullets: [
       "Led end-to-end testing for a commercial payments rewards platform supporting large-scale transaction workflows.",
-      "Collaborated with Product Managers and developers to define feature-level test strategies.",
+      "Joined requirement reviews with Product and Engineering to define feature-level test strategies and surface edge cases early.",
       "Built and maintained 1000+ automated test cases using Cypress (JavaScript) and Selenium, achieving 95%+ test coverage across multiple releases.",
       "Improved defect resolution speed by ~20% by initiating structured QA-Dev syncs and better triaging practices.",
+      "Evaluated release risk using defect severity, critical-workflow coverage, and outstanding issues, and turned production issues into regression tests to prevent recurrence.",
       "Worked in Agile (Scrum) teams with CI/CD-driven delivery pipelines supporting high-volume commercial payments workflows.",
       "Worked with globally distributed teams in Singapore, Dublin, Sydney, New York City, and Arlington, collaborating across time zones.",
       "Mentored interns and new joiners from both a product and quality perspective, aiming to get them contributing within their first month rather than just shadowing.",
@@ -248,10 +258,10 @@ export const projects: Project[] = [
       "Ownership without accounts: each submission gets a secret edit token at creation time, so the original poster's browser can edit or delete it later with no login — moderation (reports, an admin panel to review and dismiss them) covers the rest.",
       "Rate limiting on submissions, likes, comments, and reports via Upstash Redis. It replaced an in-memory limiter that only worked per warm serverless instance — on Vercel that was close to no protection at all, since the next request can land on a different instance with no shared memory.",
       "Sentry wired into both the server and edge runtimes, so a failure in either surfaces with a real stack trace instead of a silent 500 a user just bounces off.",
-      "Postgres via Prisma, with a trigram-search migration for the browse/search page, and a 28-case Playwright suite (happy path, submission validation, admin auth, filtering/pagination, accessibility, SEO/error pages) run in CI on every push and on a daily schedule.",
+      "Postgres via Prisma, with a trigram-search migration for the browse/search page, and a 30-case Playwright suite (happy path, submission validation, admin auth and delete, filtering/pagination, accessibility, SEO/error pages) run in CI on every push and on a daily schedule.",
     ],
     results: [
-      { value: "28", label: "Playwright cases — happy path, admin, validation, a11y, SEO/errors" },
+      { value: "30", label: "Playwright cases — happy path, admin, validation, a11y, SEO/errors" },
       { value: "Redis", label: "rate limiting that actually holds across serverless instances" },
       { value: "Daily", label: "scheduled CI run, independent of whether anything changed that day" },
     ],
@@ -446,6 +456,27 @@ export const philosophy: Principle[] = [
     practice:
       "Claude Code and Cursor draft first-pass tests and chase down flaky failures at LiveSwitch and on this site's own tooling; what actually ships is still a manual review call.",
   },
+  {
+    title: "Quality starts at discovery",
+    description:
+      "The cheapest defect is the one caught in a requirement review. Quality work starts when a feature is still an idea and continues after release, when production tells you what the tests missed.",
+    practice:
+      "Joined requirement reviews with Product and Engineering at Mastercard to surface edge cases early; at every company since, production incidents get traced back into regression tests so they don't recur.",
+  },
+  {
+    title: "Test where the risk is",
+    description:
+      "Not every feature deserves the same depth. I prioritize by business risk, customer impact, and integration complexity, and pair automation with exploratory testing where scripted checks won't find the problem.",
+    practice:
+      "Defining test strategies for critical user journeys across UI, API, and database layers at Triomics, prioritized by business risk and customer impact.",
+  },
+  {
+    title: "Release decisions run on signals",
+    description:
+      "A green pipeline isn't a release decision. Defect severity, critical-workflow coverage, defect trends, and unresolved risks are what actually tell you whether something is ready to ship.",
+    practice:
+      "Test results, defect trends, and regression coverage feed the release-readiness call at Triomics and LiveSwitch; at Mastercard, release risk was weighed on defect severity, critical-workflow coverage, and outstanding issues.",
+  },
 ];
 
 export const leadership: Principle[] = [
@@ -489,6 +520,13 @@ export const recruiterSnapshot = {
   targetRoles: "SDET and Lead SDET",
   relocation: "Open to relocation — India and overseas",
   domains: "Healthcare (HIPAA), commercial payments",
+  coreStrengths: [
+    "Product-focused quality strategy",
+    "Playwright, Cypress, Selenium, and REST Assured",
+    "AI-assisted QA with Claude Code and related tools",
+    "CI/CD and regression optimization",
+    "API, database, accessibility, and performance testing",
+  ],
   coreStack: ["Playwright", "Selenium", "Cypress", "Appium", "REST Assured", "TypeScript", "Java", "GitHub Actions"],
   leadership: "Leading automation at Triomics; mentored interns and new joiners at every company",
   globalTeams: [...new Set(globalTeams.flatMap((team) => team.locations))].join(", "),

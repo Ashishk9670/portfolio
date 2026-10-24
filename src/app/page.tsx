@@ -23,9 +23,14 @@ export default function Home() {
         )}
         <p className="font-mono text-sm text-accent">{profile.role}</p>
         <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
-          {profile.tagline}
+          {profile.headline}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg text-muted">{profile.summary}</p>
+        <p className="mt-6 max-w-2xl text-xl text-foreground">{profile.tagline}</p>
+        {profile.intro.map((paragraph) => (
+          <p key={paragraph} className="mt-4 max-w-2xl text-muted">
+            {paragraph}
+          </p>
+        ))}
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
@@ -34,6 +39,12 @@ export default function Home() {
           >
             View Projects
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+          <Link
+            href="/quality"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-surface"
+          >
+            How I approach quality
           </Link>
           <a
             href={withBasePath("/resume.pdf")}

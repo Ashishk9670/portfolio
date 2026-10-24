@@ -292,3 +292,35 @@ test.describe("home page for recruiters", () => {
     expect(profilePage.mainEntity["@id"]).toBe(person["@id"]);
   });
 });
+
+test.describe("quality engineering", () => {
+  test("hub links to every deep dive and labels each metric's source", async ({ page }) => {
+    await page.goto("/quality");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Quality starts at product discovery");
+
+    const metrics = page.getByRole("region", { name: "Quality metrics" });
+    for (const name of ["Regression duration", "Escaped defects", "Flaky-test rate", "AI effectiveness"]) {
+      await expect(metrics.getByRole("heading", { name })).toBeVisible();
+    }
+
+    const deepDives = page.getByRole("region", { name: "Deep dives" }).getByRole("link");
+    await expect(deepDives).toHaveCount(4);
+    await deepDives.filter({ hasText: "End-to-End Quality Strategy" }).click();
+    await expect(page).toHaveURL(/\/quality\/end-to-end-quality-strategy$/);
+    await expect(page.getByRole("heading", { name: "Test layers" })).toBeVisible();
+  });
+
+  test("the observability page is clearly labeled as a personal-project demo", async ({ page }) => {
+    await page.goto("/quality/production-quality-demo");
+    await expect(page.getByText(/^Demo on a personal project\./)).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Honest gaps, and what I'd add next" })).toBeVisible();
+  });
+
+  test("wide tables scroll inside a keyboard-focusable region on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/quality/end-to-end-quality-strategy");
+    const region = page.getByRole("region", { name: "Test layers and what each one proves" });
+    await expect(region).toHaveAttribute("tabindex", "0");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+});

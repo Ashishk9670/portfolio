@@ -6,6 +6,7 @@ test.beforeEach(({ page }) => stubVisitorBeacon(page));
 const NAV_PAGES = [
   { href: "/about", navLabel: "About", heading: "About" },
   { href: "/experience", navLabel: "Experience", heading: "Experience" },
+  { href: "/quality", navLabel: "Quality", heading: "Quality starts at product discovery" },
   { href: "/projects", navLabel: "Projects", heading: "Projects" },
   { href: "/skills", navLabel: "Skills", heading: "Skills" },
   { href: "/uses", navLabel: "Uses", heading: "Uses" },
@@ -17,10 +18,9 @@ const NAV_PAGES = [
 test.describe("primary navigation", () => {
   test("home page shows the hero and CTAs", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "test automation and accessibility systems"
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quality engineering beyond test automation.");
     await expect(page.getByRole("link", { name: "View Projects" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "How I approach quality" })).toHaveAttribute("href", "/quality");
     await expect(page.getByRole("link", { name: "Download Resume" })).toHaveAttribute(
       "href",
       "/resume.pdf"
@@ -43,6 +43,11 @@ test.describe("primary navigation", () => {
       await expect(navLink).toHaveAttribute("aria-current", "page");
     });
   }
+
+  test("unknown quality deep-dive slug renders the not-found page", async ({ page }) => {
+    const response = await page.goto("/quality/does-not-exist");
+    expect(response?.status()).toBe(404);
+  });
 
   test("unknown project slug renders the not-found page", async ({ page }) => {
     const response = await page.goto("/projects/does-not-exist");

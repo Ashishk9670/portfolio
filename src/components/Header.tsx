@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/experience", label: "Experience" },
+  { href: "/quality", label: "Quality" },
   { href: "/projects", label: "Projects" },
   { href: "/skills", label: "Skills" },
   { href: "/uses", label: "Uses" },
@@ -28,7 +29,7 @@ export function Header() {
           ashish<span className="text-accent">.</span>kumar
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
           <ul className="flex items-center gap-6 text-sm">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -50,7 +51,7 @@ export function Header() {
           <ThemeToggle />
         </nav>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
           <button
             type="button"
@@ -66,7 +67,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" aria-label="Primary" className="border-t border-border md:hidden">
+        <nav id="mobile-nav" aria-label="Primary" className="border-t border-border lg:hidden">
           <ul className="mx-auto flex max-w-5xl flex-col gap-1 px-4 py-3 text-sm">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>

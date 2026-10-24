@@ -5,8 +5,8 @@ const VARIANTS = [
   {
     file: "public/og-image.png",
     eyebrow: "Ashish Kumar · SDET II",
-    heading: "I build test automation and accessibility systems that scale.",
-    subtext: "Playwright, Selenium, API & mobile automation — healthcare and fintech.",
+    heading: "Quality engineering beyond test automation.",
+    subtext: "I build quality systems that help product teams ship reliable software with confidence.",
     badge: "Open to SDET &amp; Lead SDET roles",
     stats: [
       { value: "5+ yrs", label: "UI, API &amp; mobile test automation" },

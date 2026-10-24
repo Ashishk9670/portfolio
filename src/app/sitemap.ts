@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { projects, siteUrl } from "@/lib/data";
+import { qualityStudies } from "@/lib/quality";
 import { getAllPosts } from "@/lib/posts";
 
 export const dynamic = "force-static";
@@ -9,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/experience",
+    "/quality",
     "/projects",
     "/skills",
     "/uses",
@@ -28,10 +30,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
+  const qualityRoutes = qualityStudies.map((study) => ({
+    url: `${siteUrl}/quality/${study.slug}`,
+    lastModified: new Date(),
+  }));
+
   const postRoutes = getAllPosts().map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
     lastModified: new Date(post.date),
   }));
 
-  return [...staticRoutes, ...projectRoutes, ...postRoutes];
+  return [...staticRoutes, ...qualityRoutes, ...projectRoutes, ...postRoutes];
 }
