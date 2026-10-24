@@ -26,8 +26,8 @@ export function Header() {
   const pathname = rawPathname.length > 1 ? rawPathname.replace(/\/$/, "") : rawPathname;
 
   return (
-    <header className="sticky top-0 z-40 px-3 pt-3 print:hidden sm:px-4">
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-xl border border-border bg-surface/85 px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)] backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background px-3 pb-3 pt-3 print:hidden sm:px-4">
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-xl border border-border bg-surface px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)]">
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg pr-2">
           <span
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface-2 font-mono text-xs font-semibold text-accent"
