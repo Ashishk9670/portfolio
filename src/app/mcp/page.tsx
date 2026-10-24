@@ -46,7 +46,7 @@ export default function McpPage() {
           href={mcpServer.repoUrl}
           target="_blank"
           rel="noreferrer noopener"
-          className="mt-4 inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
+          className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm text-accent hover:underline"
         >
           <GitHubIcon className="h-4 w-4" aria-hidden="true" />
           Repository

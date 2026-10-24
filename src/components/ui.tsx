@@ -201,7 +201,7 @@ export function CodePanel({ snippet }: { snippet: CodeSnippet }) {
       title={snippet.file}
       label={snippet.label}
       footer={
-        <a href={snippet.source} target="_blank" rel="noreferrer noopener" className="hover:text-[#2dd4bf]">
+        <a href={snippet.source} target="_blank" rel="noreferrer noopener" className="inline-flex min-h-6 items-center hover:text-[#2dd4bf]">
           Real excerpt · view source →<span className="sr-only">(opens in a new tab)</span>
         </a>
       }
@@ -210,7 +210,7 @@ export function CodePanel({ snippet }: { snippet: CodeSnippet }) {
         role="region"
         tabIndex={0}
         aria-label={`Code excerpt from ${snippet.file}`}
-        className="max-h-80 overflow-auto p-4 font-mono text-xs leading-[18px] focus-visible:outline-offset-[-2px]"
+        className="max-h-80 overflow-auto whitespace-pre-wrap break-words p-4 font-mono text-xs leading-[18px] focus-visible:outline-offset-[-2px] sm:whitespace-pre sm:break-normal"
       >
         <code>{snippet.code}</code>
       </pre>
@@ -230,7 +230,7 @@ export function CtaBand({
   children: ReactNode;
 }) {
   return (
-    <section aria-labelledby="cta-heading" className="py-16 sm:py-20">
+    <section aria-labelledby="cta-heading" className="py-12 sm:py-20">
       <Container>
         <div className="hero-glow relative overflow-hidden rounded-xl border border-border bg-surface p-6 sm:p-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -252,7 +252,7 @@ export function CtaBand({
 export function Disclosure({ summary, children }: { summary: string; children: ReactNode }) {
   return (
     <details className="group mt-3">
-      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded font-mono text-xs text-accent hover:underline [&::-webkit-details-marker]:hidden">
+      <summary className="inline-flex min-h-6 cursor-pointer list-none items-center gap-1.5 rounded font-mono text-xs text-accent hover:underline [&::-webkit-details-marker]:hidden">
         <ChevronRight className="h-3.5 w-3.5 transition-transform group-open:rotate-90" aria-hidden="true" />
         {summary}
       </summary>

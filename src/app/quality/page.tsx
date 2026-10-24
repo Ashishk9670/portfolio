@@ -155,7 +155,7 @@ export default function QualityPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="deep-dives" className="border-t border-border py-16">
+      <section aria-labelledby="deep-dives" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="deep-dives"
@@ -223,7 +223,7 @@ export default function QualityPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="comparison" className="border-t border-border py-16">
+      <section aria-labelledby="comparison" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="comparison"
@@ -271,7 +271,7 @@ export default function QualityPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="statement" className="border-t border-border py-16">
+      <section aria-labelledby="statement" className="border-t border-border py-12 sm:py-16">
         <Container>
           <Card className="p-6 sm:p-8">
             <Eyebrow>{"// quality engineering"}</Eyebrow>

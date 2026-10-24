@@ -128,7 +128,7 @@ export default function Home() {
             title={`github-actions · ${nightlyRun.repo}`}
             label={`Nightly · ${nightlyRun.date}`}
             footer={
-              <a href={nightlyRun.url} target="_blank" rel="noreferrer noopener" className="hover:text-[#2dd4bf]">
+              <a href={nightlyRun.url} target="_blank" rel="noreferrer noopener" className="inline-flex min-h-6 items-center hover:text-[#2dd4bf]">
                 Real GitHub Actions run · view it →<span className="sr-only">(opens in a new tab)</span>
               </a>
             }
@@ -159,7 +159,7 @@ export default function Home() {
                   ["Wall clock", nightlyRun.wallClock],
                 ].map(([term, value]) => (
                   <div key={term} className="rounded-md bg-white/5 px-3 py-2">
-                    <dt className="text-[10px] uppercase tracking-[0.06em] text-[#9ca3af]">{term}</dt>
+                    <dt className="text-[11px] uppercase tracking-[0.06em] text-[#9ca3af]">{term}</dt>
                     <dd className="mt-0.5 text-sm font-semibold text-[#34d399]">{value}</dd>
                   </div>
                 ))}
@@ -170,7 +170,7 @@ export default function Home() {
       </section>
 
       {/* Recruiter TL;DR */}
-      <section aria-labelledby="for-recruiters" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="for-recruiters" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="for-recruiters"
@@ -258,7 +258,7 @@ export default function Home() {
       </section>
 
       {/* Metrics */}
-      <section aria-labelledby="impact" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="impact" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="impact"
@@ -266,7 +266,7 @@ export default function Home() {
             title="By the Numbers"
             intro="Measured before and after the work, on the roles themselves."
             aside={
-              <Link href="/quality" className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline">
+              <Link href="/quality" className="inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline">
                 How I use these metrics
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
@@ -287,7 +287,7 @@ export default function Home() {
       </section>
 
       {/* Now */}
-      <section aria-labelledby="now" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="now" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="now"
@@ -303,7 +303,7 @@ export default function Home() {
                 {item.link && (
                   <Link
                     href={item.link.href}
-                    className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline"
+                    className="mt-3 inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline"
                   >
                     {item.link.label}
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -316,7 +316,7 @@ export default function Home() {
       </section>
 
       {/* Featured frameworks */}
-      <section aria-labelledby="frameworks" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="frameworks" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="frameworks"
@@ -324,7 +324,7 @@ export default function Home() {
             title="Featured Frameworks & Systems"
             intro="Real code from public repos — open any of them and check."
             aside={
-              <Link href="/projects" className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline">
+              <Link href="/projects" className="inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline">
                 All projects & frameworks
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
@@ -342,7 +342,7 @@ export default function Home() {
                         href={project.links.repo}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="inline-flex items-center gap-1.5 font-mono text-xs text-muted hover:text-accent"
+                        className="inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-muted hover:text-accent"
                       >
                         <GitHubIcon className="h-3.5 w-3.5" />
                         Repo
@@ -356,7 +356,7 @@ export default function Home() {
                     </Link>
                   </h3>
                   <p className="mt-2 text-[15px] leading-6 text-muted">{project.tagline}</p>
-                  <div className="mt-5 flex-1">
+                  <div className="mt-5 hidden flex-1 sm:block">
                     <CodePanel snippet={snippet} />
                   </div>
                   <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} stack`}>
@@ -374,7 +374,7 @@ export default function Home() {
       </section>
 
       {/* Philosophy */}
-      <section aria-labelledby="philosophy" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="philosophy" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="philosophy"
@@ -382,7 +382,7 @@ export default function Home() {
             title="Strategic Quality Philosophy"
             intro="Quality as something the system is built to produce, not a gate at the end of the sprint."
             aside={
-              <Link href="/about" className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline">
+              <Link href="/about" className="inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline">
                 Full philosophy & stack
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
@@ -407,7 +407,7 @@ export default function Home() {
       </section>
 
       {/* Stack */}
-      <section aria-labelledby="stack" className="border-t border-border py-16 sm:py-20">
+      <section aria-labelledby="stack" className="border-t border-border py-12 sm:py-20">
         <Container>
           <SectionHeader
             id="stack"
@@ -451,7 +451,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="border-t border-border py-16 sm:py-20">
+      <section className="border-t border-border py-12 sm:py-20">
         <Container>
           <VisitorsMap />
         </Container>

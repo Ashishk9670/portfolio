@@ -36,7 +36,7 @@ export function Header() {
           </span>
           <span className="leading-tight">
             <span className="block whitespace-nowrap text-sm font-semibold text-foreground">Ashish Kumar</span>
-            <span className="block whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.08em] text-accent">
+            <span className="block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-accent">
               SDET II
             </span>
           </span>

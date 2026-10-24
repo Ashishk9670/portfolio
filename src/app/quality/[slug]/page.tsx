@@ -66,7 +66,7 @@ export default async function QualityStudyPage({ params }: Props) {
 
   return (
     <div className="hero-glow mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <Link href="/quality" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent">
+      <Link href="/quality" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-muted hover:text-accent">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Metrics &amp; Impact
       </Link>

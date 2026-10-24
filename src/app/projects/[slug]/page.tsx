@@ -55,7 +55,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <div className="hero-glow mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <Link href="/projects" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent">
+      <Link href="/projects" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-muted hover:text-accent">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         All projects
       </Link>
@@ -78,7 +78,7 @@ export default async function ProjectPage({ params }: Props) {
               href={project.links.repo}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
+              className="inline-flex min-h-6 items-center gap-1.5 text-sm text-accent hover:underline"
             >
               <GitHubIcon className="h-4 w-4" aria-hidden="true" />
               Repository
@@ -89,7 +89,7 @@ export default async function ProjectPage({ params }: Props) {
               href={project.links.live}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
+              className="inline-flex min-h-6 items-center gap-1.5 text-sm text-accent hover:underline"
             >
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
               Live

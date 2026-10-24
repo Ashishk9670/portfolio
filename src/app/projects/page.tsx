@@ -139,7 +139,7 @@ export default function ProjectsPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="more-projects" className="border-t border-border py-16">
+      <section aria-labelledby="more-projects" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="more-projects"
@@ -169,7 +169,7 @@ export default function ProjectsPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="principles" className="border-t border-border py-16">
+      <section aria-labelledby="principles" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="principles"

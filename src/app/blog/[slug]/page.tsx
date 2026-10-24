@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <JsonLd data={articleJsonLd} />
-      <Link href="/blog" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent">
+      <Link href="/blog" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-muted hover:text-accent">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         All writing
       </Link>

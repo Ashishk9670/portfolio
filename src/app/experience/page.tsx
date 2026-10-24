@@ -124,7 +124,7 @@ export default function ExperiencePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="impact" className="border-t border-border py-16">
+      <section aria-labelledby="impact" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="impact"
@@ -146,7 +146,7 @@ export default function ExperiencePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="timeline" className="border-t border-border py-16">
+      <section aria-labelledby="timeline" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="timeline"
@@ -223,7 +223,7 @@ export default function ExperiencePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="global" className="border-t border-border py-16">
+      <section aria-labelledby="global" className="border-t border-border py-12 sm:py-16">
         <Container>
           <Card className="p-6 sm:p-8">
             <SectionHeader
@@ -264,7 +264,7 @@ export default function ExperiencePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="faq" className="border-t border-border py-16">
+      <section aria-labelledby="faq" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="faq"

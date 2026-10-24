@@ -45,7 +45,7 @@ export function Footer() {
             Built with Next.js. Every push runs lint, a type-checked build, an axe-core audit, and a Lighthouse
             accessibility gate; the Playwright e2e suite runs daily.
           </p>
-          <a href={CI_RUNS} target="_blank" rel="noreferrer noopener" className="mt-4 inline-block">
+          <a href={CI_RUNS} target="_blank" rel="noreferrer noopener" className="mt-4 inline-flex min-h-6 items-center">
             {/* eslint-disable-next-line @next/next/no-img-element -- live status SVG served by GitHub */}
             <img src={CI_BADGE} alt="CI workflow status for this site" height={20} className="h-5 w-auto" />
             <span className="sr-only">(opens in a new tab)</span>
@@ -60,7 +60,7 @@ export function Footer() {
             <ul className="mt-3 space-y-2 text-sm">
               {section.links.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-muted transition-colors hover:text-accent">
+                  <Link href={link.href} className="inline-flex min-h-6 items-center text-muted transition-colors hover:text-accent">
                     {link.label}
                   </Link>
                 </li>
@@ -77,7 +77,7 @@ export function Footer() {
                 href={profile.github}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent"
+                className="inline-flex min-h-6 items-center gap-2 text-muted transition-colors hover:text-accent"
               >
                 <GitHubIcon className="h-4 w-4" />
                 GitHub
@@ -89,7 +89,7 @@ export function Footer() {
                 href={profile.linkedin}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent"
+                className="inline-flex min-h-6 items-center gap-2 text-muted transition-colors hover:text-accent"
               >
                 <LinkedInIcon className="h-4 w-4" />
                 LinkedIn
@@ -99,14 +99,14 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent"
+                className="inline-flex min-h-6 items-center gap-2 text-muted transition-colors hover:text-accent"
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
                 Email
               </a>
             </li>
             <li>
-              <a href={withBasePath("/resume.pdf")} className="text-muted transition-colors hover:text-accent">
+              <a href={withBasePath("/resume.pdf")} className="inline-flex min-h-6 items-center text-muted transition-colors hover:text-accent">
                 Resume (PDF)
               </a>
             </li>

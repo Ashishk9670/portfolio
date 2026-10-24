@@ -72,7 +72,7 @@ export default function AboutPage() {
                 <div key={term} className="px-5 py-4">
                   <dt className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">{term}</dt>
                   <dd className="mt-1 font-mono text-[28px] font-bold leading-9 text-success">{value}</dd>
-                  <dd className="font-mono text-[10px] uppercase tracking-[0.06em] text-subtle">{context}</dd>
+                  <dd className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">{context}</dd>
                 </div>
               ))}
             </dl>
@@ -96,7 +96,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="story" className="border-t border-border py-16">
+      <section aria-labelledby="story" className="border-t border-border py-12 sm:py-16">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <div className="self-start lg:sticky lg:top-28">
             <SectionHeader id="story" eyebrow="background" title="How I Got Here" />
@@ -133,7 +133,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="quality-pillars" className="border-t border-border py-16">
+      <section aria-labelledby="quality-pillars" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="quality-pillars"
@@ -179,7 +179,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="stack" className="border-t border-border py-16">
+      <section aria-labelledby="stack" className="border-t border-border py-12 sm:py-16">
         <Container>
           <SectionHeader
             id="stack"
@@ -187,7 +187,7 @@ export default function AboutPage() {
             title="Categorized Technical Stack"
             intro="Tools and disciplines I use in real work, grouped by where they sit."
             aside={
-              <Link href="/skills" className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline">
+              <Link href="/skills" className="inline-flex min-h-6 items-center gap-1.5 font-mono text-xs text-accent hover:underline">
                 Skills timeline & since-dates
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
@@ -212,7 +212,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="leadership" className="border-t border-border py-16">
+      <section aria-labelledby="leadership" className="border-t border-border py-12 sm:py-16">
         <Container>
           <Card className="p-6 sm:p-8">
             <SectionHeader
@@ -242,7 +242,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="journey" className="border-t border-border py-16">
+      <section aria-labelledby="journey" className="border-t border-border py-12 sm:py-16">
         <Container className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
           <div>
             <SectionHeader id="journey" eyebrow="timeline" title="The Journey So Far" />
