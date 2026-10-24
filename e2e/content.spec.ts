@@ -362,9 +362,11 @@ test.describe("mentoring", () => {
     await expect(page.locator("#main-content")).not.toContainText("₹");
   });
 
-  test("stays out of the primary nav but is reachable from the footer and contact page", async ({ page }) => {
+  test("is reachable from the primary nav, the contact page, and the footer", async ({ page }) => {
     await page.goto("/contact");
-    await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Mentoring" })).toHaveCount(0);
+    await expect(
+      page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Mentoring", exact: true })
+    ).toHaveAttribute("href", "/mentoring");
     await page.locator("#main-content").getByRole("link", { name: "mentoring page" }).click();
     await expect(page).toHaveURL(/\/mentoring$/);
     await expect(page.locator("footer").getByRole("link", { name: /Topmate/ })).toHaveAttribute(

@@ -14,13 +14,13 @@ const SECTIONS = [
       { href: "/projects", label: "Projects & Frameworks" },
       { href: "/quality", label: "Metrics & Impact" },
       { href: "/about", label: "Philosophy & Stack" },
+      { href: "/mentoring", label: "Mentoring" },
     ],
   },
   {
     title: "More",
     links: [
       { href: "/blog", label: "Writing" },
-      { href: "/mentoring", label: "Mentoring" },
       { href: "/skills", label: "Skills timeline" },
       { href: "/uses", label: "Uses" },
       { href: "/mcp", label: "MCP server" },

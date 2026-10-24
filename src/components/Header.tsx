@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { FileText, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { withBasePath } from "@/lib/basePath";
-import { Portrait } from "@/components/Portrait";
 
 const NAV_LINKS = [
   { href: "/", label: "Overview", match: (p: string) => p === "/" },
@@ -18,6 +17,7 @@ const NAV_LINKS = [
     label: "Philosophy & Stack",
     match: (p: string) => p.startsWith("/about") || p.startsWith("/skills"),
   },
+  { href: "/mentoring", label: "Mentoring", match: (p: string) => p.startsWith("/mentoring") },
 ];
 
 export function Header() {
@@ -29,13 +29,12 @@ export function Header() {
     <header className="sticky top-0 z-40 px-3 pt-3 print:hidden sm:px-4">
       <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-xl border border-border bg-surface/85 px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)] backdrop-blur">
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg pr-2">
-          <Portrait
-            size={32}
-            variant="avatar"
-            alt=""
-            priority
-            className="h-8 w-8 shrink-0 rounded-full border border-border"
-          />
+          <span
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface-2 font-mono text-xs font-semibold text-accent"
+            aria-hidden="true"
+          >
+            AK
+          </span>
           <span className="leading-tight">
             <span className="block whitespace-nowrap text-sm font-semibold text-foreground">Ashish Kumar</span>
             <span className="block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-accent">
@@ -44,7 +43,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden min-w-0 lg:block">
+        <nav aria-label="Primary" className="hidden min-w-0 xl:block">
           <ul className="flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const active = link.match(pathname);
@@ -67,7 +66,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2 xl:flex">
           <a
             href={withBasePath("/resume.pdf")}
             className="hidden items-center gap-1.5 whitespace-nowrap rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition hover:border-border-strong xl:inline-flex"
@@ -84,7 +83,7 @@ export function Header() {
           <ThemeToggle />
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 xl:hidden">
           <ThemeToggle />
           <button
             type="button"
@@ -103,7 +102,7 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Primary"
-          className="mx-auto mt-2 max-w-[1240px] rounded-xl border border-border bg-surface p-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.4)] lg:hidden"
+          className="mx-auto mt-2 max-w-[1240px] rounded-xl border border-border bg-surface p-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.4)] xl:hidden"
         >
           <ul className="flex flex-col gap-1 text-sm">
             {NAV_LINKS.map((link) => {

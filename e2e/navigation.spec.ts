@@ -8,6 +8,7 @@ const NAV_PAGES = [
   { href: "/projects", navLabel: "Projects & Frameworks", heading: "Projects & Frameworks" },
   { href: "/quality", navLabel: "Metrics & Impact", heading: "Metrics & Impact" },
   { href: "/about", navLabel: "Philosophy & Stack", heading: "Quality Engineering Philosophy" },
+  { href: "/mentoring", navLabel: "Mentoring", heading: "Career Guidance for QA & SDETs" },
 ];
 
 const FOOTER_PAGES = [
