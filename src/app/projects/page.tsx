@@ -105,7 +105,7 @@ export default function ProjectsPage() {
                           {project.title}
                         </Link>
                       </h2>
-                      <p className="mt-3 text-[15px] leading-6 text-muted">{project.problem}</p>
+                      <p className="mt-3 text-[15px] leading-6 text-muted">{project.tagline}</p>
                       <div className="mt-5">
                         <StackChips project={project} />
                       </div>

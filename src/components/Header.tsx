@@ -26,24 +26,23 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 px-3 pt-3 print:hidden sm:px-4">
-      <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-3 rounded-xl border border-border bg-surface/85 px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)] backdrop-blur">
-        <Link href="/" className="flex min-w-0 items-center gap-2.5 rounded-lg pr-2">
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-xl border border-border bg-surface/85 px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)] backdrop-blur">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg pr-2">
           <span
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface-2 font-mono text-xs font-semibold text-accent"
             aria-hidden="true"
           >
             AK
           </span>
-          <span className="min-w-0 leading-tight">
-            <span className="block text-sm font-semibold text-foreground">Ashish Kumar</span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.06em] text-success">
-              <span className="status-dot scale-75" aria-hidden="true" />
-              Open to Senior &amp; Lead roles
+          <span className="leading-tight">
+            <span className="block whitespace-nowrap text-sm font-semibold text-foreground">Ashish Kumar</span>
+            <span className="block whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.08em] text-accent">
+              SDET II
             </span>
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden lg:block">
+        <nav aria-label="Primary" className="hidden min-w-0 lg:block">
           <ul className="flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const active = link.match(pathname);
@@ -102,7 +101,7 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Primary"
-          className="mx-auto mt-2 max-w-[1180px] rounded-xl border border-border bg-surface p-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.4)] lg:hidden"
+          className="mx-auto mt-2 max-w-[1240px] rounded-xl border border-border bg-surface p-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.4)] lg:hidden"
         >
           <ul className="flex flex-col gap-1 text-sm">
             {NAV_LINKS.map((link) => {

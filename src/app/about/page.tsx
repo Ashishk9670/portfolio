@@ -17,7 +17,7 @@ import { snippets, type CodeSnippet } from "@/lib/snippets";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { LinkedInIcon } from "@/components/BrandIcons";
-import { ButtonLink, Card, Chip, CodePanel, Container, CtaBand, Eyebrow, SectionHeader, TerminalFrame } from "@/components/ui";
+import { ButtonLink, Card, Chip, CodePanel, Container, CtaBand, Disclosure, Eyebrow, SectionHeader, TerminalFrame } from "@/components/ui";
 
 export const metadata = pageMetadata({
   title: "Philosophy & Stack",
@@ -159,10 +159,9 @@ export default function AboutPage() {
                   </span>
                   <h3 className="mt-4 text-xl font-semibold tracking-[-0.015em]">{principle.title}</h3>
                   <p className="mt-2 text-[15px] leading-6 text-muted">{principle.description}</p>
-                  <p className="mt-3 text-[13px] leading-5 text-muted">
-                    <span className="font-semibold text-foreground">In practice — </span>
-                    {principle.practice}
-                  </p>
+                  <Disclosure summary="In practice">
+                    <p className="text-[13px] leading-5 text-muted">{principle.practice}</p>
+                  </Disclosure>
                   <div className="mt-5 flex-1">
                     <CodePanel snippet={pillar.snippet} />
                   </div>
@@ -235,11 +234,7 @@ export default function AboutPage() {
               {leadership.map((item) => (
                 <li key={item.title} className="rounded-lg border border-border bg-surface-2/40 p-5">
                   <h3 className="font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-[13px] leading-5 text-muted">{item.description}</p>
-                  <p className="mt-3 border-t border-border pt-3 text-[13px] leading-5 text-muted">
-                    <span className="font-semibold text-success">Outcome — </span>
-                    {item.practice}
-                  </p>
+                  <p className="mt-2 text-[13px] leading-5 text-muted">{item.practice}</p>
                 </li>
               ))}
             </ul>

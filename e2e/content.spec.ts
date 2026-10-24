@@ -183,7 +183,10 @@ test.describe("about", () => {
   test("principles include a concrete in-practice example", async ({ page }) => {
     await page.goto("/about");
     await expect(page.getByRole("heading", { name: "How I Think About Quality" })).toBeVisible();
-    await expect(page.getByText("In practice —").first()).toBeVisible();
+    const inPractice = page.getByText("In practice", { exact: true }).first();
+    await expect(inPractice).toBeVisible();
+    await inPractice.click();
+    await expect(page.getByText(/Joined requirement reviews with Product and Engineering at Mastercard/)).toBeVisible();
   });
 });
 

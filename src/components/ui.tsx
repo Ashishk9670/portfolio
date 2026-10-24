@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import type { ComponentType, ReactNode, SVGProps } from "react";
 import type { CodeSnippet } from "@/lib/snippets";
 
@@ -245,5 +246,17 @@ export function CtaBand({
         </div>
       </Container>
     </section>
+  );
+}
+
+export function Disclosure({ summary, children }: { summary: string; children: ReactNode }) {
+  return (
+    <details className="group mt-3">
+      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded font-mono text-xs text-accent hover:underline [&::-webkit-details-marker]:hidden">
+        <ChevronRight className="h-3.5 w-3.5 transition-transform group-open:rotate-90" aria-hidden="true" />
+        {summary}
+      </summary>
+      <div className="mt-3">{children}</div>
+    </details>
   );
 }

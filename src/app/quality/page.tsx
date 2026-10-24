@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, CircleCheck, CircleDashed, Mail } from "lucide-react";
 import { qualityMetrics, qualityStatement, qualityStudies, type QualityMetric } from "@/lib/quality";
 import { pageMetadata } from "@/lib/seo";
-import { ButtonLink, Card, Chip, Container, CtaBand, Eyebrow, SectionHeader, TerminalFrame } from "@/components/ui";
+import { ButtonLink, Card, Chip, Container, CtaBand, Disclosure, Eyebrow, SectionHeader, TerminalFrame } from "@/components/ui";
 
 export const metadata = pageMetadata({
   title: "Metrics & Impact",
@@ -143,10 +143,12 @@ export default function QualityPage() {
                 {metric.context && (
                   <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">{metric.context}</p>
                 )}
-                <p className="mt-3 text-[13px] leading-5 text-muted">{metric.shows}</p>
                 <p className="mt-4 flex-1 border-t border-border pt-3 text-[13px] leading-5 text-foreground">
                   {metric.evidence}
                 </p>
+                <Disclosure summary="Why it matters">
+                  <p className="text-[13px] leading-5 text-muted">{metric.shows}</p>
+                </Disclosure>
               </Card>
             ))}
           </ul>

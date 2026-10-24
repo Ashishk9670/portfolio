@@ -18,6 +18,7 @@ import {
   Chip,
   Container,
   CtaBand,
+  Disclosure,
   Eyebrow,
   MetricCard,
   SectionHeader,
@@ -31,6 +32,20 @@ export const metadata = pageMetadata({
 });
 
 const FAQ_ICONS = [CalendarClock, Plane, Target, Users];
+const VISIBLE_BULLETS = 4;
+
+function Deliverables({ bullets }: { bullets: string[] }) {
+  return (
+    <ul className="mt-3 space-y-3">
+      {bullets.map((bullet) => (
+        <li key={bullet} className="flex gap-3 text-[15px] leading-6 text-muted">
+          <CircleCheck className="mt-1 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+          <span>{bullet}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 const HEADLINE_METRICS = ["<5%", "~40%", "1000+", "~20%"];
 
 export default function ExperiencePage() {
@@ -168,14 +183,12 @@ export default function ExperiencePage() {
                       <p className="mt-2 text-[15px] leading-6 text-foreground">{entry.impact}</p>
                       <div className="mt-6">
                         <Eyebrow>Key deliverables</Eyebrow>
-                        <ul className="mt-3 space-y-3">
-                          {entry.bullets.map((bullet) => (
-                            <li key={bullet} className="flex gap-3 text-[15px] leading-6 text-muted">
-                              <CircleCheck className="mt-1 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                              <span>{bullet}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <Deliverables bullets={entry.bullets.slice(0, VISIBLE_BULLETS)} />
+                        {entry.bullets.length > VISIBLE_BULLETS && (
+                          <Disclosure summary={`Show ${entry.bullets.length - VISIBLE_BULLETS} more deliverables`}>
+                            <Deliverables bullets={entry.bullets.slice(VISIBLE_BULLETS)} />
+                          </Disclosure>
+                        )}
                       </div>
                     </div>
 
