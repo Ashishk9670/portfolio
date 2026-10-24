@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { FileText, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { withBasePath } from "@/lib/basePath";
+import { Portrait } from "@/components/Portrait";
 
 const NAV_LINKS = [
   { href: "/", label: "Overview", match: (p: string) => p === "/" },
@@ -28,12 +29,13 @@ export function Header() {
     <header className="sticky top-0 z-40 px-3 pt-3 print:hidden sm:px-4">
       <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-xl border border-border bg-surface/85 px-3 py-2 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.25)] backdrop-blur">
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg pr-2">
-          <span
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface-2 font-mono text-xs font-semibold text-accent"
-            aria-hidden="true"
-          >
-            AK
-          </span>
+          <Portrait
+            size={32}
+            variant="avatar"
+            alt=""
+            priority
+            className="h-8 w-8 shrink-0 rounded-full border border-border"
+          />
           <span className="leading-tight">
             <span className="block whitespace-nowrap text-sm font-semibold text-foreground">Ashish Kumar</span>
             <span className="block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-accent">

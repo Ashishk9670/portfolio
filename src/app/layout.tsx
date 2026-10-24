@@ -45,7 +45,7 @@ const structuredData = {
       jobTitle: profile.role,
       description: profile.summary,
       url: siteUrl,
-      image: `${siteUrl}/og-image.png`,
+      image: `${siteUrl}/images/ashish-kumar.jpg`,
       email: `mailto:${profile.email}`,
       sameAs: [profile.github, profile.linkedin, mentoring.url],
       address: { "@type": "PostalAddress", addressLocality: city, addressCountry: country },

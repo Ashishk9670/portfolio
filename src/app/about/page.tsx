@@ -16,6 +16,7 @@ import {
 import { snippets, type CodeSnippet } from "@/lib/snippets";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
+import { Portrait } from "@/components/Portrait";
 import { LinkedInIcon } from "@/components/BrandIcons";
 import { ButtonLink, Card, Chip, CodePanel, Container, CtaBand, Disclosure, Eyebrow, SectionHeader, TerminalFrame } from "@/components/ui";
 
@@ -99,6 +100,7 @@ export default function AboutPage() {
       <section aria-labelledby="story" className="border-t border-border py-12 sm:py-16">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <div className="self-start lg:sticky lg:top-28">
+            <Portrait size={160} className="mb-6 h-32 w-32 rounded-xl border border-border sm:h-40 sm:w-40" />
             <SectionHeader id="story" eyebrow="background" title="How I Got Here" />
           </div>
           <div className="space-y-5 text-[15px] leading-7 text-muted">
