@@ -66,8 +66,8 @@ export const qualityMetrics: QualityMetric[] = [
     name: "Escaped defects",
     shows: "Production defects that testing should have caught — the clearest signal of whether the suite guards the right things.",
     evidence:
-      "Every production incident or customer-reported issue gets traced back to the test that should have caught it, and that test is added to regression so the same defect can't escape twice.",
-    source: "How I use it",
+      "Under 5% of defects escaped to production at Triomics and LiveSwitch. Each one that did was traced back to the test that should have caught it, and that test was added to regression so the same defect can't escape twice.",
+    source: "Measured at work",
   },
   {
     name: "Flaky-test rate",
@@ -87,8 +87,8 @@ export const qualityMetrics: QualityMetric[] = [
     name: "AI effectiveness",
     shows: "Time saved by AI-assisted testing, weighed against the review effort it adds and the quality of what it produces.",
     evidence:
-      "Every AI-generated test passes a manual review gate before it joins a suite. The ~40% LiveSwitch figure covers the Playwright migration and the AI workflow together, so I don't attribute it to AI alone.",
-    source: "How I use it",
+      "70%+ less time spent writing and debugging tests at Triomics and LiveSwitch, with every AI-generated test still passing a manual review gate. That's separate from the ~40% regression-time figure, which covers the Playwright migration and AI workflow together.",
+    source: "Measured at work",
   },
 ];
 
@@ -215,7 +215,8 @@ export const qualityStudies: QualityStudy[] = [
       {
         heading: "How I measure the benefit",
         body: [
-          "The number I hold the workflow to is regression execution time: ~40% lower at LiveSwitch after the Selenium-to-Playwright migration plus the AI-assisted workflow. That figure covers both changes together, so I don't claim it for AI alone.",
+          "The direct number is time: AI-assisted workflows cut the time I spend writing and debugging tests by 70%+ at Triomics and LiveSwitch — measured on authoring and debugging, not on total QA time.",
+          "The downstream number is regression execution time: ~40% lower at LiveSwitch after the Selenium-to-Playwright migration plus the AI-assisted workflow. That figure covers both changes together, so I don't claim it for AI alone.",
           "The cost side is review effort. AI makes drafting cheap; it doesn't make reviewing free, and a workflow that saves authoring time but ships weaker assertions is a net loss.",
         ],
       },

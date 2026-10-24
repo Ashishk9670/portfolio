@@ -95,7 +95,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
           <h2 className="text-xl font-semibold">By the Numbers</h2>
           <p className="mt-2 text-sm text-muted">Measured before and after the work, on the roles themselves.</p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {impactHighlights.map((stat) => (
               <div key={`${stat.company}-${stat.label}`} className="rounded-lg border border-border bg-background p-5">
                 <p className="text-2xl font-semibold text-accent">{stat.value}</p>

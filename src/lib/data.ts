@@ -42,7 +42,7 @@ export const experience: ExperienceEntry[] = [
       "Authored the automation suite from scratch for an oncology clinical-trial matching platform, in a HIPAA-regulated environment.",
       "Define test strategies for critical user journeys across UI, API, and database layers, prioritizing coverage by business risk, customer impact, and integration complexity.",
       "Lead the automation effort as the team scales test coverage, cutting into the product team's testing time and unblocking faster releases.",
-      "Use Claude Code and AI-assisted workflows to speed up test generation, automation development, and failure investigation, and evaluate AI-generated scenarios against business requirements and deterministic assertions before they join the suite.",
+      "Use Claude Code and AI-assisted workflows to cut time spent writing and debugging tests by 70%+, and evaluate AI-generated scenarios against business requirements and deterministic assertions before they join the suite.",
       "Use test execution results, defect trends, and regression coverage to inform release readiness, and turn production incidents into regression tests so they don't recur.",
       "Onboard new team members with structured product knowledge transfer instead of leaving them to learn the domain unassisted.",
       "Introduced a mandatory accessibility checklist before any new feature ships to production, and moved the org from twice-yearly accessibility reporting to a monthly review across every product shipped.",
@@ -78,7 +78,7 @@ export const experience: ExperienceEntry[] = [
       { value: "~40%", label: "reduction in regression execution time" },
       { value: "4 + 2", label: "browsers and mobile platforms covered end-to-end" },
       { value: "90%+", label: "automation suite coverage across Web, Android, and iOS" },
-      { value: "AI-assisted", label: "workflow using Claude Code, Cursor, and MCP Server" },
+      { value: "70%+", label: "less time writing and debugging tests with AI-assisted workflows" },
     ],
     impact:
       "Turned a slow, manual-heavy release process into a fast, cross-platform regression system the team could trust before every release.",
@@ -593,6 +593,7 @@ export const skillTimeline: SkillTimelineEntry[] = [
 ];
 
 export const impactHighlights: (Stat & { company: string })[] = [
+  { value: "<5%", label: "escaped defects — defects found only after release", company: "Triomics · LiveSwitch" },
   { ...experience[1].stats[0], company: experience[1].company },
   { ...experience[1].stats[2], company: experience[1].company },
   { ...experience[2].stats[1], company: experience[2].company },
