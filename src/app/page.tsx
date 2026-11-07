@@ -52,6 +52,27 @@ const FEATURED: { slug: string; tag: string; snippet: CodeSnippet }[] = [
   { slug: "food-recommendations", tag: "Built & load-hardened", snippet: snippets.rateLimit },
 ];
 
+const NEXT_STEPS = [
+  {
+    href: "/experience",
+    track: "path-dossier",
+    title: "Hiring? Start with the dossier",
+    body: "Roles, measured impact, and logistics — the 60-second version.",
+  },
+  {
+    href: "/projects",
+    track: "path-projects",
+    title: "See the code",
+    body: "Public frameworks with real CI runs, from UI to Kafka.",
+  },
+  {
+    href: "/quality",
+    track: "path-quality",
+    title: "How I measure quality",
+    body: "The metrics I make release decisions with, and the case studies behind them.",
+  },
+];
+
 const PILLARS = [
   { title: "Test where the risk is", tag: "Risk-based testing", icon: Target },
   { title: "Quality starts at discovery", tag: "Shift-left", icon: Crosshair },
@@ -166,6 +187,35 @@ export default function Home() {
               </dl>
             </div>
           </TerminalFrame>
+        </Container>
+      </section>
+
+      {/* Where to next */}
+      <section aria-labelledby="next-steps" className="border-t border-border py-10">
+        <Container>
+          <h2 id="next-steps" className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-accent">
+            {"// where to next"}
+          </h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+            {NEXT_STEPS.map((step) => (
+              <li key={step.href}>
+                <Link
+                  href={step.href}
+                  data-track={step.track}
+                  className="group flex h-full items-start justify-between gap-4 rounded-lg border border-border bg-surface p-5 transition-colors hover:border-accent"
+                >
+                  <span>
+                    <span className="block font-semibold text-foreground group-hover:text-accent">{step.title}</span>
+                    <span className="mt-1 block text-[13px] leading-5 text-muted">{step.body}</span>
+                  </span>
+                  <ArrowRight
+                    className="mt-1 h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
 

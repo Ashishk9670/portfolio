@@ -1,0 +1,67 @@
+---
+title: "Risk-Tiered CI: @smoke on Every PR, Everything Nightly"
+description: "How a 154-test framework spanning UI, API, Postgres, Kafka, and WebSocket decides what runs when — with the config to prove it."
+date: "2026-11-08"
+draft: true
+---
+
+Running every test on every pull request feels rigorous. In practice it trains people to wait, then to stop
+waiting, then to merge before CI finishes. The fix isn't fewer tests; it's deciding which tests buy fast
+feedback and which ones buy depth, and running each where it pays for itself.
+
+This is how that works in my public [multi-layer Playwright framework](https://github.com/Ashishk9670/plawight-ui-api-wss-db-kafka):
+154 tests across UI, REST and GraphQL APIs, Postgres, Kafka, WebSocket, and a thin end-to-end layer, all
+against a small event-driven shop app running in Docker.
+
+## Two tiers, one switch
+
+Tests tagged `@smoke` are the critical set — 34 of them, spread across every layer. Untagged tests are full
+regression. The CI workflow makes the decision in one line:
+
+```bash
+# Pull requests and pushes run @smoke; the nightly schedule
+# and a manual "full" run execute everything.
+if [ "$FULL_RUN" = "true" ]; then GREP=""; else GREP="--grep @smoke"; fi
+```
+
+So a pull request gets a fast answer about whether anything critical broke, and the nightly run — plus a
+manual "full" trigger — buys the depth.
+
+## Cost goes where the risk is
+
+Not every axis deserves the same budget:
+
+- **Cross-browser and mobile only run smoke.** Firefox, WebKit, and the two mobile device projects run only
+  the `@smoke` UI tests, and only in the nightly or manual full runs. The trade-off: browser differences are
+  most costly on the critical flows, while deep regression paths are already exercised on Chromium.
+- **Big projects are sharded.** The UI and API projects each split across two CI jobs, so the slowest layers
+  don't set the pace for everything else.
+- **Slow and disruptive tests are opt-in.** Performance budgets, visual diffs, and chaos tests run under their
+  own config with a single worker, because they're slow on purpose — and the chaos tests stop Kafka mid-run.
+
+## Isolation is what makes parallel safe
+
+Sharding only works if tests can't collide. Every test creates its own data through factories or a seeding
+API, matches Kafka and WebSocket events by its own order id, and relies on a cleanup fixture that undoes setup
+in reverse order. Run them in any order, on any shard, and they don't step on each other.
+
+## Retries without hiding flakiness
+
+CI allows two retries. A retry that silently turns red into green is how a suite rots, so any test that only
+passes on retry gets listed in a pull-request comment. Flakiness stays visible; it just doesn't block the
+merge while someone fixes it.
+
+## What the deep tier caught
+
+The chaos tests are the clearest argument for keeping a deep tier. One of them stops the Kafka broker in the
+middle of an order. It exposed a real defect: when Kafka is down, the order is saved, but the API returns a
+500 — so the user sees a failure for an order that actually went through, and may well place it again.
+
+That test is kept as an expected failure that documents the bug, rather than deleted or skipped. The day the
+API handles a broker outage properly, the suite flags it.
+
+## Numbers, honestly
+
+Nightly full runs take roughly 3 to 15 minutes end to end, and most of that is Docker start-up — the tests
+themselves take seconds per layer. The two tiers aren't about making CI fast for its own sake. They're about
+making sure the fast answer is the one people see on every change, and the deep answer still runs every night.

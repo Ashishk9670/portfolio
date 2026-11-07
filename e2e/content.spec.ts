@@ -50,7 +50,7 @@ test.describe("projects", () => {
 });
 
 test.describe("mcp page", () => {
-  test("lists all 7 tools and links to the repo", async ({ page }) => {
+  test("lists all 10 tools and links to the repo", async ({ page }) => {
     await page.goto("/mcp");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCP Server");
     for (const tool of [
@@ -59,6 +59,9 @@ test.describe("mcp page", () => {
       "get_skills",
       "get_about",
       "get_contact_info",
+      "get_hiring_info",
+      "get_quality_metrics",
+      "get_mentoring",
       "list_blog_posts",
       "get_blog_post",
     ]) {
@@ -391,6 +394,37 @@ test.describe("mentoring", () => {
     await expect(page.locator("footer").getByRole("link", { name: /Topmate/ })).toHaveAttribute(
       "href",
       "https://topmate.io/ashish_kumar02"
+    );
+  });
+});
+
+test.describe("drafts and discovery", () => {
+  test("draft posts are not published or listed", async ({ page }) => {
+    await page.goto("/blog");
+    await expect(page.getByRole("link", { name: /Risk-Tiered CI/ })).toHaveCount(0);
+    const res = await page.goto("/blog/risk-tiered-ci");
+    expect(res?.status()).toBe(404);
+  });
+
+  test("home offers tracked 'where to next' paths", async ({ page }) => {
+    await page.goto("/");
+    const next = page.getByRole("region", { name: "// where to next" });
+    for (const [name, href, track] of [
+      [/Start with the dossier/, "/experience", "path-dossier"],
+      [/See the code/, "/projects", "path-projects"],
+      [/How I measure quality/, "/quality", "path-quality"],
+    ] as const) {
+      const link = next.getByRole("link", { name });
+      await expect(link).toHaveAttribute("href", href);
+      await expect(link).toHaveAttribute("data-track", track);
+    }
+  });
+
+  test("the resume links back to the portfolio with a resume source tag", async ({ page }) => {
+    await page.goto("/resume");
+    await expect(page.getByRole("link", { name: "ashishk9670.github.io/portfolio" })).toHaveAttribute(
+      "href",
+      "https://ashishk9670.github.io/portfolio/?utm_source=resume"
     );
   });
 });

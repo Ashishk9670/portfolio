@@ -1,0 +1,61 @@
+---
+title: "Selenium to Playwright, Then AI: What the ~40% Actually Came From"
+description: "Migrating a cross-platform suite to Playwright and layering AI-assisted workflows on top — and why I don't credit either change alone for the result."
+date: "2026-11-08"
+draft: true
+---
+
+At LiveSwitch I owned UI and API automation across Chrome, Safari, Edge, Firefox, and Android/iOS, built on
+Selenium, TestNG, REST Assured, Appium, and Cucumber. I proposed moving all of our web automation from Selenium
+to Playwright, led the migration, and then layered AI-assisted workflows — Claude Code, Cursor, and an MCP
+server — on top of it. Together, those cut regression execution time by about 40%.
+
+The word "together" is doing real work in that sentence, and it's the point of this post.
+
+## Two changes, one number
+
+It's tempting to tell this as "AI made our tests 40% faster." It isn't true, and anyone who has run a migration
+would rightly be suspicious of it. The migration and the AI workflow landed as one effort, so the ~40% belongs
+to both. I don't attribute it to either alone.
+
+What I can say separately is what AI-assisted workflows did to the *authoring* side: across LiveSwitch and now
+Triomics, they've cut the time I spend writing and debugging tests by more than 70%. That's a different measure
+from regression run time, and keeping the two apart is what makes either number credible.
+
+## What the migration itself was about
+
+Mobile coverage stayed where it was — Appium still earns its keep there. The migration was about web, and what
+Playwright brings to a suite like that is structural rather than fashionable: web-first assertions that wait for
+a specific state instead of a fixed sleep, parallel execution out of the box, and one API across Chromium,
+Firefox, and WebKit. Those properties remove whole categories of slow, flaky waiting that large Selenium suites
+tend to accumulate.
+
+## Where AI fit — and where it didn't
+
+AI is genuinely useful in test work, but only with judgment attached. The places it earned its keep:
+
+- **First drafts** of tests and automation scaffolding.
+- **Failure investigation**, working through traces and logs faster to separate product defects from automation
+  issues.
+- **Coverage-gap analysis**, comparing what the suite exercises against the features it's meant to protect.
+
+The place it didn't: deciding what actually needs coverage. Test strategy stays a human call.
+
+## The rules that kept it honest
+
+AI makes drafting cheap. It doesn't make reviewing free, and a workflow that saves authoring time but ships
+weaker tests is a net loss. So every AI-generated test went through the same gate:
+
+- **It has to fit the framework.** Generated code lands in the existing architecture — page objects, fixtures,
+  API clients — not as one-off scripts that sprawl.
+- **It's checked against the requirement it claims to cover**, not just whether it passes.
+- **Assertions stay deterministic.** An AI-drafted test will happily assert whatever the application currently
+  does, which means it passes on a bug. The steps can be drafted; the expected values come from the requirement
+  or from known test data.
+- **Nothing joins the suite without a manual review.**
+
+## Bringing the team along
+
+A migration only sticks if the people maintaining the suite are comfortable in it. Part of the work was
+onboarding new joiners on the product, the existing testing landscape, and how to use AI to speed up their own
+day-to-day testing work — the goal being that the new workflow belonged to the team, not just to me.

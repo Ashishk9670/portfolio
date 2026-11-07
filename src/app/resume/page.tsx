@@ -3,6 +3,7 @@ import {
   education,
   experience,
   profile,
+  siteUrl,
   skills,
 } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
@@ -36,7 +37,10 @@ export default function ResumePage() {
           <p className="mt-1 text-muted print:text-black/70">{profile.role}</p>
           <p className="mt-3 font-mono text-xs text-muted print:text-black/70">
             {profile.location} · {profile.email} · {profile.linkedin.replace("https://", "")} ·{" "}
-            {profile.github.replace("https://", "")}
+            {profile.github.replace("https://", "")} ·{" "}
+            <a href={`${siteUrl}/?utm_source=resume`} className="underline-offset-2 hover:underline">
+              {siteUrl.replace("https://", "")}
+            </a>
           </p>
         </header>
 

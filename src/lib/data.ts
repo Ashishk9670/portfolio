@@ -163,13 +163,13 @@ export const projects: Project[] = [
     problem:
       "Recruiters and AI assistants can only learn about a candidate by scraping HTML — brittle, lossy, and disconnected from whatever the candidate actually maintains. I wanted any MCP-aware AI client to be able to query my experience, projects, and skills as accurate, structured data instead.",
     approach: [
-      "Built a Cloudflare Worker using the agents SDK's McpAgent, exposing 7 tools (get_experience, get_projects, get_skills, get_about, get_contact_info, list_blog_posts, get_blog_post) over both Streamable HTTP and legacy SSE.",
+      "Built a Cloudflare Worker using the agents SDK's McpAgent, exposing 10 tools (experience, projects, skills, background, contact, hiring logistics, quality metrics, mentoring, and the blog) over both Streamable HTTP and legacy SSE.",
       "Added a prebuild step to this site that exports the same data.ts/posts.ts modules it renders from as static JSON — single source of truth, no duplicated resume data between the site and the server.",
       "Validated every fetched payload with Zod schemas, since the data crosses a network boundary between two separately deployed repos.",
       "Shipped both a remote transport (zero-install, via Claude Code/Desktop) and a bundled stdio entry point for local use.",
     ],
     results: [
-      { value: "7", label: "MCP tools covering experience, projects, skills, and writing" },
+      { value: "10", label: "MCP tools covering experience, projects, hiring info, quality metrics, and writing" },
       { value: "2", label: "transports — remote (Streamable HTTP/SSE) and local (stdio)" },
       { value: "5 min", label: "edge cache — new site data propagates with no server redeploy" },
     ],
@@ -338,6 +338,9 @@ export const mcpServer = {
     { name: "get_skills", description: "Skills by category, plus the tools actually used and why." },
     { name: "get_about", description: "Career timeline, engineering philosophy, education, certifications." },
     { name: "get_contact_info", description: "Email, GitHub, LinkedIn, and current availability status." },
+    { name: "get_hiring_info", description: "Target roles, notice period, relocation, interview formats, and core strengths." },
+    { name: "get_quality_metrics", description: "Quality metrics with their sources, plus the quality-engineering case studies." },
+    { name: "get_mentoring", description: "Career-guidance topics, session types, and the booking link." },
     { name: "list_blog_posts", description: "Blog post titles, descriptions, and dates." },
     { name: "get_blog_post", description: "Full Markdown content of one post, by slug." },
   ],

@@ -4,6 +4,8 @@ import matter from "gray-matter";
 
 const POSTS_DIR = path.join(process.cwd(), "src/content/posts");
 const WORDS_PER_MINUTE = 200;
+// Posts marked `draft: true` are left out of every build unless SHOW_DRAFTS=1 (for local review).
+const SHOW_DRAFTS = process.env.SHOW_DRAFTS === "1";
 
 export type PostMeta = {
   slug: string;
@@ -29,6 +31,7 @@ export function getAllPosts(): PostMeta[] {
     .map((file) => {
       const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf-8");
       const { data, content } = matter(raw);
+      if (data.draft && !SHOW_DRAFTS) return null;
       return {
         slug: file.replace(/\.mdx$/, ""),
         title: data.title as string,
@@ -37,6 +40,7 @@ export function getAllPosts(): PostMeta[] {
         readTimeMinutes: readTime(content),
       };
     })
+    .filter((post): post is PostMeta => post !== null)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
@@ -46,6 +50,7 @@ export function getPostBySlug(slug: string): Post | null {
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
+  if (data.draft && !SHOW_DRAFTS) return null;
 
   return {
     slug,
