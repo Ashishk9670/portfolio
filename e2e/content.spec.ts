@@ -231,7 +231,7 @@ test.describe("contact widget", () => {
 
   test("opens on click, traps focus, and Escape returns focus to the trigger", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByRole("button", { name: "Send a message" });
+    const trigger = page.getByRole("button", { name: "Message Ashish" });
     await trigger.click();
 
     const dialog = page.getByRole("dialog", { name: "Send a message" });
@@ -243,9 +243,28 @@ test.describe("contact widget", () => {
     await expect(trigger).toBeFocused();
   });
 
+  test("the chat button shows a 'Message Ashish' tooltip on hover and keyboard focus", async ({ page }) => {
+    await page.goto("/");
+    const trigger = page.getByRole("button", { name: "Message Ashish" });
+    const tooltip = trigger.locator("xpath=following-sibling::span");
+    const opacity = () => tooltip.evaluate((el) => getComputedStyle(el).opacity);
+
+    await expect(tooltip).toHaveText("Message Ashish");
+    await expect.poll(opacity).toBe("0");
+    await trigger.hover();
+    await expect.poll(opacity).toBe("1");
+
+    await page.mouse.move(0, 0);
+    await expect.poll(opacity).toBe("0");
+    await trigger.focus();
+    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press("Tab");
+    await expect.poll(opacity).toBe("1");
+  });
+
   test("the honeypot field is unreachable by keyboard and hidden from screen readers", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: "Send a message" }).click();
+    await page.getByRole("button", { name: "Message Ashish" }).click();
 
     const honeypot = page.locator('input[name="website"]');
     await expect(honeypot).toHaveAttribute("aria-hidden", "true");
@@ -258,7 +277,7 @@ test.describe("contact widget", () => {
     );
 
     await page.goto("/");
-    await page.getByRole("button", { name: "Send a message" }).click();
+    await page.getByRole("button", { name: "Message Ashish" }).click();
     await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
     await page.getByLabel("Message", { exact: true }).fill("Hello — loved the portfolio.");
     await page.getByRole("button", { name: "Send" }).click();
@@ -272,7 +291,7 @@ test.describe("contact widget", () => {
     );
 
     await page.goto("/");
-    await page.getByRole("button", { name: "Send a message" }).click();
+    await page.getByRole("button", { name: "Message Ashish" }).click();
     await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
     await page.getByLabel("Message", { exact: true }).fill("Testing rate limiting.");
     await page.getByRole("button", { name: "Send" }).click();

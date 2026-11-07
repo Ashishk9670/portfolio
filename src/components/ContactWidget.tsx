@@ -176,16 +176,26 @@ export function ContactWidget() {
         </div>
       )}
 
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-label={open ? "Close message panel" : "Send a message"}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-lg transition-opacity hover:opacity-90"
-      >
-        {open ? <X className="h-5 w-5" aria-hidden="true" /> : <MessageCircle className="h-5 w-5" aria-hidden="true" />}
-      </button>
+      <div className="relative">
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? "Close message panel" : "Message Ashish"}
+          className="peer flex h-12 w-12 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-lg transition-opacity hover:opacity-90"
+        >
+          {open ? <X className="h-5 w-5" aria-hidden="true" /> : <MessageCircle className="h-5 w-5" aria-hidden="true" />}
+        </button>
+        {!open && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-md border border-border bg-surface-2 px-2.5 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.4)] transition-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100"
+          >
+            Message Ashish
+          </span>
+        )}
+      </div>
     </div>
   );
 }
