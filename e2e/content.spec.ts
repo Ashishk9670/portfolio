@@ -399,11 +399,23 @@ test.describe("mentoring", () => {
 });
 
 test.describe("drafts and discovery", () => {
-  test("draft posts are not published or listed", async ({ page }) => {
+  test("the blog lists every published post, newest first, and each one renders", async ({ page }) => {
+    const posts = [
+      ["Risk-Tiered CI: @smoke on Every PR, Everything Nightly", "/blog/risk-tiered-ci"],
+      ["From Twice a Year to Every Month: Making Accessibility a Release Gate", "/blog/accessibility-as-a-release-gate"],
+      ["Selenium to Playwright, Then AI: What the ~40% Actually Came From", "/blog/selenium-to-playwright-with-ai"],
+      ["Building This Site to WCAG 2.1 AA, From Scratch", "/blog/wcag-2-1-aa-from-scratch"],
+    ];
     await page.goto("/blog");
-    await expect(page.getByRole("link", { name: /Risk-Tiered CI/ })).toHaveCount(0);
-    const res = await page.goto("/blog/risk-tiered-ci");
-    expect(res?.status()).toBe(404);
+    const titles = await page.locator("#main-content a[href^='/blog/']").allTextContents();
+    const order = posts.map(([title]) => titles.findIndex((t) => t.includes(title)));
+    expect(order.every((i) => i >= 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+
+    for (const [title, href] of posts) {
+      await page.goto(href);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+    }
   });
 
   test("home offers tracked 'where to next' paths", async ({ page }) => {

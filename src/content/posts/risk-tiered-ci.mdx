@@ -1,8 +1,7 @@
 ---
 title: "Risk-Tiered CI: @smoke on Every PR, Everything Nightly"
 description: "How a 154-test framework spanning UI, API, Postgres, Kafka, and WebSocket decides what runs when — with the config to prove it."
-date: "2026-11-08"
-draft: true
+date: "2026-11-05"
 ---
 
 Running every test on every pull request feels rigorous. In practice it trains people to wait, then to stop
@@ -11,11 +10,11 @@ feedback and which ones buy depth, and running each where it pays for itself.
 
 This is how that works in my public [multi-layer Playwright framework](https://github.com/Ashishk9670/plawight-ui-api-wss-db-kafka):
 154 tests across UI, REST and GraphQL APIs, Postgres, Kafka, WebSocket, and a thin end-to-end layer, all
-against a small event-driven shop app running in Docker.
+running against a small event-driven shop app in Docker.
 
 ## Two tiers, one switch
 
-Tests tagged `@smoke` are the critical set — 34 of them, spread across every layer. Untagged tests are full
+Tests tagged `@smoke` are the critical set — 34 of them, spread across the layers. Untagged tests are full
 regression. The CI workflow makes the decision in one line:
 
 ```bash
@@ -37,12 +36,13 @@ Not every axis deserves the same budget:
 - **Big projects are sharded.** The UI and API projects each split across two CI jobs, so the slowest layers
   don't set the pace for everything else.
 - **Slow and disruptive tests are opt-in.** Performance budgets, visual diffs, and chaos tests run under their
-  own config with a single worker, because they're slow on purpose — and the chaos tests stop Kafka mid-run.
+  own config with a single worker, because they're slow or deliberately disruptive — the chaos tests stop
+  Kafka mid-run.
 
 ## Isolation is what makes parallel safe
 
 Sharding only works if tests can't collide. Every test creates its own data through factories or a seeding
-API, matches Kafka and WebSocket events by its own order id, and relies on a cleanup fixture that undoes setup
+API, matches Kafka and WebSocket events by its own order ID, and relies on a cleanup fixture that undoes setup
 in reverse order. Run them in any order, on any shard, and they don't step on each other.
 
 ## Retries without hiding flakiness
@@ -55,9 +55,9 @@ merge while someone fixes it.
 
 The chaos tests are the clearest argument for keeping a deep tier. One of them stops the Kafka broker in the
 middle of an order. It exposed a real defect: when Kafka is down, the order is saved, but the API returns a
-500 — so the user sees a failure for an order that actually went through, and may well place it again.
+500 — so the user sees a failure for an order that actually went through, and may place it again.
 
-That test is kept as an expected failure that documents the bug, rather than deleted or skipped. The day the
+That test is kept as an expected failure that documents the bug, rather than being deleted or skipped. The day the
 API handles a broker outage properly, the suite flags it.
 
 ## Numbers, honestly

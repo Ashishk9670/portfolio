@@ -1,22 +1,21 @@
 ---
 title: "From Twice a Year to Every Month: Making Accessibility a Release Gate"
 description: "Why a twice-yearly accessibility report wasn't a practice, what replaced it, and where automated scans stop being enough."
-date: "2026-11-08"
-draft: true
+date: "2026-10-28"
 ---
 
 When I joined Triomics, accessibility was reviewed when a report was due — roughly twice a year. That cadence
 has a predictable failure mode: by the time anyone looks, six months of features have shipped, the issues are
-baked into components other screens depend on, and every fix competes with roadmap work. A checklist that only
-gets opened twice a year isn't a practice. It's a compliance exercise nobody remembers until it's due.
+baked into components other screens depend on, and every fix competes with roadmap work. A review that only
+happens twice a year isn't a practice. It's a compliance exercise nobody thinks about until it's due.
 
 So I proposed two changes, and we made both stick:
 
 1. **A mandatory accessibility checklist before any new feature ships to production.**
 2. **A monthly accessibility review across every product shipped that month**, replacing the twice-yearly report.
 
-The first moves the check to the cheapest point to fix things. The second makes sure nothing waits half a year
-to be looked at.
+The first moves the check to the point where fixes are cheapest. The second makes sure nothing waits half a
+year to be looked at.
 
 ## What an audit actually runs
 
@@ -24,8 +23,7 @@ The automated half is Playwright walking every page and every form, with axe-cor
 WCAG 2.0, 2.1, and 2.2 A/AA rules plus best practices. Findings are grouped by WCAG guideline and by impact —
 critical, serious, moderate, minor — and roll up into VPAT-style conformance reports.
 
-But axe on its own leaves big gaps, so the suite carries around 25 custom checks for what a rule engine can't
-see: keyboard navigation and keyboard traps, focus order, focus not obscured (2.4.11), on-focus and on-input
+But axe on its own leaves big gaps, so the suite carries around 25 custom checks for what axe doesn't cover: keyboard navigation and keyboard traps, focus order, focus not obscured (2.4.11), on-focus and on-input
 behavior, text resize and text spacing, non-text contrast, use of color, content on hover or focus, reading
 order, language of parts, link purpose, multiple ways, pointer cancellation, dragging movements, accessible
 authentication (3.3.8), and status messages.
@@ -57,6 +55,6 @@ together.
 
 ## The lesson
 
-The tooling was never the hard part. Moving the check to before production, and making the review a monthly
+The tooling was never the hard part. Moving the check ahead of production, and making the review a monthly
 habit instead of a report deadline, is what changed the outcome. Automation makes that habit cheap enough to
 sustain; it doesn't replace the judgment.

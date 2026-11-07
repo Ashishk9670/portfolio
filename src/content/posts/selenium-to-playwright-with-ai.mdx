@@ -1,8 +1,7 @@
 ---
 title: "Selenium to Playwright, Then AI: What the ~40% Actually Came From"
 description: "Migrating a cross-platform suite to Playwright and layering AI-assisted workflows on top — and why I don't credit either change alone for the result."
-date: "2026-11-08"
-draft: true
+date: "2026-10-12"
 ---
 
 At LiveSwitch I owned UI and API automation across Chrome, Safari, Edge, Firefox, and Android/iOS, built on
@@ -14,9 +13,9 @@ The word "together" is doing real work in that sentence, and it's the point of t
 
 ## Two changes, one number
 
-It's tempting to tell this as "AI made our tests 40% faster." It isn't true, and anyone who has run a migration
-would rightly be suspicious of it. The migration and the AI workflow landed as one effort, so the ~40% belongs
-to both. I don't attribute it to either alone.
+It's tempting to tell this as "AI made our tests 40% faster." That isn't accurate, and anyone who has run a
+migration would rightly be suspicious of it. The ~40% was measured across both changes, so it belongs to both.
+I don't attribute it to either alone.
 
 What I can say separately is what AI-assisted workflows did to the *authoring* side: across LiveSwitch and now
 Triomics, they've cut the time I spend writing and debugging tests by more than 70%. That's a different measure
@@ -32,7 +31,7 @@ tend to accumulate.
 
 ## Where AI fit — and where it didn't
 
-AI is genuinely useful in test work, but only with judgment attached. The places it earned its keep:
+AI is genuinely useful in test work, but only with judgment attached. The places it paid off:
 
 - **First drafts** of tests and automation scaffolding.
 - **Failure investigation**, working through traces and logs faster to separate product defects from automation
@@ -48,7 +47,7 @@ weaker tests is a net loss. So every AI-generated test went through the same gat
 
 - **It has to fit the framework.** Generated code lands in the existing architecture — page objects, fixtures,
   API clients — not as one-off scripts that sprawl.
-- **It's checked against the requirement it claims to cover**, not just whether it passes.
+- **It's checked against the requirement it claims to cover**, not just run to see whether it passes.
 - **Assertions stay deterministic.** An AI-drafted test will happily assert whatever the application currently
   does, which means it passes on a bug. The steps can be drafted; the expected values come from the requirement
   or from known test data.

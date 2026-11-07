@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">{post.title}</h1>
       <p className="mt-3 text-lg text-muted">{post.description}</p>
 
-      <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none prose-a:text-accent prose-headings:tracking-tight">
+      <div className="prose prose-neutral dark:prose-invert mt-10 max-w-none prose-a:text-accent prose-headings:tracking-tight prose-code:before:content-none prose-code:after:content-none [&_:not(pre)>code]:rounded [&_:not(pre)>code]:bg-surface-2 [&_:not(pre)>code]:px-1 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-normal">
         <MDXRemote source={post.content} />
       </div>
     </article>
