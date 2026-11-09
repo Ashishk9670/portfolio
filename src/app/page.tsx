@@ -31,6 +31,7 @@ import { nightlyRun, snippets, type CodeSnippet } from "@/lib/snippets";
 import { withBasePath } from "@/lib/basePath";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { VisitorsMap } from "@/components/VisitorsMap";
+import { FestivalGreeting } from "@/components/FestivalGreeting";
 import {
   ButtonLink,
   Card,
@@ -522,6 +523,8 @@ export default function Home() {
           GitHub
         </ButtonLink>
       </CtaBand>
+
+      <FestivalGreeting />
     </>
   );
 }

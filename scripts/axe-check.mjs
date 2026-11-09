@@ -4,6 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
 const PATHS = [
   "/",
+  "/?festival=diwali",
   "/about",
   "/experience",
   "/quality",

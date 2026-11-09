@@ -20,6 +20,7 @@ import {
 } from "../src/lib/data";
 import { getAllPosts, getPostBySlug } from "../src/lib/posts";
 import { qualityMetrics, qualityStatement, qualityStudies } from "../src/lib/quality";
+import { missingLunarDates } from "../src/lib/festivals";
 
 const OUT_DIR = path.join(process.cwd(), "public/data");
 const POSTS_OUT_DIR = path.join(OUT_DIR, "posts");
@@ -57,3 +58,9 @@ for (const meta of postsMeta) {
 }
 
 console.log(`\nExported data for MCP server consumption to public/data/`);
+
+const nextYear = new Date().getFullYear() + 1;
+const missing = missingLunarDates(nextYear);
+if (missing.length) {
+  console.warn(`\n⚠ Festival greetings: no ${nextYear} dates yet for ${missing.join(", ")} (src/lib/festivals.ts).`);
+}
