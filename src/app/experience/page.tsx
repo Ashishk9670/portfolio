@@ -24,6 +24,7 @@ import {
   SectionHeader,
   StatusPill,
 } from "@/components/ui";
+import { AskAssistant } from "@/components/AskAssistant";
 
 export const metadata = pageMetadata({
   title: "Recruiter Dossier",
@@ -289,6 +290,20 @@ export default function ExperiencePage() {
               );
             })}
           </ul>
+        </Container>
+      </section>
+
+      <section aria-labelledby="ask" className="border-t border-border py-12 sm:py-16">
+        <Container>
+          <SectionHeader
+            id="ask"
+            eyebrow="ai assistant · answers from this site only"
+            title="Ask about Ashish"
+            intro="Didn't find what you were looking for above? Ask. Answers come only from this site, with source links."
+          />
+          <div className="mt-8">
+            <AskAssistant />
+          </div>
         </Container>
       </section>
 

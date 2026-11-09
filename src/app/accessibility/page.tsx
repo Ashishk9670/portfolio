@@ -57,6 +57,10 @@ export default function AccessibilityPage() {
           visitor map on the home page keeps an aggregate count per approximate city-level location (rounded to about
           11 km), again without storing IP addresses.
         </p>
+        <p className="mt-3">
+          Questions typed into the &quot;Ask about Ashish&quot; assistant are sent to Cloudflare Workers AI to generate an
+          answer and are not stored; only the fact that a question was asked is counted.
+        </p>
       </section>
 
       <section className="mt-10">

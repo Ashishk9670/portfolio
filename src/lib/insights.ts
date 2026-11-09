@@ -72,6 +72,7 @@ export const ACTION_LABELS: Record<string, string> = {
   topmate: "Topmate (mentoring)",
   repo: "Repository clicks",
   github: "GitHub profile clicks",
+  ask: "Questions asked to the assistant",
   "path-dossier": "Home → Recruiter Dossier card",
   "path-projects": "Home → See the code card",
   "path-quality": "Home → How I measure quality card",

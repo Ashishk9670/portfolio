@@ -32,6 +32,7 @@ import { withBasePath } from "@/lib/basePath";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { VisitorsMap } from "@/components/VisitorsMap";
 import { FestivalGreeting } from "@/components/FestivalGreeting";
+import { AskAssistant } from "@/components/AskAssistant";
 import {
   ButtonLink,
   Card,
@@ -304,6 +305,20 @@ export default function Home() {
             <ButtonLink href="/experience" icon={ArrowRight}>
               Full recruiter dossier
             </ButtonLink>
+          </div>
+        </Container>
+      </section>
+
+      <section aria-labelledby="ask" className="border-t border-border py-12 sm:py-16">
+        <Container>
+          <SectionHeader
+            id="ask"
+            eyebrow="ai assistant · answers from this site only"
+            title="Ask about Ashish"
+            intro="Have a specific question? Ask it here. Answers come only from what's on this site, with links to the source."
+          />
+          <div className="mt-8">
+            <AskAssistant />
           </div>
         </Container>
       </section>
