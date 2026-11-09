@@ -107,8 +107,8 @@ export default function AboutPage() {
             <p>
               I&apos;m an SDET who started out writing test cases and ended up building the systems that run them.
               Over 5+ years I&apos;ve gone from payments QA at Mastercard to owning cross-platform automation at
-              LiveSwitch, to now building an automation suite from scratch for a healthcare platform at Triomics —
-              a domain where a flaky test isn&apos;t just an inconvenience, it&apos;s a risk you can&apos;t ship
+              LiveSwitch, to now building an automation suite from scratch and leading the automation and QA team
+              for a healthcare platform at Triomics — a domain where a flaky test isn&apos;t just an inconvenience, it&apos;s a risk you can&apos;t ship
               with.
             </p>
             <p>

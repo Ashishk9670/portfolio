@@ -42,7 +42,7 @@ export const experience: ExperienceEntry[] = [
     bullets: [
       "Authored the automation suite from scratch for an oncology clinical-trial matching platform, in a HIPAA-regulated environment.",
       "Define test strategies for critical user journeys across UI, API, and database layers, prioritizing coverage by business risk, customer impact, and integration complexity.",
-      "Lead the automation effort as the team scales test coverage, cutting into the product team's testing time and unblocking faster releases.",
+      "Lead the automation and QA team, scaling test coverage to cut the product team's testing time and unblock faster releases.",
       "Use Claude Code and AI-assisted workflows to cut time spent writing and debugging tests by 70%+, and evaluate AI-generated scenarios against business requirements and deterministic assertions before they join the suite.",
       "Use test execution results, defect trends, and regression coverage to inform release readiness, and turn production incidents into regression tests so they don't recur.",
       "Onboard new team members with structured product knowledge transfer instead of leaving them to learn the domain unassisted.",
@@ -51,7 +51,7 @@ export const experience: ExperienceEntry[] = [
     stats: [
       { value: "0 → 1", label: "automation suite built from scratch" },
       { value: "HIPAA", label: "regulated environment — compliance-aware test design" },
-      { value: "Leading", label: "the automation effort to scale coverage and unblock releases" },
+      { value: "Leading", label: "the automation and QA team, scaling coverage to unblock releases" },
       { value: "2x/yr → Monthly", label: "accessibility review cadence, driven as a personal initiative" },
     ],
     impact:
@@ -527,11 +527,11 @@ export const leadership: Principle[] = [
       "Proposed and led the migration of all web automation from Selenium to Playwright, then layered in Claude Code, Cursor, and an MCP server on top of it to cut regression execution time by ~40%.",
   },
   {
-    title: "Leading automation, not just writing it",
+    title: "Leading the team, not just writing tests",
     description:
       "Scaling test coverage only matters if it actually shortens the path to release — that's the bar I hold automation work to, not just case count.",
     practice:
-      "Leading the automation effort at Triomics, scaling test coverage in a way that's cutting into the product team's testing time and unblocking faster releases.",
+      "Leading the automation and QA team at Triomics, scaling test coverage in a way that's cutting into the product team's testing time and unblocking faster releases.",
   },
   {
     title: "Made accessibility a gate, not an afterthought",
@@ -560,7 +560,7 @@ export const recruiterSnapshot = {
     "API, database, accessibility, and performance testing",
   ],
   coreStack: ["Playwright", "Selenium", "Cypress", "Appium", "REST Assured", "TypeScript", "Java", "GitHub Actions"],
-  leadership: "Leading automation at Triomics; mentored interns and new joiners at every company",
+  leadership: "Leads the automation and QA team at Triomics; mentored interns and new joiners at every company",
   globalTeams: [...new Set(globalTeams.flatMap((team) => team.locations))].join(", "),
   highlights: [
     "Cut regression execution time by ~40% at LiveSwitch",
@@ -637,7 +637,7 @@ export const now: { updated: string; items: NowItem[] } = {
   items: [
     {
       label: "Building",
-      text: "The automation suite for an oncology clinical-trial matching platform at Triomics, and leading the effort to scale its coverage.",
+      text: "The automation suite for an oncology clinical-trial matching platform at Triomics, and leading the automation and QA team that scales its coverage.",
     },
     {
       label: "Driving",

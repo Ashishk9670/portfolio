@@ -237,7 +237,7 @@ export default function Home() {
                 label: "Current role",
                 badge: "Active",
                 title: `SDET II · ${current.company}`,
-                body: "Oncology clinical-trial matching platform in a HIPAA-regulated environment. Built the automation suite from scratch and lead the effort to scale it.",
+                body: "Oncology clinical-trial matching platform in a HIPAA-regulated environment. Built the automation suite from scratch and lead the automation and QA team.",
                 facts: [
                   ["Looking for", `${recruiterSnapshot.targetRoles} roles`],
                   ["Notice period", notice],

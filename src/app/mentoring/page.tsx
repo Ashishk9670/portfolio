@@ -193,7 +193,7 @@ export default function MentoringPage() {
           <ul className="space-y-3">
             {[
               mentoringRecord.practice,
-              "Moved from payments QA at Mastercard to cross-platform automation at LiveSwitch to leading automation at Triomics — career moves I can talk through from experience.",
+              "Moved from payments QA at Mastercard to cross-platform automation at LiveSwitch to leading the automation and QA team at Triomics — career moves I can talk through from experience.",
               `Worked with distributed teams across ${cities} locations in Asia, Europe, Australia, and North America.`,
               "Public frameworks you can learn from directly: a multi-layer Playwright suite, a live e-commerce suite, and an MCP server.",
             ].map((point) => (
