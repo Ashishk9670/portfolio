@@ -26,8 +26,10 @@ export function FestivalGreeting() {
 
   useEffect(() => {
     const today = localToday();
-    // ?festival=<id> previews any greeting on any day, for checking copy and design.
-    const preview = new URLSearchParams(window.location.search).get("festival");
+    // ?festival=<id> previews a greeting on any day, but only locally (for design checks and tests);
+    // on the live site a card only ever appears on the festival day itself.
+    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    const preview = isLocal ? new URLSearchParams(window.location.search).get("festival") : null;
     const match = preview
       ? (FESTIVALS.find((f) => f.id === preview) ?? null)
       : festivalFor(today, regionFromTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone));
