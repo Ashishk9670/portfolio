@@ -27,6 +27,7 @@ const PATHS = [
   "/mentoring",
   "/insights",
   "/marriage",
+  "/marriage/hi",
 ];
 
 const browser = await chromium.launch();
