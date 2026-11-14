@@ -9,6 +9,7 @@ import { certifications, education, experience, mentoring, profile, siteUrl, ski
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { Analytics } from "@/components/Analytics";
+import { HideOn } from "@/components/HideOn";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -97,12 +98,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             Skip to main content
           </a>
-          <Header />
+          <HideOn prefix="/marriage">
+            <Header />
+          </HideOn>
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <Footer />
-          <ContactWidget />
+          <HideOn prefix="/marriage">
+            <Footer />
+            <ContactWidget />
+          </HideOn>
           <Analytics />
         </ThemeProvider>
       </body>

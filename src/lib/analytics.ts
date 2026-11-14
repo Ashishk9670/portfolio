@@ -28,7 +28,8 @@ export function trackingAllowed(): boolean {
   if (window.location.hostname !== PRODUCTION_HOST) return false;
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean; webdriver?: boolean };
   if (nav.webdriver || nav.globalPrivacyControl || nav.doNotTrack === "1") return false;
-  if (normalizePath(window.location.pathname).startsWith("/insights")) return false;
+  const path = normalizePath(window.location.pathname);
+  if (path.startsWith("/insights") || path.startsWith("/marriage")) return false;
   try {
     if (localStorage.getItem(OPT_OUT_KEY) === "1") return false;
   } catch {
