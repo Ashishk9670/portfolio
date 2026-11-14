@@ -4,17 +4,44 @@
 //     public/biodata/ashish-kumar-biodata-hi.pdf
 //   - printable A4 PDFs of both pages: public/biodata/ashish-kumar-biodata-a4(-hi).pdf
 //   - the "Save to contacts" card: public/biodata/ashish-kumar.vcf
-// The A4 PDFs are printed from a running copy of the site, so start one first.
+// The A4 PDFs are printed from a copy of the site: either a running server (BASE_URL) or a
+// static export this script serves itself (SERVE_DIR, plus BASE_PATH if the build has one).
+// Each A4 PDF must fit on MAX_A4_PAGES pages, or nothing is written and the script fails.
 // Usage: BASE_URL=http://localhost:3005 node scripts/render-biodata-assets.mjs
 // ONLY=a4,vcard (any of og, poster, a4, vcard) renders just those.
+// The deploy runs: SERVE_DIR=out BASE_PATH=/portfolio DOCS_OUT=out/biodata ONLY=a4,vcard
 // Decorations on the Hindi poster (Ganesha, lotus) are cropped from the English poster.
 import fs from "node:fs";
+import http from "node:http";
+import path from "node:path";
 import { chromium } from "@playwright/test";
 import sharp from "sharp";
 
-const BASE_URL = process.env.BASE_URL ?? "http://localhost:3005";
 const IMG = "public/images/biodata";
-const DOCS = "public/biodata";
+const DOCS = process.env.DOCS_OUT ?? "public/biodata";
+const MAX_A4_PAGES = Number(process.env.MAX_A4_PAGES ?? 2);
+
+// A minimal static server for an exported build (index.html per folder, basePath stripped).
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".woff2": "font/woff2", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".json": "application/json" };
+async function serveStatic(dir, basePath = "") {
+  const server = http.createServer((req, res) => {
+    let file = decodeURIComponent(new URL(req.url, "http://x").pathname);
+    if (basePath && file.startsWith(basePath)) file = file.slice(basePath.length) || "/";
+    file = path.join(dir, path.normalize(file));
+    if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
+    if (!file.startsWith(path.resolve(dir)) || !fs.existsSync(file)) {
+      res.writeHead(404).end();
+      return;
+    }
+    res.writeHead(200, { "Content-Type": TYPES[path.extname(file)] ?? "application/octet-stream" });
+    fs.createReadStream(file).pipe(res);
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  return { server, url: `http://127.0.0.1:${server.address().port}${basePath}` };
+}
+const staticSite = process.env.SERVE_DIR ? await serveStatic(path.resolve(process.env.SERVE_DIR), process.env.BASE_PATH) : null;
+const BASE_URL = staticSite?.url ?? process.env.BASE_URL ?? "http://localhost:3005";
+const pdfPages = (buffer) => (buffer.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
 const ONLY = process.env.ONLY?.split(",");
 const want = (step) => !ONLY || ONLY.includes(step);
 
@@ -211,12 +238,14 @@ try {
   // Chromium stores WebP photos losslessly in a PDF (1.6 MB for the portrait), but passes
   // JPEGs through as they are, so the printed portrait is swapped for a JPEG.
   const heroJpeg = `data:image/jpeg;base64,${(await sharp(`${IMG}/formal.webp`).resize(600).jpeg({ quality: 82, mozjpeg: true }).toBuffer()).toString("base64")}`;
-  for (const [path, file] of !want("a4") ? [] : [
-    ["/marriage", "ashish-kumar-biodata-a4.pdf"],
-    ["/marriage/hi", "ashish-kumar-biodata-a4-hi.pdf"],
+  const a4 = [];
+  for (const [page, file] of !want("a4") ? [] : [
+    ["/marriage/", "ashish-kumar-biodata-a4.pdf"],
+    ["/marriage/hi/", "ashish-kumar-biodata-a4-hi.pdf"],
   ]) {
     const doc = await browser.newPage({ viewport: { width: 1000, height: 1400 } });
-    await doc.goto(`${BASE_URL}${path}`, { waitUntil: "networkidle" });
+    const res = await doc.goto(`${BASE_URL}${page}`, { waitUntil: "networkidle" });
+    if (!res?.ok()) throw new Error(`${BASE_URL}${page} returned ${res?.status()}`);
     await doc.evaluate(async (jpeg) => {
       for (const img of document.images) {
         img.loading = "eager";
@@ -228,10 +257,16 @@ try {
       await Promise.all([...document.images].map((img) => (img.complete ? null : new Promise((r) => img.addEventListener("load", r, { once: true })))));
     }, heroJpeg);
     await doc.emulateMedia({ media: "print" });
-    await doc.pdf({ path: `${DOCS}/${file}`, format: "A4", printBackground: true, margin: { top: "10mm", bottom: "10mm", left: "12mm", right: "12mm" } });
+    const pdf = await doc.pdf({ format: "A4", printBackground: true, margin: { top: "7mm", bottom: "7mm", left: "12mm", right: "12mm" } });
     await doc.close();
+    const pages = pdfPages(pdf);
+    console.log(`${file}: ${pages} pages, ${Math.round(pdf.length / 1024)} KB`);
+    if (pages > MAX_A4_PAGES) throw new Error(`${file} runs to ${pages} pages (limit ${MAX_A4_PAGES}); nothing was written`);
+    a4.push([file, pdf]);
   }
+  for (const [file, pdf] of a4) fs.writeFileSync(`${DOCS}/${file}`, pdf);
 } finally {
   await browser.close();
+  staticSite?.server.close();
 }
 console.log(`rendered: ${ONLY?.join(", ") ?? "og, poster, a4, vcard"}`);

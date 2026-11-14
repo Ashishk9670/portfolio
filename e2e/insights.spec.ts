@@ -27,6 +27,8 @@ const FIXTURE = {
     people: 3,
     returning: [{ visits: 3, firstSeen: "2026-10-20", lastSeen: "2026-10-23", source: "Link for mama", country: "IN" }],
     returningCount: 1,
+    avgSeconds: 95,
+    bySource: [{ source: "Link for mama", visits: 3, people: 1, returning: 1, downloads: 2, avgSeconds: 95 }],
   },
 };
 
@@ -61,7 +63,7 @@ test("no analytics events are sent from local or automated browsers", async ({ p
   expect(events).toEqual([]);
 });
 
-test("on the live site, the biodata counts only views, return visits, and its marked buttons", async ({ page, context, baseURL }) => {
+test("on the live site, the biodata counts only views, time on page, return visits, and its marked buttons", async ({ page, context, baseURL }) => {
   // Serve this build under the production host so analytics switch on, and capture the
   // events instead of sending them. Beacons are disabled so every event goes through fetch.
   // The local build has no /portfolio base path, so pages are opened at the host's root.
@@ -104,10 +106,25 @@ test("on the live site, the biodata counts only views, return visits, and its ma
   await expect.poll(() => events.length).toBe(3);
   expect(events[2]).toMatchObject({ type: "click", action: "bio-a4-pdf" });
 
-  await page.reload();
+  // Time on the page goes out when the tab is hidden: one number, no scroll depth.
+  await page.waitForTimeout(1100);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "visibilityState", { value: "hidden", configurable: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
   await expect.poll(() => events.length).toBe(4);
-  expect(events[3]).toMatchObject({ type: "pageview", entry: false, visitor });
-  expect(events.every((e) => e.type === "pageview" || (e.type === "click" && String(e.action).startsWith("bio-")))).toBe(true);
+  expect(events[3]).toMatchObject({ type: "engagement", path: "/marriage" });
+  expect(events[3].seconds).toBeGreaterThanOrEqual(1);
+  expect(events[3]).not.toHaveProperty("scroll");
+
+  await page.reload();
+  const reloaded = () => events.slice(4).find((e) => e.type === "pageview");
+  await expect.poll(reloaded).toBeTruthy();
+  expect(reloaded()).toMatchObject({ entry: false, visitor });
+  for (const e of events) {
+    if (e.type === "click") expect(String(e.action)).toMatch(/^bio-/);
+    else expect(["pageview", "engagement"]).toContain(e.type);
+  }
 });
 
 test("the dashboard stays locked without a token and rejects a wrong one", async ({ page }) => {
@@ -138,7 +155,6 @@ test("an unlocked dashboard shows totals, the funnel, and per-page detail", asyn
   );
 
   const biodata = page.getByRole("region", { name: "Biodata views (private)" });
-  await expect(biodata).toContainText("WhatsApp");
   await expect(biodata).toContainText("Hindi");
   await expect(biodata).toContainText("United Arab Emirates");
   await expect(biodata).toContainText("Poster PDF downloads");
@@ -147,6 +163,13 @@ test("an unlocked dashboard shows totals, the funnel, and per-page detail", asyn
   await biodata.getByLabel("Who is it for?").fill("Mama Ji");
   await biodata.getByLabel("Language").selectOption("hi");
   await expect(biodata.getByText("https://ashishk9670.github.io/portfolio/m/hi/?for=mama-ji")).toBeVisible();
+  await expect(biodata.getByRole("img", { name: "QR code for https://ashishk9670.github.io/portfolio/m/hi/?for=mama-ji" })).toBeVisible();
+  const download = page.waitForEvent("download");
+  await biodata.getByRole("button", { name: "Download QR code (PNG)" }).click();
+  expect((await download).suggestedFilename()).toBe("biodata-qr-mama-ji-hi.png");
+  const bySource = biodata.getByRole("region", { name: "Biodata visits by the link or source they came from" });
+  await expect(bySource.getByRole("row", { name: /Link for mama/ })).toContainText("1m 35s");
+  await expect(biodata).toContainText("Avg. time");
 
   await page.getByRole("button", { name: "7 days" }).click();
   await expect(page.getByRole("button", { name: "7 days" })).toHaveAttribute("aria-pressed", "true");

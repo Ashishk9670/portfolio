@@ -49,7 +49,7 @@ export function visitorAllowed(): boolean {
 }
 
 // Full tracking (clicks, time on page). The dashboard is never tracked, and the
-// biodata pages only ever record a page view.
+// biodata pages only record a page view, time on page, and their marked buttons.
 export function trackingAllowed(): boolean {
   if (!visitorAllowed()) return false;
   const path = normalizePath(window.location.pathname);
@@ -78,7 +78,10 @@ export function normalizePath(pathname: string): string {
 export function send(event: EventPayload): void {
   if (!visitorAllowed() || !ENDPOINT) return;
   const biodataEvent =
-    isBiodataPath(event.path) && (event.type === "pageview" || (event.type === "click" && BIODATA_ACTION.test(event.action ?? "")));
+    isBiodataPath(event.path) &&
+    (event.type === "pageview" ||
+      (event.type === "engagement" && event.scroll === undefined) ||
+      (event.type === "click" && BIODATA_ACTION.test(event.action ?? "")));
   if (!trackingAllowed() && !biodataEvent) return;
   const body = JSON.stringify({ ...event, session: sessionId(), width: window.innerWidth });
   // text/plain keeps this a "simple" request: no CORS preflight per event.

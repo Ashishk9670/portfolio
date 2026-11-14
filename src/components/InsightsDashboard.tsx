@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent, type PointerEvent } from "react";
-import { Check, Copy, Lock, LogOut, RefreshCw } from "lucide-react";
+import { Check, Copy, Download, Lock, LogOut, RefreshCw } from "lucide-react";
 import { OPT_OUT_KEY, groupTag } from "@/lib/analytics";
 import { siteUrl } from "@/lib/data";
+import { qrModules, qrSvgPath } from "@/lib/qr";
 import {
   ACTION_LABELS,
   BIODATA_ACTION_LABELS,
@@ -294,7 +295,7 @@ function Report({ stats }: { stats: Stats }) {
 
       {stats.biodata && (
         <Panel title="Biodata views (private)" note="Opens of /marriage and /marriage/hi. Not included in any numbers above.">
-          <div className="grid gap-6 sm:grid-cols-2 sm:items-start lg:grid-cols-[auto_1fr_1fr_1fr]">
+          <div className="grid gap-6 sm:grid-cols-2 sm:items-start lg:grid-cols-[auto_1fr_1fr]">
             <div className="flex gap-6">
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Views</p>
@@ -303,6 +304,10 @@ function Report({ stats }: { stats: Stats }) {
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Visits</p>
                 <p className="mt-1 font-mono text-[28px] font-bold leading-9">{stats.biodata.visits}</p>
+              </div>
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Avg. time</p>
+                <p className="mt-1 font-mono text-[28px] font-bold leading-9">{formatDuration(stats.biodata.avgSeconds)}</p>
               </div>
             </div>
             <div>
@@ -313,15 +318,30 @@ function Report({ stats }: { stats: Stats }) {
               />
             </div>
             <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Sources</p>
-              <BarList rows={stats.biodata.sources.map((r) => ({ label: r.source, value: r.visits }))} empty="No biodata visits yet." />
-            </div>
-            <div>
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Countries</p>
               <BarList rows={stats.biodata.countries.map((r) => ({ label: countryName(r.country), value: r.visits }))} empty="No biodata visits yet." />
             </div>
           </div>
-          <div className="mt-8 grid gap-6 border-t border-border pt-6 lg:grid-cols-2">
+          <div className="mt-8 border-t border-border pt-6">
+            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">By link or source</p>
+            {stats.biodata.bySource.length ? (
+              <DataTable
+                caption="Biodata visits by the link or source they came from"
+                columns={["Link or source", "Visits", "People", "Came back", "PDF downloads", "Avg. time"]}
+                rows={stats.biodata.bySource.map((r) => [
+                  r.source,
+                  String(r.visits),
+                  String(r.people),
+                  String(r.returning),
+                  String(r.downloads),
+                  formatDuration(r.avgSeconds),
+                ])}
+              />
+            ) : (
+              <p className="text-sm text-muted">No biodata visits yet.</p>
+            )}
+          </div>
+          <div className="mt-8 grid gap-8 border-t border-border pt-6">
             <div>
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Downloads, shares, and contact taps</p>
               <BarList
@@ -383,6 +403,25 @@ function GroupLinkBuilder() {
   const [copied, setCopied] = useState(false);
   const tag = groupTag(name);
   const link = tag ? `${siteUrl}/m/${lang === "hi" ? "hi/" : ""}?for=${tag}` : "";
+  const qr = link ? qrModules(link) : null;
+  const qrSide = qr ? qr.length + 8 : 0;
+
+  // A print-ready PNG: 16 pixels per module, quiet zone included.
+  function downloadQr() {
+    if (!qr) return;
+    const scale = 16;
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = qrSide * scale;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000";
+    qr.forEach((row, y) => row.forEach((dark, x) => dark && ctx.fillRect((x + 4) * scale, (y + 4) * scale, scale, scale)));
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
+    a.download = `biodata-qr-${tag}${lang === "hi" ? "-hi" : ""}.png`;
+    a.click();
+  }
 
   async function copy() {
     try {
@@ -396,9 +435,9 @@ function GroupLinkBuilder() {
 
   return (
     <div className="mt-8 border-t border-border pt-6">
-      <h3 className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Make a link for one person or group</h3>
+      <h3 className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Make a link and QR code for one person or group</h3>
       <p className="mt-1 text-xs text-subtle">
-        Visits from it appear under Sources as &ldquo;Link for &hellip;&rdquo;. The name is part of the link, so pick one they can see.
+        Visits from it appear in the table above as &ldquo;Link for &hellip;&rdquo;. The name is part of the link, so pick one they can see.
       </p>
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <label className="flex flex-col gap-1 text-sm">
@@ -433,6 +472,28 @@ function GroupLinkBuilder() {
           >
             {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
             <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
+          </button>
+        </div>
+      )}
+      {qr && (
+        <div className="mt-4 flex flex-wrap items-end gap-4">
+          <svg
+            role="img"
+            aria-label={`QR code for ${link}`}
+            viewBox={`0 0 ${qrSide} ${qrSide}`}
+            className="h-40 w-40 rounded-lg"
+            shapeRendering="crispEdges"
+          >
+            <rect width={qrSide} height={qrSide} fill="#fff" />
+            <path d={qrSvgPath(qr)} fill="#000" />
+          </svg>
+          <button
+            type="button"
+            onClick={downloadQr}
+            className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-border px-3 text-sm text-foreground hover:bg-surface-2"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Download QR code (PNG)
           </button>
         </div>
       )}

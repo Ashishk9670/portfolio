@@ -45,6 +45,19 @@ export const StatsSchema = z.object({
         .array(z.object({ visits: count, firstSeen: z.string(), lastSeen: z.string(), source: z.string(), country: z.string() }))
         .default([]),
       returningCount: count.default(0),
+      avgSeconds: count.nullable().default(null),
+      bySource: z
+        .array(
+          z.object({
+            source: z.string(),
+            visits: count,
+            people: count,
+            returning: count,
+            downloads: count,
+            avgSeconds: count.nullable(),
+          })
+        )
+        .default([]),
     })
     .optional(),
   funnel: z.object({

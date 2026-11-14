@@ -33,6 +33,21 @@ jobs:
         env:
           GITHUB_PAGES: "true"
 
+      # The A4 PDFs and contact card are printed from this exact build, so they always match
+      # the page. If that fails (or a PDF runs past 2 pages), the copies in the repo are kept.
+      - name: Install Chromium for the biodata PDFs
+        run: npx playwright install --with-deps chromium
+
+      - name: Rebuild the biodata PDFs and contact card
+        run: |
+          node scripts/render-biodata-assets.mjs || \
+            echo "::warning title=Biodata PDFs::Rebuild failed, so the PDFs in the repo were deployed. See the log above."
+        env:
+          SERVE_DIR: out
+          BASE_PATH: /portfolio
+          DOCS_OUT: out/biodata
+          ONLY: a4,vcard
+
       - name: Disable Jekyll processing
         run: touch out/.nojekyll
 

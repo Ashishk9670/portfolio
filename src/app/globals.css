@@ -52,6 +52,18 @@
   --focus-ring: #2dd4bf;
 }
 
+/* Biodata "Larger text": scales the whole page, so spacing and icons grow with the text. */
+@media screen {
+  html[data-bio-text="large"] .bio-zoom {
+    zoom: 1.2;
+  }
+}
+@media screen and (max-width: 639px) {
+  html[data-bio-text="large"] .bio-quick {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Print always uses the light palette (the resume PDF is generated from print media). */
 @media print {
   :root,

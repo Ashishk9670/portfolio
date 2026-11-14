@@ -170,6 +170,8 @@ const en = {
     copyLink: "Copy link",
     linkCopied: "Link copied",
     saveContact: "Save to contacts",
+    textLarger: "Larger text",
+    latestVersion: "Latest version: {url}",
     gallery: {
       photoOf: "Photo {i} of {n}",
       credit: "Photo",
@@ -312,6 +314,8 @@ const hi: BiodataContent = {
     copyLink: "लिंक कॉपी करें",
     linkCopied: "लिंक कॉपी हो गया",
     saveContact: "फ़ोन में संपर्क सेव करें",
+    textLarger: "बड़े अक्षर",
+    latestVersion: "नवीनतम संस्करण: {url}",
     gallery: {
       photoOf: "तस्वीर {i} / {n}",
       credit: "फ़ोटो",

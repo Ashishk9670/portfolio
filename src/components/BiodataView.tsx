@@ -43,6 +43,7 @@ import { PlaceChips } from "@/components/PlaceGallery";
 import { IndiaMap } from "@/components/IndiaMap";
 import { ContactMenu } from "@/components/ContactMenu";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
+import { TEXT_SIZE_SCRIPT, TextSizeToggle } from "@/components/TextSizeToggle";
 import { siteUrl } from "@/lib/data";
 
 const c = {
@@ -335,11 +336,14 @@ export function BiodataView({ lang }: { lang: Lang }) {
   return (
     <div
       lang={lang}
-      className="min-h-screen print:min-h-0 print:bg-white!"
+      className="min-h-screen overflow-x-clip print:min-h-0 print:bg-white!"
       style={{ background: c.bg, color: c.ink }}
     >
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-8 sm:py-16 print:max-w-none print:px-0 print:py-0">
-        <div className="flex justify-end print:hidden">
+      {/* Tiny static script: applies the saved text size before the page paints. */}
+      <script dangerouslySetInnerHTML={{ __html: TEXT_SIZE_SCRIPT }} />
+      <div className="bio-zoom mx-auto max-w-4xl px-4 py-10 sm:px-8 sm:py-16 print:max-w-none print:px-0 print:py-0">
+        <div className="flex flex-wrap justify-end gap-2 print:hidden">
+          <TextSizeToggle label={ui.textLarger} color={c.maroon} borderColor={c.line} />
           <Link
             href={ui.switchHref}
             hrefLang={lang === "en" ? "hi" : "en"}
@@ -373,7 +377,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
         </header>
 
         <section aria-label={ui.quickTitle} className="mt-8 print:mt-4">
-          <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 print:grid-cols-3">
+          <dl className="bio-quick grid grid-cols-2 gap-3 sm:grid-cols-3 print:grid-cols-3">
             {t.quick.map((q) => {
               const Icon = QUICK_ICONS[q.icon];
               return (
@@ -436,6 +440,11 @@ export function BiodataView({ lang }: { lang: Lang }) {
             </dl>
             <p className="mt-4 hidden text-[12px] font-medium print:block">
               {ui.phone}: {biodataPhone.display} &nbsp;·&nbsp; {ui.email}: {biodataEmail}
+            </p>
+            {/* Printed copies go stale, so the PDF says where the current version lives. */}
+            <p className="mt-1 hidden text-[11px] print:block" style={{ color: c.muted }}>
+              {ui.updated.replace("{date}", updated)} &nbsp;·&nbsp;{" "}
+              {ui.latestVersion.replace("{url}", shortLink.replace(/^https:\/\//, "").replace(/\/$/, ""))}
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3 print:hidden">
               <ContactMenu
@@ -812,7 +821,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
           <p className="mt-4 text-sm" style={{ color: c.muted }}>
             {ui.thanks}
           </p>
-          <p className="mt-2 text-xs" style={{ color: c.muted }}>
+          <p className="mt-2 text-xs print:hidden!" style={{ color: c.muted }}>
             {ui.updated.replace("{date}", updated)}
           </p>
         </footer>

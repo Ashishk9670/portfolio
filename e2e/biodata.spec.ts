@@ -71,7 +71,7 @@ test("quick facts, family details, and the last-updated date are shown", async (
 
   await page.goto("/marriage/hi");
   await expect(page.getByRole("region", { name: "संक्षिप्त जानकारी" }).getByText(/^\d{2} वर्ष$/)).toBeVisible();
-  await expect(page.getByText(/^अंतिम अपडेट: /)).toBeVisible();
+  await expect(page.getByText(/^अंतिम अपडेट: \S+ \d{4}$/)).toBeVisible();
 });
 
 test("the short links forward to the biodata without site chrome", async ({ page }) => {
@@ -128,6 +128,33 @@ test("the biodata can be shared on WhatsApp, copied, and saved as a contact", as
   const hiText = new URL((await page.getByRole("link", { name: "व्हाट्सएप पर भेजें" }).getAttribute("href"))!).searchParams.get("text")!;
   expect(hiText).toContain("/portfolio/m/hi/?utm_source=whatsapp");
   await expect(page.getByRole("link", { name: "फ़ोन में संपर्क सेव करें" })).toBeVisible();
+});
+
+test("the larger-text button enlarges the page, fits a phone, and is remembered", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/marriage");
+  const button = page.getByRole("button", { name: "Larger text" });
+  await expect(button).toHaveAttribute("aria-pressed", "false");
+  const before = await page.getByRole("heading", { level: 1 }).boundingBox();
+  await button.click();
+  await expect(button).toHaveAttribute("aria-pressed", "true");
+  const after = await page.getByRole("heading", { level: 1 }).boundingBox();
+  expect(after!.height).toBeGreaterThan(before!.height * 1.1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  await page.goto("/marriage/hi");
+  await expect(page.getByRole("button", { name: "बड़े अक्षर" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "बड़े अक्षर" }).click();
+  await page.reload();
+  await expect(page.getByRole("button", { name: "बड़े अक्षर" })).toHaveAttribute("aria-pressed", "false");
+});
+
+test("printed copies say when they were updated and where the latest version is", async ({ page }) => {
+  await page.goto("/marriage");
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByText(/^Last updated: [A-Z][a-z]+ \d{4}\s+·\s+Latest version: ashishk9670\.github\.io\/portfolio\/m$/)).toBeVisible();
+  await page.goto("/marriage/hi");
+  await expect(page.getByText(/नवीनतम संस्करण: ashishk9670\.github\.io\/portfolio\/m\/hi$/)).toBeVisible();
 });
 
 test("the professional site never links to the biodata page", async ({ page }) => {

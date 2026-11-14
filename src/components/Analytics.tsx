@@ -62,7 +62,8 @@ export function Analytics() {
     };
   }, []);
 
-  // Biodata pages count only clicks on their marked controls (downloads, sharing, contact).
+  // Biodata pages count clicks on their marked controls (downloads, sharing, contact) and the
+  // time the page is visible. Nothing records which parts are read.
   useEffect(() => {
     const path = normalizePath(pathname);
     if (!isBiodataPath(path) || !visitorAllowed()) return;
@@ -70,8 +71,28 @@ export function Analytics() {
       const action = (e.target as Element | null)?.closest<HTMLElement>("[data-bio-track]")?.dataset.bioTrack;
       if (action && BIODATA_ACTION.test(action)) send({ type: "click", path, action, label: action });
     };
+    let visibleMs = 0;
+    let since = document.visibilityState === "visible" ? Date.now() : 0;
+    const flush = () => {
+      if (since) visibleMs += Date.now() - since;
+      since = 0;
+      const seconds = Math.min(3600, Math.round(visibleMs / 1000));
+      if (seconds >= 1) send({ type: "engagement", path, seconds });
+      visibleMs = 0;
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flush();
+      else since = Date.now();
+    };
     document.addEventListener("click", onClick, { capture: true });
-    return () => document.removeEventListener("click", onClick, { capture: true });
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      flush();
+      document.removeEventListener("click", onClick, { capture: true });
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", flush);
+    };
   }, [pathname]);
 
   // A pageview per route change; the previous page's engagement is flushed first.
