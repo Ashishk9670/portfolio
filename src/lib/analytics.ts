@@ -27,7 +27,7 @@ export const isBiodataPath = (path: string) => path.startsWith("/marriage");
 // The biodata short link only redirects; the biodata page records the visit.
 export const isShortLinkPath = (path: string) => path === "/m" || path.startsWith("/m/");
 // Biodata clicks are counted only for these marked controls (data-bio-track), never in general.
-export const BIODATA_ACTION = /^bio-[a-z-]{1,36}$/;
+export const BIODATA_ACTION = /^bio-[a-z0-9-]{1,36}$/;
 // A group link (/m/?for=mama) tags the visits it brings in.
 export const groupTag = (name: string) =>
   name.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 32);

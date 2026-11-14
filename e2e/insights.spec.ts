@@ -93,9 +93,20 @@ test("on the live site, the biodata counts only views, return visits, and its ma
   await expect.poll(() => events.length).toBe(2);
   expect(events[1]).toMatchObject({ type: "click", path: "/marriage", action: "bio-copy-link" });
 
-  await page.reload();
+  // Every marked control on the page carries a name the counter accepts.
+  const actions = await page.locator("[data-bio-track]").evaluateAll((els) => els.map((el) => (el as HTMLElement).dataset.bioTrack));
+  expect(actions).toContain("bio-a4-pdf");
+  for (const action of actions) expect(action).toMatch(/^bio-[a-z0-9-]{1,36}$/);
+  await page.locator('[data-bio-track="bio-a4-pdf"]').first().evaluate((el) => {
+    el.addEventListener("click", (e) => e.preventDefault(), { once: true });
+    (el as HTMLElement).click();
+  });
   await expect.poll(() => events.length).toBe(3);
-  expect(events[2]).toMatchObject({ type: "pageview", entry: false, visitor });
+  expect(events[2]).toMatchObject({ type: "click", action: "bio-a4-pdf" });
+
+  await page.reload();
+  await expect.poll(() => events.length).toBe(4);
+  expect(events[3]).toMatchObject({ type: "pageview", entry: false, visitor });
   expect(events.every((e) => e.type === "pageview" || (e.type === "click" && String(e.action).startsWith("bio-")))).toBe(true);
 });
 
