@@ -7,7 +7,7 @@ const serif = Noto_Serif_Devanagari({ subsets: ["devanagari", "latin"], weight: 
 const sans = Noto_Sans_Devanagari({ subsets: ["devanagari", "latin"], weight: ["400", "600"] });
 
 const url = `${siteUrl}/marriage/hi`;
-const og = `${siteUrl}/images/biodata/og.jpg`;
+const og = `${siteUrl}/images/biodata/og-hi.jpg?v=2`;
 
 export const metadata: Metadata = {
   title: "बायोडाटा",
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   alternates: { canonical: url, languages: { en: `${siteUrl}/marriage` } },
   openGraph: {
     title: "आशीष कुमार — बायोडाटा",
-    description: "आशीष कुमार का विवाह हेतु बायोडाटा।",
+    description: "बी.टेक, एनआईटी वारंगल · बेंगलुरु स्थित ट्रायोमिक्स में SDET II · परिवार गोरखपुर, उत्तर प्रदेश में।",
     url,
     type: "profile",
     locale: "hi_IN",
     images: [{ url: og, width: 1200, height: 630, alt: "आशीष कुमार" }],
   },
-  twitter: { card: "summary_large_image", title: "आशीष कुमार — बायोडाटा", images: [og] },
+  twitter: { card: "summary_large_image", description: "बी.टेक, एनआईटी वारंगल · बेंगलुरु स्थित ट्रायोमिक्स में SDET II · परिवार गोरखपुर, उत्तर प्रदेश में।", title: "आशीष कुमार — बायोडाटा", images: [og] },
 };
 
 export default function MarriagePageHindi() {

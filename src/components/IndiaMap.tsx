@@ -76,7 +76,7 @@ export function IndiaMap({ lang, labels, legend }: { lang: Lang; labels: Gallery
   const openPin = (p: Pin) => open({ key: p.placeKeys[0], keys: p.placeKeys, label: p.label });
 
   return (
-    <figure className="mt-6">
+    <figure className="mt-6 print:hidden">
       <div className="relative mx-auto max-w-md rounded-xl border p-2 sm:p-3" style={{ borderColor: "#E9DFD0", background: "#FBF7F0" }}>
         <svg
           ref={svgRef}

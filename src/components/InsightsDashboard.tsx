@@ -41,6 +41,16 @@ function writeStorage(store: "local" | "session", key: string, value: string | n
   }
 }
 
+// "IN" → "India"; falls back to the raw code.
+function countryName(code: string) {
+  if (code === "Unknown") return code;
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+}
+
 export function InsightsDashboard() {
   const [token, setToken] = useState<string | null>(null);
   const [range, setRange] = useState<Range>(30);
@@ -282,7 +292,7 @@ function Report({ stats }: { stats: Stats }) {
 
       {stats.biodata && (
         <Panel title="Biodata views (private)" note="Opens of /marriage and /marriage/hi. Not included in any numbers above.">
-          <div className="grid gap-6 sm:grid-cols-[auto_1fr_1fr] sm:items-start">
+          <div className="grid gap-6 sm:grid-cols-2 sm:items-start lg:grid-cols-[auto_1fr_1fr_1fr]">
             <div className="flex gap-6">
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Views</p>
@@ -293,11 +303,21 @@ function Report({ stats }: { stats: Stats }) {
                 <p className="mt-1 font-mono text-[28px] font-bold leading-9">{stats.biodata.visits}</p>
               </div>
             </div>
-            <BarList
-              rows={stats.biodata.pages.map((pg) => ({ label: pg.path === "/marriage/hi" ? "Hindi" : "English", value: pg.views }))}
-              empty="No biodata views yet."
-            />
-            <BarList rows={stats.biodata.sources.map((r) => ({ label: r.source, value: r.visits }))} empty="No biodata visits yet." />
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Language</p>
+              <BarList
+                rows={stats.biodata.pages.map((pg) => ({ label: pg.path === "/marriage/hi" ? "Hindi" : "English", value: pg.views }))}
+                empty="No biodata views yet."
+              />
+            </div>
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Sources</p>
+              <BarList rows={stats.biodata.sources.map((r) => ({ label: r.source, value: r.visits }))} empty="No biodata visits yet." />
+            </div>
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Countries</p>
+              <BarList rows={stats.biodata.countries.map((r) => ({ label: countryName(r.country), value: r.visits }))} empty="No biodata visits yet." />
+            </div>
           </div>
         </Panel>
       )}

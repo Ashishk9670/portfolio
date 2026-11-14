@@ -37,6 +37,8 @@ export const StatsSchema = z.object({
       visits: count,
       pages: z.array(z.object({ path: z.string(), views: count })),
       sources: z.array(z.object({ source: z.string(), visits: count })),
+      // Added later; older Worker responses don't have it.
+      countries: z.array(z.object({ country: z.string(), visits: count })).default([]),
     })
     .optional(),
   funnel: z.object({

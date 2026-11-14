@@ -22,6 +22,8 @@ type EventPayload = {
 };
 
 export const isBiodataPath = (path: string) => path.startsWith("/marriage");
+// The biodata short link only redirects; the biodata page records the visit.
+export const isShortLinkPath = (path: string) => path === "/m" || path.startsWith("/m/");
 
 // Only real visitors on the production site are counted: never local dev, the
 // e2e suite, Lighthouse, the owner's opted-out browser, or anyone who has asked
@@ -44,7 +46,7 @@ export function visitorAllowed(): boolean {
 export function trackingAllowed(): boolean {
   if (!visitorAllowed()) return false;
   const path = normalizePath(window.location.pathname);
-  return !path.startsWith("/insights") && !isBiodataPath(path);
+  return !path.startsWith("/insights") && !isBiodataPath(path) && !isShortLinkPath(path);
 }
 
 function sessionId(): string {

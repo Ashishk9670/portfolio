@@ -102,8 +102,19 @@ export const biodataEnjoy: { icon: "mountain" | "compass" | "utensils" | "music"
 ];
 
 // Shown on Ashish's own contact card. Public in the repo.
-export const biodataPoster = { src: "/images/biodata/poster", w: 1199, h: 1642, pdf: "/biodata/ashish-kumar-biodata.pdf" };
-export const biodataQr = "/images/biodata/qr.png";
+// Posters are images; the A4 PDFs are rendered from the page's print layout by
+// scripts/render-biodata-assets.mjs. QR codes open the page in the same language.
+export const biodataPoster: Record<Lang, { src: string; w: number; h: number; pdf: string; a4: string; qr: string }> = {
+  en: { src: "/images/biodata/poster", w: 1199, h: 1642, pdf: "/biodata/ashish-kumar-biodata.pdf", a4: "/biodata/ashish-kumar-biodata-a4.pdf", qr: "/images/biodata/qr.png" },
+  hi: { src: "/images/biodata/poster-hi", w: 1200, h: 1820, pdf: "/biodata/ashish-kumar-biodata-hi.pdf", a4: "/biodata/ashish-kumar-biodata-a4-hi.pdf", qr: "/images/biodata/qr-hi.png" },
+};
+
+// Used to show the current age; the poster already states the date of birth.
+export const biodataBirthDate = "1997-10-26";
+// Bump when the content changes; shown in the footer.
+export const biodataUpdated = "2026-11-14";
+
+export type QuickFactIcon = "cake" | "ruler" | "utensils" | "languages" | "home" | "pin";
 
 export const biodataEmail = "ashishk2026k@gmail.com";
 export const biodataPhone = { display: "+91 98899 92650", tel: "+919889992650" };
@@ -119,6 +130,11 @@ const en = {
     getInTouch: "Get in touch",
     contactVia: "Contact options",
     savePdf: "Download biodata (PDF)",
+    printPdf: "Printable A4 (PDF)",
+    phone: "Phone",
+    quickTitle: "Quick facts",
+    age: "{n} years",
+    updated: "Last updated: {date}",
     posterTitle: "Biodata at a glance",
     posterAlt: "Marriage biodata poster of Ashish Kumar, with a QR code linking to this page",
     posterOpen: "Open full size",
@@ -154,6 +170,14 @@ const en = {
       view: "view photos",
     },
   },
+  quick: [
+    { icon: "cake" as QuickFactIcon, label: "Age", value: "" },
+    { icon: "ruler" as QuickFactIcon, label: "Height", value: "6 ft (183 cm)" },
+    { icon: "utensils" as QuickFactIcon, label: "Diet", value: "Non-vegetarian" },
+    { icon: "languages" as QuickFactIcon, label: "Languages", value: "Hindi, English, Bhojpuri" },
+    { icon: "home" as QuickFactIcon, label: "Hometown", value: "Siwan, Bihar" },
+    { icon: "pin" as QuickFactIcon, label: "Lives in", value: "Bengaluru" },
+  ],
   facts: [
     { label: "Education", value: "B.Tech, NIT Warangal (Telangana)" },
     { label: "Profession", value: "SDET II at [Triomics](https://triomics.com/), Bengaluru" },
@@ -236,8 +260,13 @@ const hi: BiodataContent = {
     getInTouch: "संपर्क करें",
     contactVia: "संपर्क के विकल्प",
     savePdf: "बायोडाटा डाउनलोड करें (PDF)",
+    printPdf: "प्रिंट के लिए A4 (PDF)",
+    phone: "फ़ोन",
+    quickTitle: "संक्षिप्त जानकारी",
+    age: "{n} वर्ष",
+    updated: "अंतिम अपडेट: {date}",
     posterTitle: "एक नज़र में बायोडाटा",
-    posterAlt: "आशीष कुमार का विवाह बायोडाटा पोस्टर, इस पेज के QR कोड के साथ",
+    posterAlt: "आशीष कुमार का हिंदी विवाह बायोडाटा पोस्टर, इस पेज के QR कोड के साथ",
     posterOpen: "पूरे आकार में देखें",
     qrTitle: "यह बायोडाटा साझा करें",
     qrText: "फ़ोन पर यह पेज खोलने के लिए कोड स्कैन करें।",
@@ -271,6 +300,14 @@ const hi: BiodataContent = {
       view: "तस्वीरें देखें",
     },
   },
+  quick: [
+    { icon: "cake", label: "आयु", value: "" },
+    { icon: "ruler", label: "लंबाई", value: "6 फ़ीट (183 सेमी)" },
+    { icon: "utensils", label: "भोजन", value: "मांसाहारी" },
+    { icon: "languages", label: "भाषाएँ", value: "हिंदी, अंग्रेज़ी, भोजपुरी" },
+    { icon: "home", label: "मूल निवास", value: "सिवान, बिहार" },
+    { icon: "pin", label: "वर्तमान निवास", value: "बेंगलुरु" },
+  ],
   facts: [
     { label: "शिक्षा", value: "बी.टेक, एनआईटी वारंगल (तेलंगाना)" },
     { label: "पेशा", value: "बेंगलुरु स्थित [ट्रायोमिक्स](https://triomics.com/) में SDET II" },

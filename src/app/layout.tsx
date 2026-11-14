@@ -11,6 +11,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { Analytics } from "@/components/Analytics";
 import { HideOn } from "@/components/HideOn";
 
+// Pages without the site header, footer, and chat widget: the biodata and its short link.
+const STANDALONE_PAGES = ["/marriage", "/m"];
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -98,13 +101,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             Skip to main content
           </a>
-          <HideOn prefix="/marriage">
+          <HideOn prefixes={STANDALONE_PAGES}>
             <Header />
           </HideOn>
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <HideOn prefix="/marriage">
+          <HideOn prefixes={STANDALONE_PAGES}>
             <Footer />
             <ContactWidget />
           </HideOn>

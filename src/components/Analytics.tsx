@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { ACTION_EVENT, describeClick, isBiodataPath, normalizePath, send, trackPageview, trackingAllowed, visitorAllowed } from "@/lib/analytics";
+import { ACTION_EVENT, describeClick, isBiodataPath, isShortLinkPath, normalizePath, send, trackPageview, trackingAllowed, visitorAllowed } from "@/lib/analytics";
 
 const TRACKED = "a, button, summary, [data-track]";
 
@@ -65,6 +65,7 @@ export function Analytics() {
   // A pageview per route change; the previous page's engagement is flushed first.
   useEffect(() => {
     const path = normalizePath(pathname);
+    if (isShortLinkPath(path)) return;
     // Biodata pages: a private view count only, no clicks or time on page.
     if (isBiodataPath(path)) {
       if (visitorAllowed()) trackPageview(path);

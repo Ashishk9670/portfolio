@@ -39,9 +39,51 @@ test("the biodata offers a PDF download, the poster, and a QR code", async ({ pa
     expect(await img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
   }
 
+  const a4 = page.getByRole("link", { name: "Printable A4 (PDF)" });
+  await expect(a4).toHaveCount(2);
+  await expect(a4.first()).toHaveAttribute("href", /\/biodata\/ashish-kumar-biodata-a4\.pdf$/);
+
   await page.goto("/marriage/hi");
-  await expect(page.getByRole("link", { name: "बायोडाटा डाउनलोड करें (PDF)" })).toHaveCount(2);
-  await expect(page.getByRole("img", { name: "इस बायोडाटा पेज का QR कोड" })).toBeAttached();
+  const hiDownloads = page.getByRole("link", { name: "बायोडाटा डाउनलोड करें (PDF)" });
+  await expect(hiDownloads).toHaveCount(2);
+  await expect(hiDownloads.first()).toHaveAttribute("href", /\/biodata\/ashish-kumar-biodata-hi\.pdf$/);
+  await expect(page.getByRole("link", { name: "प्रिंट के लिए A4 (PDF)" }).first()).toHaveAttribute("href", /a4-hi\.pdf$/);
+  await expect(page.getByRole("img", { name: "इस बायोडाटा पेज का QR कोड" })).toHaveAttribute("src", /qr-hi\.png$/);
+  await expect(page.getByRole("img", { name: /^आशीष कुमार का हिंदी विवाह बायोडाटा पोस्टर/ })).toHaveAttribute("src", /poster-hi-sm\.webp$/);
+  for (const file of ["ashish-kumar-biodata-hi.pdf", "ashish-kumar-biodata-a4.pdf", "ashish-kumar-biodata-a4-hi.pdf"]) {
+    const res = await request.get(`/biodata/${file}`);
+    expect(res.status(), file).toBe(200);
+  }
+});
+
+test("quick facts, family details, and the last-updated date are shown", async ({ page }) => {
+  await page.goto("/marriage");
+  const facts = page.getByRole("region", { name: "Quick facts" });
+  await expect(facts.getByText(/^\d{2} years$/)).toBeVisible();
+  for (const text of ["6 ft (183 cm)", "Non-vegetarian", "Hindi, English, Bhojpuri", "Siwan, Bihar"]) {
+    await expect(facts.getByText(text)).toBeVisible();
+  }
+  const family = page.getByRole("region", { name: "Family Background" });
+  for (const who of ["Father", "Mother", "Elder brother", "Elder sister"]) {
+    await expect(family.getByRole("listitem").filter({ hasText: who })).toHaveCount(1);
+  }
+  await expect(page.getByText(/^Last updated: [A-Z][a-z]+ \d{4}$/)).toBeVisible();
+
+  await page.goto("/marriage/hi");
+  await expect(page.getByRole("region", { name: "संक्षिप्त जानकारी" }).getByText(/^\d{2} वर्ष$/)).toBeVisible();
+  await expect(page.getByText(/^अंतिम अपडेट: /)).toBeVisible();
+});
+
+test("the short links forward to the biodata without site chrome", async ({ page }) => {
+  await page.goto("/m");
+  await expect(page).toHaveURL(/\/marriage\/?$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ashish Kumar");
+  await page.goto("/m/hi");
+  await expect(page).toHaveURL(/\/marriage\/hi\/?$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("आशीष कुमार");
+  // /mentoring shares the "/m" prefix but keeps its header.
+  await page.goto("/mentoring");
+  await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
 });
 
 test("the professional site never links to the biodata page", async ({ page }) => {

@@ -22,7 +22,7 @@ const FIXTURE = {
   countries: [{ country: "IN", sessions: 10 }],
   devices: [{ device: "desktop", sessions: 12 }],
   funnel: { sessions: 17, viewedDossier: 8, dossierThenReachedOut: 4, reachedOut: 6 },
-  biodata: { views: 5, visits: 4, pages: [{ path: "/marriage", views: 4 }, { path: "/marriage/hi", views: 1 }], sources: [{ source: "WhatsApp", visits: 3 }] },
+  biodata: { views: 5, visits: 4, pages: [{ path: "/marriage", views: 4 }, { path: "/marriage/hi", views: 1 }], sources: [{ source: "WhatsApp", visits: 3 }], countries: [{ country: "AE", visits: 2 }] },
 };
 
 async function mockStats(page: Page, status = 200) {
@@ -86,6 +86,7 @@ test("an unlocked dashboard shows totals, the funnel, and per-page detail", asyn
   const biodata = page.getByRole("region", { name: "Biodata views (private)" });
   await expect(biodata).toContainText("WhatsApp");
   await expect(biodata).toContainText("Hindi");
+  await expect(biodata).toContainText("United Arab Emirates");
 
   await page.getByRole("button", { name: "7 days" }).click();
   await expect(page.getByRole("button", { name: "7 days" })).toHaveAttribute("aria-pressed", "true");
