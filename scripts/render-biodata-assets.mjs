@@ -257,10 +257,18 @@ try {
       await Promise.all([...document.images].map((img) => (img.complete ? null : new Promise((r) => img.addEventListener("load", r, { once: true })))));
     }, heroJpeg);
     await doc.emulateMedia({ media: "print" });
-    const pdf = await doc.pdf({ format: "A4", printBackground: true, margin: { top: "7mm", bottom: "7mm", left: "12mm", right: "12mm" } });
+    // Text can set slightly wider on another system (the deploy runs on Linux), so the print
+    // scale steps down a little until the page fits.
+    let pdf;
+    let pages = 0;
+    let scale = 1;
+    for (scale of [1, 0.97, 0.94, 0.91]) {
+      pdf = await doc.pdf({ format: "A4", printBackground: true, scale, margin: { top: "7mm", bottom: "7mm", left: "12mm", right: "12mm" } });
+      pages = pdfPages(pdf);
+      if (pages <= MAX_A4_PAGES) break;
+    }
     await doc.close();
-    const pages = pdfPages(pdf);
-    console.log(`${file}: ${pages} pages, ${Math.round(pdf.length / 1024)} KB`);
+    console.log(`${file}: ${pages} pages at ${Math.round(scale * 100)}% scale, ${Math.round(pdf.length / 1024)} KB`);
     if (pages > MAX_A4_PAGES) throw new Error(`${file} runs to ${pages} pages (limit ${MAX_A4_PAGES}); nothing was written`);
     a4.push([file, pdf]);
   }
