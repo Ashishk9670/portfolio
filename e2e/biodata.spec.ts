@@ -9,7 +9,6 @@ test("the biodata page renders as a standalone, unlisted page", async ({ page, r
   for (const title of ["About Me", "Professional Background", "Family Background", "Partner Preferences & Outlook on Marriage", "Future & Settlement Plans", "Photos"]) {
     await expect(page.getByRole("heading", { name: title })).toBeVisible();
   }
-  await expect(page.getByRole("button", { name: "Save as PDF" })).toBeVisible();
 
   await expect(page.getByRole("navigation", { name: "Primary" })).toHaveCount(0);
   await expect(page.locator("footer nav")).toHaveCount(0);
@@ -18,6 +17,31 @@ test("the biodata page renders as a standalone, unlisted page", async ({ page, r
 
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).not.toContain("/marriage");
+});
+
+test("the biodata offers a PDF download, the poster, and a QR code", async ({ page, request }) => {
+  await page.goto("/marriage");
+  const downloads = page.getByRole("link", { name: "Download biodata (PDF)" });
+  await expect(downloads).toHaveCount(2);
+  for (const link of await downloads.all()) {
+    await expect(link).toHaveAttribute("download", "");
+    await expect(link).toHaveAttribute("href", /\/biodata\/ashish-kumar-biodata\.pdf$/);
+  }
+  const pdf = await request.get((await downloads.first().getAttribute("href"))!);
+  expect(pdf.status()).toBe(200);
+  expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+
+  const poster = page.getByRole("heading", { name: "Biodata at a glance" });
+  await poster.scrollIntoViewIfNeeded();
+  for (const img of [page.getByRole("img", { name: /^Marriage biodata poster/ }), page.getByRole("img", { name: "QR code linking to this biodata page" })]) {
+    await img.scrollIntoViewIfNeeded();
+    await expect(img).toBeVisible();
+    expect(await img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+  }
+
+  await page.goto("/marriage/hi");
+  await expect(page.getByRole("link", { name: "बायोडाटा डाउनलोड करें (PDF)" })).toHaveCount(2);
+  await expect(page.getByRole("img", { name: "इस बायोडाटा पेज का QR कोड" })).toBeAttached();
 });
 
 test("the professional site never links to the biodata page", async ({ page }) => {

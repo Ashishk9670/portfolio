@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import {
   CircleCheck,
   Compass,
+  Download,
   Heart,
   Languages,
   Mail,
@@ -15,9 +16,19 @@ import {
   Sunrise,
   UtensilsCrossed,
 } from "lucide-react";
-import { biodata, biodataContacts, biodataEmail, biodataEnjoy, biodataPhone, biodataPhotos, biodataTravels, type Lang } from "@/lib/biodata";
+import {
+  biodata,
+  biodataContacts,
+  biodataEmail,
+  biodataEnjoy,
+  biodataPhone,
+  biodataPhotos,
+  biodataPoster,
+  biodataQr,
+  biodataTravels,
+  type Lang,
+} from "@/lib/biodata";
 import { withBasePath } from "@/lib/basePath";
-import { PrintButton } from "@/components/PrintButton";
 import { PlaceChips } from "@/components/PlaceGallery";
 import { IndiaMap } from "@/components/IndiaMap";
 import { ContactMenu } from "@/components/ContactMenu";
@@ -254,7 +265,50 @@ export function BiodataView({ lang }: { lang: Lang }) {
                 <Phone className="h-4 w-4" aria-hidden="true" />
                 {biodataPhone.display}
               </a>
-              <PrintButton label={ui.savePdf} className={buttonSecondary} />
+              <a href={withBasePath(biodataPoster.pdf)} download className={buttonSecondary} style={{ borderColor: c.line, color: c.maroon }}>
+                <Download className="h-4 w-4" aria-hidden="true" />
+                {ui.savePdf}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="bio-poster" className="mt-12 print:hidden">
+          <h2 id="bio-poster" className={`text-center ${serifHeading} text-2xl font-semibold`} style={{ color: c.maroon }}>
+            {ui.posterTitle}
+          </h2>
+          <div className="mt-3">
+            <Ornament />
+          </div>
+          <div className="mt-8 grid items-start gap-6 sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+            <figure className="overflow-hidden rounded-2xl border-4 bg-white shadow-sm" style={{ borderColor: c.card }}>
+              <a href={withBasePath(`${biodataPoster.src}.webp`)} target="_blank" rel="noreferrer noopener" className="block" aria-label={`${ui.posterAlt} (${ui.posterOpen})`}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- static export; pre-sized WebP */}
+                <img
+                  src={withBasePath(`${biodataPoster.src}-sm.webp`)}
+                  srcSet={`${withBasePath(`${biodataPoster.src}-sm.webp`)} 720w, ${withBasePath(`${biodataPoster.src}.webp`)} ${biodataPoster.w}w`}
+                  sizes="(min-width: 640px) 480px, 100vw"
+                  alt={ui.posterAlt}
+                  width={biodataPoster.w}
+                  height={biodataPoster.h}
+                  loading="lazy"
+                  className="h-auto w-full"
+                />
+              </a>
+            </figure>
+            <div className="flex flex-col items-center gap-4 rounded-2xl border p-6 text-center sm:sticky sm:top-6" style={{ background: c.card, borderColor: c.line }}>
+              <p className={`${serifHeading} text-xl font-semibold`} style={{ color: c.maroon }}>
+                {ui.qrTitle}
+              </p>
+              {/* eslint-disable-next-line @next/next/no-img-element -- static export; tiny PNG */}
+              <img src={withBasePath(biodataQr)} alt={ui.qrAlt} width={172} height={172} className="h-[172px] w-[172px] [image-rendering:pixelated]" />
+              <p className="text-sm leading-6" style={{ color: c.muted }}>
+                {ui.qrText}
+              </p>
+              <a href={withBasePath(biodataPoster.pdf)} download className={buttonSecondary} style={{ borderColor: c.line, color: c.maroon }}>
+                <Download className="h-4 w-4" aria-hidden="true" />
+                {ui.savePdf}
+              </a>
             </div>
           </div>
         </section>

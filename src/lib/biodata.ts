@@ -102,6 +102,9 @@ export const biodataEnjoy: { icon: "mountain" | "compass" | "utensils" | "music"
 ];
 
 // Shown on Ashish's own contact card. Public in the repo.
+export const biodataPoster = { src: "/images/biodata/poster", w: 1199, h: 1642, pdf: "/biodata/ashish-kumar-biodata.pdf" };
+export const biodataQr = "/images/biodata/qr.png";
+
 export const biodataEmail = "ashishk2026k@gmail.com";
 export const biodataPhone = { display: "+91 98899 92650", tel: "+919889992650" };
 
@@ -115,7 +118,13 @@ const en = {
     eyebrow: "Marriage Biodata",
     getInTouch: "Get in touch",
     contactVia: "Contact options",
-    savePdf: "Save as PDF",
+    savePdf: "Download biodata (PDF)",
+    posterTitle: "Biodata at a glance",
+    posterAlt: "Marriage biodata poster of Ashish Kumar, with a QR code linking to this page",
+    posterOpen: "Open full size",
+    qrTitle: "Share this biodata",
+    qrText: "Scan the code to open this page on a phone.",
+    qrAlt: "QR code linking to this biodata page",
     switchLabel: "हिंदी में पढ़ें",
     switchHref: "/marriage/hi",
     journeyTitle: "My Journey",
@@ -226,7 +235,13 @@ const hi: BiodataContent = {
     eyebrow: "विवाह हेतु बायोडाटा",
     getInTouch: "संपर्क करें",
     contactVia: "संपर्क के विकल्प",
-    savePdf: "PDF सहेजें",
+    savePdf: "बायोडाटा डाउनलोड करें (PDF)",
+    posterTitle: "एक नज़र में बायोडाटा",
+    posterAlt: "आशीष कुमार का विवाह बायोडाटा पोस्टर, इस पेज के QR कोड के साथ",
+    posterOpen: "पूरे आकार में देखें",
+    qrTitle: "यह बायोडाटा साझा करें",
+    qrText: "फ़ोन पर यह पेज खोलने के लिए कोड स्कैन करें।",
+    qrAlt: "इस बायोडाटा पेज का QR कोड",
     switchLabel: "Read in English",
     switchHref: "/marriage",
     journeyTitle: "मेरी जीवन-यात्रा",
