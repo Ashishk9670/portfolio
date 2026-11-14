@@ -39,6 +39,12 @@ export const StatsSchema = z.object({
       sources: z.array(z.object({ source: z.string(), visits: count })),
       // Added later; older Worker responses don't have it.
       countries: z.array(z.object({ country: z.string(), visits: count })).default([]),
+      actions: z.array(z.object({ action: z.string(), clicks: count, visits: count })).default([]),
+      people: count.default(0),
+      returning: z
+        .array(z.object({ visits: count, firstSeen: z.string(), lastSeen: z.string(), source: z.string(), country: z.string() }))
+        .default([]),
+      returningCount: count.default(0),
     })
     .optional(),
   funnel: z.object({
@@ -103,4 +109,17 @@ export const PAGE_NAMES: Record<string, string> = {
   "/about": "Philosophy & Stack",
   "/mentoring": "Mentoring",
   "/contact": "Contact",
+};
+
+// Clicks the biodata pages count: downloads, sharing, and contact taps.
+export const BIODATA_ACTION_LABELS: Record<string, string> = {
+  "bio-poster-pdf": "Poster PDF downloads",
+  "bio-a4-pdf": "A4 PDF downloads",
+  "bio-poster-open": "Poster opened full size",
+  "bio-share-whatsapp": "Shared on WhatsApp",
+  "bio-copy-link": "Link copied",
+  "bio-save-contact": "Saved to contacts",
+  "bio-call": "Call taps",
+  "bio-whatsapp": "WhatsApp message taps",
+  "bio-email": "Email taps",
 };

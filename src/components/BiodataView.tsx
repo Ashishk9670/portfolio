@@ -19,6 +19,7 @@ import {
   Ruler,
   Sparkles,
   Sunrise,
+  UserPlus,
   UtensilsCrossed,
 } from "lucide-react";
 import {
@@ -29,8 +30,10 @@ import {
   biodataPhone,
   biodataPhotos,
   biodataPoster,
+  biodataShortLink,
   biodataTravels,
   biodataUpdated,
+  biodataVcard,
   type Lang,
   type QuickFactIcon,
 } from "@/lib/biodata";
@@ -39,6 +42,8 @@ import { withBasePath } from "@/lib/basePath";
 import { PlaceChips } from "@/components/PlaceGallery";
 import { IndiaMap } from "@/components/IndiaMap";
 import { ContactMenu } from "@/components/ContactMenu";
+import { CopyLinkButton } from "@/components/CopyLinkButton";
+import { siteUrl } from "@/lib/data";
 
 const c = {
   bg: "#FBF7F0",
@@ -155,6 +160,11 @@ export function BiodataView({ lang }: { lang: Lang }) {
   const { hero, gallery } = biodataPhotos;
   const contacts = biodataContacts;
   const poster = biodataPoster[lang];
+  const shortLink = `${siteUrl}${biodataShortLink[lang]}`;
+  const whatsappShare = `https://wa.me/?text=${encodeURIComponent(`${ui.shareText}\n${shortLink}?utm_source=whatsapp`)}`;
+  // Family details and partner preferences show as "Label: value" tiles.
+  const tilesFor = (s: { id: string; highlights: string[] }) =>
+    s.id === "family" ? s.highlights : s.id === "partner" ? t.partnerPrefs : null;
   const updated = new Intl.DateTimeFormat(lang === "en" ? "en-IN" : "hi-IN", {
     month: "long",
     year: "numeric",
@@ -436,6 +446,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
               />
               <a
                 href={`tel:${biodataPhone.tel}`}
+                data-bio-track="bio-call"
                 className={buttonSecondary}
                 style={{ borderColor: c.line, color: c.maroon }}
               >
@@ -445,6 +456,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
               <a
                 href={withBasePath(poster.pdf)}
                 download
+                data-bio-track="bio-poster-pdf"
                 className={buttonSecondary}
                 style={{ borderColor: c.line, color: c.maroon }}
               >
@@ -454,6 +466,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
               <a
                 href={withBasePath(poster.a4)}
                 download
+                data-bio-track="bio-a4-pdf"
                 className={buttonSecondary}
                 style={{ borderColor: c.line, color: c.maroon }}
               >
@@ -482,6 +495,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
             >
               <a
                 href={withBasePath(`${poster.src}.webp`)}
+                data-bio-track="bio-poster-open"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="block"
@@ -522,8 +536,27 @@ export function BiodataView({ lang }: { lang: Lang }) {
                 {ui.qrText}
               </p>
               <a
+                href={whatsappShare}
+                data-bio-track="bio-share-whatsapp"
+                target="_blank"
+                rel="noreferrer noopener"
+                className={buttonSecondary}
+                style={{ borderColor: c.line, color: c.maroon }}
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                {ui.shareWhatsapp}
+              </a>
+              <CopyLinkButton
+                url={shortLink}
+                label={ui.copyLink}
+                copiedLabel={ui.linkCopied}
+                className={buttonSecondary}
+                style={{ borderColor: c.line, color: c.maroon }}
+              />
+              <a
                 href={withBasePath(poster.pdf)}
                 download
+                data-bio-track="bio-poster-pdf"
                 className={buttonSecondary}
                 style={{ borderColor: c.line, color: c.maroon }}
               >
@@ -533,6 +566,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
               <a
                 href={withBasePath(poster.a4)}
                 download
+                data-bio-track="bio-a4-pdf"
                 className={buttonSecondary}
                 style={{ borderColor: c.line, color: c.maroon }}
               >
@@ -547,16 +581,16 @@ export function BiodataView({ lang }: { lang: Lang }) {
           {t.sections.map((s) => (
             <div key={s.id} className="space-y-6 print:space-y-3">
               <Card id={s.id} title={s.title}>
-                {s.id === "family" ? (
-                  <ul className="mb-5 grid gap-3 sm:grid-cols-2 print:mb-2 print:grid-cols-2 print:gap-1.5 print:text-[11px]">
-                    {s.highlights.map((h) => {
+                {tilesFor(s) && (
+                  <ul className="mb-5 grid gap-3 sm:grid-cols-2 print:mb-2 print:grid-cols-4 print:gap-1.5 print:text-[11px]">
+                    {tilesFor(s)!.map((h) => {
                       const i = h.indexOf(": ");
                       const who = i > 0 ? h.slice(0, i) : null;
                       const what = i > 0 ? h.slice(i + 2) : h;
                       return (
                         <li
                           key={h}
-                          className={`rounded-xl border px-4 py-3 print:px-2.5 print:py-1.5 ${who ? "" : "sm:col-span-2 print:col-span-2"}`}
+                          className={`rounded-xl border px-4 py-3 print:px-2.5 print:py-1.5 ${who ? "" : "sm:col-span-2 print:col-span-4"}`}
                           style={{ borderColor: c.line, background: "#FBF3E4" }}
                         >
                           {who ? (
@@ -577,7 +611,8 @@ export function BiodataView({ lang }: { lang: Lang }) {
                       );
                     })}
                   </ul>
-                ) : (
+                )}
+                {s.id !== "family" && (
                   <ul
                     className="mb-5 space-y-2 rounded-xl border-l-4 px-4 py-3 print:hidden"
                     style={{ borderColor: c.gold, background: "#FBF3E4" }}
@@ -687,6 +722,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
               <div className="mt-2 flex flex-col items-center gap-1 text-sm">
                 <a
                   href={`tel:${biodataPhone.tel}`}
+                  data-bio-track="bio-call"
                   className="inline-flex min-h-8 items-center gap-1.5 underline underline-offset-2"
                   style={{ color: c.maroon }}
                 >
@@ -695,6 +731,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
                 </a>
                 <a
                   href={`https://wa.me/${biodataPhone.tel.replace(/\D/g, "")}`}
+                  data-bio-track="bio-whatsapp"
                   target="_blank"
                   rel="noreferrer noopener"
                   className="inline-flex min-h-8 items-center gap-1.5 underline underline-offset-2 print:hidden"
@@ -705,11 +742,22 @@ export function BiodataView({ lang }: { lang: Lang }) {
                 </a>
                 <a
                   href={`mailto:${biodataEmail}`}
+                  data-bio-track="bio-email"
                   className="inline-flex min-h-8 items-center gap-1.5 underline underline-offset-2"
                   style={{ color: c.maroon }}
                 >
                   <Mail className="h-4 w-4" aria-hidden="true" />
                   {biodataEmail}
+                </a>
+                <a
+                  href={withBasePath(biodataVcard)}
+                  download
+                  data-bio-track="bio-save-contact"
+                  className="inline-flex min-h-8 items-center gap-1.5 underline underline-offset-2"
+                  style={{ color: c.maroon }}
+                >
+                  <UserPlus className="h-4 w-4" aria-hidden="true" />
+                  {ui.saveContact}
                 </a>
               </div>
             </li>
@@ -759,7 +807,7 @@ export function BiodataView({ lang }: { lang: Lang }) {
           </ul>
         </section>
 
-        <footer className="mt-12 text-center print:mt-3 print:[&>div]:hidden">
+        <footer className="mt-12 text-center print:mt-1.5 print:[&>div]:hidden print:[&>p]:mx-2 print:[&>p]:mt-0 print:[&>p]:inline print:[&>p]:text-[10px]">
           <Ornament />
           <p className="mt-4 text-sm" style={{ color: c.muted }}>
             {ui.thanks}

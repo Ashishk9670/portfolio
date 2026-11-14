@@ -112,11 +112,15 @@ export const biodataPoster: Record<Lang, { src: string; w: number; h: number; pd
 // Used to show the current age; the poster already states the date of birth.
 export const biodataBirthDate = "1997-10-26";
 // Bump when the content changes; shown in the footer.
-export const biodataUpdated = "2026-11-14";
+export const biodataUpdated = "2026-11-15";
 
 export type QuickFactIcon = "cake" | "ruler" | "utensils" | "languages" | "home" | "pin";
 
 export const biodataEmail = "ashishk2026k@gmail.com";
+// A contact card (vCard) with name, phone, email, and photo; made by scripts/render-biodata-assets.mjs.
+export const biodataVcard = "/biodata/ashish-kumar.vcf";
+// Short links used when sharing; /m forwards to the biodata in the same language.
+export const biodataShortLink: Record<Lang, string> = { en: "/m/", hi: "/m/hi/" };
 export const biodataPhone = { display: "+91 98899 92650", tel: "+919889992650" };
 
 // Extra contact routes; each renders only when filled in. Numbers become public in the repo.
@@ -161,6 +165,11 @@ const en = {
     whatsapp: "WhatsApp",
     email: "Email",
     thanks: "Thank you for taking the time to read this.",
+    shareWhatsapp: "Share on WhatsApp",
+    shareText: "Marriage biodata of Ashish Kumar: B.Tech, NIT Warangal; SDET II at Triomics, Bengaluru.",
+    copyLink: "Copy link",
+    linkCopied: "Link copied",
+    saveContact: "Save to contacts",
     gallery: {
       photoOf: "Photo {i} of {n}",
       credit: "Photo",
@@ -200,6 +209,13 @@ const en = {
     { when: "2026", place: "Bengaluru, Karnataka", note: "Joined Triomics" },
   ],
   adventures: { done: ["River rafting", "Zipline"], wishlist: ["Paragliding", "Hot-air balloon ride", "Skydiving"] },
+  // Shown as tiles at the top of the partner section, as "Label: value".
+  partnerPrefs: [
+    "Education & work: A graduate, working or planning to work",
+    "After marriage: Bengaluru for now; open to relocating",
+    "Nature: Family-oriented, kind, and honest",
+    "Outlook: Rooted in tradition, modern in outlook, and fond of travel",
+  ],
   sections: [
     {
       id: "about",
@@ -291,6 +307,11 @@ const hi: BiodataContent = {
     whatsapp: "व्हाट्सएप",
     email: "ईमेल",
     thanks: "इसे पढ़ने के लिए समय निकालने के लिए धन्यवाद।",
+    shareWhatsapp: "व्हाट्सएप पर भेजें",
+    shareText: "आशीष कुमार का विवाह बायोडाटा: बी.टेक, एनआईटी वारंगल; ट्राइओमिक्स, बेंगलुरु में SDET II।",
+    copyLink: "लिंक कॉपी करें",
+    linkCopied: "लिंक कॉपी हो गया",
+    saveContact: "फ़ोन में संपर्क सेव करें",
     gallery: {
       photoOf: "तस्वीर {i} / {n}",
       credit: "फ़ोटो",
@@ -330,6 +351,12 @@ const hi: BiodataContent = {
     { when: "2026", place: "बेंगलुरु, कर्नाटक", note: "ट्रायोमिक्स से जुड़ा" },
   ],
   adventures: { done: ["रिवर राफ्टिंग", "ज़िपलाइन"], wishlist: ["पैराग्लाइडिंग", "हॉट-एयर बैलून की सवारी", "स्काईडाइविंग"] },
+  partnerPrefs: [
+    "शिक्षा और कार्य: स्नातक, कार्यरत या कार्य करने की इच्छुक",
+    "विवाह के बाद: अभी बेंगलुरु में; स्थान बदलने के लिए तैयार",
+    "स्वभाव: परिवार को महत्व देने वाली, दयालु और ईमानदार",
+    "दृष्टिकोण: परंपराओं से जुड़ी, आधुनिक सोच वाली और घूमने-फिरने की शौकीन",
+  ],
   sections: [
     {
       id: "about",

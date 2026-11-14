@@ -3,8 +3,10 @@
 //   - the Hindi poster: public/images/biodata/poster-hi(.webp|-sm.webp) and
 //     public/biodata/ashish-kumar-biodata-hi.pdf
 //   - printable A4 PDFs of both pages: public/biodata/ashish-kumar-biodata-a4(-hi).pdf
+//   - the "Save to contacts" card: public/biodata/ashish-kumar.vcf
 // The A4 PDFs are printed from a running copy of the site, so start one first.
 // Usage: BASE_URL=http://localhost:3005 node scripts/render-biodata-assets.mjs
+// ONLY=a4,vcard (any of og, poster, a4, vcard) renders just those.
 // Decorations on the Hindi poster (Ganesha, lotus) are cropped from the English poster.
 import fs from "node:fs";
 import { chromium } from "@playwright/test";
@@ -13,6 +15,8 @@ import sharp from "sharp";
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3005";
 const IMG = "public/images/biodata";
 const DOCS = "public/biodata";
+const ONLY = process.env.ONLY?.split(",");
+const want = (step) => !ONLY || ONLY.includes(step);
 
 const dataUri = (file) => `data:image/${file.endsWith(".png") ? "png" : "webp"};base64,${fs.readFileSync(file).toString("base64")}`;
 const photo = dataUri(`${IMG}/formal.webp`);
@@ -156,39 +160,73 @@ function posterHiHtml() {
   </body></html>`;
 }
 
+// vCard 3.0: CRLF line endings, long lines folded at 75 characters.
+async function writeVcard() {
+  const data = fs.readFileSync("src/lib/biodata.ts", "utf8");
+  const email = data.match(/biodataEmail = "([^"]+)"/)[1];
+  const tel = data.match(/biodataPhone = \{[^}]*tel: "([^"]+)"/)[1];
+  const photo = await sharp(`${IMG}/formal.webp`).resize(320, 320, { fit: "cover", position: "top" }).jpeg({ quality: 80, mozjpeg: true }).toBuffer();
+  const fold = (line) => line.match(/.{1,74}/g).join("\r\n ");
+  const lines = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "N:Kumar;Ashish;;;",
+    "FN:Ashish Kumar",
+    `TEL;TYPE=CELL:${tel}`,
+    `EMAIL;TYPE=INTERNET:${email}`,
+    "URL:https://ashishk9670.github.io/portfolio/m/",
+    `PHOTO;ENCODING=b;TYPE=JPEG:${photo.toString("base64")}`,
+    "END:VCARD",
+  ];
+  fs.writeFileSync(`${DOCS}/ashish-kumar.vcf`, lines.map(fold).join("\r\n") + "\r\n");
+}
+
+if (want("vcard")) await writeVcard();
+
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 
-  for (const lang of ["en", "hi"]) {
+  for (const lang of want("og") ? ["en", "hi"] : []) {
     await page.setContent(ogHtml(lang), { waitUntil: "load" });
     const png = await page.screenshot({ type: "png" });
     await sharp(png).jpeg({ quality: 86, mozjpeg: true }).toFile(`${IMG}/${lang === "en" ? "og" : "og-hi"}.jpg`);
   }
 
-  await page.setViewportSize({ width: 1200, height: 1600 });
-  await page.setContent(posterHiHtml(), { waitUntil: "load" });
-  const height = await page.evaluate(() => Math.ceil(document.body.getBoundingClientRect().height));
-  await page.setViewportSize({ width: 1200, height });
-  console.log(`Hindi poster: 1200x${height} (keep biodataPoster.hi in src/lib/biodata.ts in sync)`);
-  const poster = await page.screenshot({ type: "png" });
-  await sharp(poster).webp({ quality: 88 }).toFile(`${IMG}/poster-hi.webp`);
-  await sharp(poster).resize(720).webp({ quality: 85 }).toFile(`${IMG}/poster-hi-sm.webp`);
-  // Like the English poster PDF: one page holding the poster image (a few hundred KB, not MB).
-  const jpeg = await sharp(poster).jpeg({ quality: 90, mozjpeg: true }).toBuffer();
-  await page.setContent(`<html><body style="margin:0"><img src="data:image/jpeg;base64,${jpeg.toString("base64")}" style="display:block;width:1200px"></body></html>`, { waitUntil: "load" });
-  await page.pdf({ path: `${DOCS}/ashish-kumar-biodata-hi.pdf`, width: "1200px", height: `${height}px`, printBackground: true, pageRanges: "1" });
+  if (want("poster")) {
+    await page.setViewportSize({ width: 1200, height: 1600 });
+    await page.setContent(posterHiHtml(), { waitUntil: "load" });
+    const height = await page.evaluate(() => Math.ceil(document.body.getBoundingClientRect().height));
+    await page.setViewportSize({ width: 1200, height });
+    console.log(`Hindi poster: 1200x${height} (keep biodataPoster.hi in src/lib/biodata.ts in sync)`);
+    const poster = await page.screenshot({ type: "png" });
+    await sharp(poster).webp({ quality: 88 }).toFile(`${IMG}/poster-hi.webp`);
+    await sharp(poster).resize(720).webp({ quality: 85 }).toFile(`${IMG}/poster-hi-sm.webp`);
+    // Like the English poster PDF: one page holding the poster image (a few hundred KB, not MB).
+    const jpeg = await sharp(poster).jpeg({ quality: 90, mozjpeg: true }).toBuffer();
+    await page.setContent(`<html><body style="margin:0"><img src="data:image/jpeg;base64,${jpeg.toString("base64")}" style="display:block;width:1200px"></body></html>`, { waitUntil: "load" });
+    await page.pdf({ path: `${DOCS}/ashish-kumar-biodata-hi.pdf`, width: "1200px", height: `${height}px`, printBackground: true, pageRanges: "1" });
+  }
 
-  for (const [path, file] of [
+  // Chromium stores WebP photos losslessly in a PDF (1.6 MB for the portrait), but passes
+  // JPEGs through as they are, so the printed portrait is swapped for a JPEG.
+  const heroJpeg = `data:image/jpeg;base64,${(await sharp(`${IMG}/formal.webp`).resize(600).jpeg({ quality: 82, mozjpeg: true }).toBuffer()).toString("base64")}`;
+  for (const [path, file] of !want("a4") ? [] : [
     ["/marriage", "ashish-kumar-biodata-a4.pdf"],
     ["/marriage/hi", "ashish-kumar-biodata-a4-hi.pdf"],
   ]) {
     const doc = await browser.newPage({ viewport: { width: 1000, height: 1400 } });
     await doc.goto(`${BASE_URL}${path}`, { waitUntil: "networkidle" });
-    await doc.evaluate(async () => {
-      for (const img of document.images) img.loading = "eager";
+    await doc.evaluate(async (jpeg) => {
+      for (const img of document.images) {
+        img.loading = "eager";
+        if (img.getAttribute("src")?.endsWith("/images/biodata/formal.webp")) {
+          img.removeAttribute("srcset");
+          img.src = jpeg;
+        }
+      }
       await Promise.all([...document.images].map((img) => (img.complete ? null : new Promise((r) => img.addEventListener("load", r, { once: true })))));
-    });
+    }, heroJpeg);
     await doc.emulateMedia({ media: "print" });
     await doc.pdf({ path: `${DOCS}/${file}`, format: "A4", printBackground: true, margin: { top: "10mm", bottom: "10mm", left: "12mm", right: "12mm" } });
     await doc.close();
@@ -196,4 +234,4 @@ try {
 } finally {
   await browser.close();
 }
-console.log("rendered og.jpg, og-hi.jpg, the Hindi poster, and the A4 PDFs");
+console.log(`rendered: ${ONLY?.join(", ") ?? "og, poster, a4, vcard"}`);

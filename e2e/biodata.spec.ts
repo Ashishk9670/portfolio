@@ -81,9 +81,53 @@ test("the short links forward to the biodata without site chrome", async ({ page
   await page.goto("/m/hi");
   await expect(page).toHaveURL(/\/marriage\/hi\/?$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("आशीष कुमार");
+  // A tagged share link keeps its tag through the redirect.
+  await page.goto("/m/?utm_source=whatsapp");
+  await expect(page).toHaveURL(/\/marriage\/?\?utm_source=whatsapp$/);
   // /mentoring shares the "/m" prefix but keeps its header.
   await page.goto("/mentoring");
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
+});
+
+test("partner preferences show as tiles in both languages", async ({ page }) => {
+  await page.goto("/marriage");
+  const partner = page.getByRole("region", { name: "Partner Preferences & Outlook on Marriage" });
+  for (const label of ["Education & work", "After marriage", "Nature", "Outlook"]) {
+    await expect(partner.getByRole("listitem").filter({ hasText: label })).toHaveCount(1);
+  }
+  await page.goto("/marriage/hi");
+  const partnerHi = page.getByRole("region", { name: "जीवनसाथी से अपेक्षाएँ और विवाह पर मेरे विचार" });
+  await expect(partnerHi.getByRole("listitem").filter({ hasText: "शिक्षा और कार्य" })).toHaveCount(1);
+});
+
+test("the biodata can be shared on WhatsApp, copied, and saved as a contact", async ({ page, request, context }) => {
+  await page.goto("/marriage");
+  const share = page.getByRole("link", { name: "Share on WhatsApp" });
+  const href = new URL((await share.getAttribute("href"))!);
+  expect(href.hostname).toBe("wa.me");
+  const text = href.searchParams.get("text")!;
+  expect(text).toContain("Marriage biodata of Ashish Kumar");
+  expect(text).toContain("https://ashishk9670.github.io/portfolio/m/?utm_source=whatsapp");
+
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.getByRole("button", { name: "Copy link" }).click();
+  await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("https://ashishk9670.github.io/portfolio/m/");
+
+  const vcard = page.getByRole("link", { name: "Save to contacts" });
+  const res = await request.get((await vcard.getAttribute("href"))!);
+  expect(res.ok()).toBe(true);
+  const card = await res.text();
+  expect(card).toMatch(/^BEGIN:VCARD\r\nVERSION:3\.0\r\n/);
+  expect(card).toContain("FN:Ashish Kumar");
+  expect(card).toMatch(/\r\nTEL;TYPE=CELL:\+91\d{10}\r\n/);
+  expect(card).toContain("PHOTO;ENCODING=b;TYPE=JPEG:");
+  expect(card.trimEnd().endsWith("END:VCARD")).toBe(true);
+
+  await page.goto("/marriage/hi");
+  const hiText = new URL((await page.getByRole("link", { name: "व्हाट्सएप पर भेजें" }).getAttribute("href"))!).searchParams.get("text")!;
+  expect(hiText).toContain("/portfolio/m/hi/?utm_source=whatsapp");
+  await expect(page.getByRole("link", { name: "फ़ोन में संपर्क सेव करें" })).toBeVisible();
 });
 
 test("the professional site never links to the biodata page", async ({ page }) => {

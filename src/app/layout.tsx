@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
@@ -14,14 +14,20 @@ import { HideOn } from "@/components/HideOn";
 // Pages without the site header, footer, and chat widget: the biodata and its short link.
 const STANDALONE_PAGES = ["/marriage", "/m"];
 
-const inter = Inter({
+// Fonts ship with the site (src/fonts, Latin subsets of the Google Fonts variable files),
+// so builds never depend on downloading them.
+const inter = localFont({
+  src: "../fonts/inter-latin.woff2",
+  weight: "100 900",
   variable: "--font-inter",
-  subsets: ["latin"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
+  src: "../fonts/jetbrains-mono-latin.woff2",
+  weight: "100 800",
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
+  adjustFontFallback: false,
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
 export const metadata: Metadata = {

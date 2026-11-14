@@ -22,7 +22,12 @@ const FIXTURE = {
   countries: [{ country: "IN", sessions: 10 }],
   devices: [{ device: "desktop", sessions: 12 }],
   funnel: { sessions: 17, viewedDossier: 8, dossierThenReachedOut: 4, reachedOut: 6 },
-  biodata: { views: 5, visits: 4, pages: [{ path: "/marriage", views: 4 }, { path: "/marriage/hi", views: 1 }], sources: [{ source: "WhatsApp", visits: 3 }], countries: [{ country: "AE", visits: 2 }] },
+  biodata: { views: 5, visits: 4, pages: [{ path: "/marriage", views: 4 }, { path: "/marriage/hi", views: 1 }], sources: [{ source: "WhatsApp", visits: 3 }], countries: [{ country: "AE", visits: 2 }],
+    actions: [{ action: "bio-poster-pdf", clicks: 2, visits: 2 }],
+    people: 3,
+    returning: [{ visits: 3, firstSeen: "2026-10-20", lastSeen: "2026-10-23", source: "Link for mama", country: "IN" }],
+    returningCount: 1,
+  },
 };
 
 async function mockStats(page: Page, status = 200) {
@@ -56,6 +61,44 @@ test("no analytics events are sent from local or automated browsers", async ({ p
   expect(events).toEqual([]);
 });
 
+test("on the live site, the biodata counts only views, return visits, and its marked buttons", async ({ page, context, baseURL }) => {
+  // Serve this build under the production host so analytics switch on, and capture the
+  // events instead of sending them. Beacons are disabled so every event goes through fetch.
+  // The local build has no /portfolio base path, so pages are opened at the host's root.
+  await context.addInitScript(() => {
+    Object.defineProperty(Navigator.prototype, "webdriver", { get: () => false });
+    navigator.sendBeacon = () => false;
+  });
+  await context.route("https://ashishk9670.github.io/**", async (route) => {
+    const { pathname, search } = new URL(route.request().url());
+    const response = await route.fetch({ url: `${baseURL}${pathname}${search}` });
+    await route.fulfill({ response });
+  });
+  const events: Record<string, unknown>[] = [];
+  await context.route(`${WORKER}/event`, async (route) => {
+    events.push(JSON.parse(route.request().postData() ?? "{}"));
+    await route.fulfill({ status: 204 });
+  });
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+
+  await page.goto("https://ashishk9670.github.io/m/?for=Mama%20Ji");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ashish Kumar");
+  await expect.poll(() => events.length).toBe(1);
+  expect(events[0]).toMatchObject({ type: "pageview", path: "/marriage", entry: true, source: "for:mama-ji" });
+  const visitor = events[0].visitor;
+  expect(visitor).toMatch(/^[0-9a-f-]{36}$/);
+
+  await page.getByRole("heading", { name: "About Me" }).click(); // not a marked control: not counted
+  await page.getByRole("button", { name: "Copy link" }).click();
+  await expect.poll(() => events.length).toBe(2);
+  expect(events[1]).toMatchObject({ type: "click", path: "/marriage", action: "bio-copy-link" });
+
+  await page.reload();
+  await expect.poll(() => events.length).toBe(3);
+  expect(events[2]).toMatchObject({ type: "pageview", entry: false, visitor });
+  expect(events.every((e) => e.type === "pageview" || (e.type === "click" && String(e.action).startsWith("bio-")))).toBe(true);
+});
+
 test("the dashboard stays locked without a token and rejects a wrong one", async ({ page }) => {
   await mockStats(page);
   await page.goto("/insights");
@@ -87,6 +130,12 @@ test("an unlocked dashboard shows totals, the funnel, and per-page detail", asyn
   await expect(biodata).toContainText("WhatsApp");
   await expect(biodata).toContainText("Hindi");
   await expect(biodata).toContainText("United Arab Emirates");
+  await expect(biodata).toContainText("Poster PDF downloads");
+  await expect(biodata).toContainText("1 of 3 people opened it on more than one visit.");
+  await expect(biodata.getByRole("region", { name: "People who came back to the biodata" })).toContainText("Link for mama");
+  await biodata.getByLabel("Who is it for?").fill("Mama Ji");
+  await biodata.getByLabel("Language").selectOption("hi");
+  await expect(biodata.getByText("https://ashishk9670.github.io/portfolio/m/hi/?for=mama-ji")).toBeVisible();
 
   await page.getByRole("button", { name: "7 days" }).click();
   await expect(page.getByRole("button", { name: "7 days" })).toHaveAttribute("aria-pressed", "true");

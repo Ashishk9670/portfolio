@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Devanagari, Noto_Serif_Devanagari } from "next/font/google";
+import type { CSSProperties } from "react";
+import localFont from "next/font/local";
 import { siteUrl } from "@/lib/data";
 import { BiodataView } from "@/components/BiodataView";
 
-const serif = Noto_Serif_Devanagari({ subsets: ["devanagari", "latin"], weight: ["600"], variable: "--font-serif" });
-const sans = Noto_Sans_Devanagari({ subsets: ["devanagari", "latin"], weight: ["400", "600"] });
+// Each Noto family ships as a Devanagari file and a Latin file. Listing the Devanagari face
+// first (with no metric fallback of its own) lets English words fall through to the Latin face.
+const serifDeva = localFont({ src: "../../../fonts/noto-serif-devanagari.woff2", weight: "100 900", adjustFontFallback: false });
+const serifLatin = localFont({ src: "../../../fonts/noto-serif-devanagari-latin.woff2", weight: "100 900", adjustFontFallback: "Times New Roman" });
+const sansDeva = localFont({ src: "../../../fonts/noto-sans-devanagari.woff2", weight: "100 900", adjustFontFallback: false });
+const sansLatin = localFont({ src: "../../../fonts/noto-sans-devanagari-latin.woff2", weight: "100 900" });
+const fonts = {
+  "--font-serif": `${serifDeva.style.fontFamily}, ${serifLatin.style.fontFamily}`,
+  fontFamily: `${sansDeva.style.fontFamily}, ${sansLatin.style.fontFamily}`,
+} as CSSProperties;
 
 const url = `${siteUrl}/marriage/hi`;
 const og = `${siteUrl}/images/biodata/og-hi.jpg?v=2`;
@@ -27,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function MarriagePageHindi() {
   return (
-    <div className={`${serif.variable} ${sans.className}`}>
+    <div style={fonts}>
       <BiodataView lang="hi" />
     </div>
   );

@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent, type PointerEvent } from "react";
-import { Lock, LogOut, RefreshCw } from "lucide-react";
-import { OPT_OUT_KEY } from "@/lib/analytics";
+import { Check, Copy, Lock, LogOut, RefreshCw } from "lucide-react";
+import { OPT_OUT_KEY, groupTag } from "@/lib/analytics";
+import { siteUrl } from "@/lib/data";
 import {
   ACTION_LABELS,
+  BIODATA_ACTION_LABELS,
   PAGE_NAMES,
   TOKEN_KEY,
   fetchStats,
@@ -319,6 +321,33 @@ function Report({ stats }: { stats: Stats }) {
               <BarList rows={stats.biodata.countries.map((r) => ({ label: countryName(r.country), value: r.visits }))} empty="No biodata visits yet." />
             </div>
           </div>
+          <div className="mt-8 grid gap-6 border-t border-border pt-6 lg:grid-cols-2">
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Downloads, shares, and contact taps</p>
+              <BarList
+                rows={stats.biodata.actions.map((a) => ({ label: BIODATA_ACTION_LABELS[a.action] ?? a.action, value: a.clicks }))}
+                empty="No downloads or taps yet."
+              />
+            </div>
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Came back</p>
+              <p className="text-sm text-foreground">
+                {stats.biodata.people
+                  ? `${stats.biodata.returningCount} of ${stats.biodata.people} ${stats.biodata.people === 1 ? "person" : "people"} opened it on more than one visit.`
+                  : "No one has opened it yet."}
+              </p>
+              {stats.biodata.returning.length > 0 && (
+                <div className="mt-3">
+                  <DataTable
+                    caption="People who came back to the biodata"
+                    columns={["First came from", "Country", "First seen", "Last seen", "Visits"]}
+                    rows={stats.biodata.returning.map((r) => [r.source, countryName(r.country), r.firstSeen, r.lastSeen, String(r.visits)])}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <GroupLinkBuilder />
         </Panel>
       )}
 
@@ -343,6 +372,70 @@ function Report({ stats }: { stats: Stats }) {
           rows={stats.clicks.map((c) => [c.label ?? "—", c.target ?? "—", pageName(c.path), c.clicks.toLocaleString()])}
         />
       </Panel>
+    </div>
+  );
+}
+
+// Makes a biodata link for one person or group, so their visits show up as "Link for <name>".
+function GroupLinkBuilder() {
+  const [name, setName] = useState("");
+  const [lang, setLang] = useState<"en" | "hi">("en");
+  const [copied, setCopied] = useState(false);
+  const tag = groupTag(name);
+  const link = tag ? `${siteUrl}/m/${lang === "hi" ? "hi/" : ""}?for=${tag}` : "";
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Clipboard blocked: the link stays selectable on screen.
+    }
+  }
+
+  return (
+    <div className="mt-8 border-t border-border pt-6">
+      <h3 className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Make a link for one person or group</h3>
+      <p className="mt-1 text-xs text-subtle">
+        Visits from it appear under Sources as &ldquo;Link for &hellip;&rdquo;. The name is part of the link, so pick one they can see.
+      </p>
+      <div className="mt-3 flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-muted">Who is it for?</span>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. mama, office"
+            maxLength={40}
+            className="min-h-10 w-56 rounded-lg border border-border bg-background px-3 text-foreground"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-muted">Language</span>
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value as "en" | "hi")}
+            className="min-h-10 rounded-lg border border-border bg-background px-3 text-foreground"
+          >
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+          </select>
+        </label>
+      </div>
+      {link && (
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <code className="break-all rounded-lg bg-surface-2 px-3 py-2 font-mono text-xs text-foreground">{link}</code>
+          <button
+            type="button"
+            onClick={copy}
+            className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-border px-3 text-sm text-foreground hover:bg-surface-2"
+          >
+            {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+            <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

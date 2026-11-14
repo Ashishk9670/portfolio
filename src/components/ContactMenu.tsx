@@ -27,9 +27,9 @@ export function ContactMenu({ email, phone, labels, colors }: Props) {
   }, [open]);
 
   const options = [
-    { href: `mailto:${email}`, icon: Mail, label: labels.email, detail: email },
-    { href: `tel:${phone.tel}`, icon: Phone, label: labels.call, detail: phone.display },
-    { href: `https://wa.me/${phone.tel.replace(/\D/g, "")}`, icon: MessageCircle, label: labels.whatsapp, detail: phone.display, external: true },
+    { href: `mailto:${email}`, icon: Mail, label: labels.email, detail: email, track: "bio-email" },
+    { href: `tel:${phone.tel}`, icon: Phone, label: labels.call, detail: phone.display, track: "bio-call" },
+    { href: `https://wa.me/${phone.tel.replace(/\D/g, "")}`, icon: MessageCircle, label: labels.whatsapp, detail: phone.display, external: true, track: "bio-whatsapp" },
   ];
 
   return (
@@ -53,10 +53,11 @@ export function ContactMenu({ email, phone, labels, colors }: Props) {
           className="absolute left-0 z-20 mt-2 w-64 overflow-hidden rounded-xl border bg-white py-1 shadow-xl"
           style={{ borderColor: colors.line }}
         >
-          {options.map(({ href, icon: Icon, label, detail, external }) => (
+          {options.map(({ href, icon: Icon, label, detail, external, track }) => (
             <li key={label}>
               <a
                 href={href}
+                data-bio-track={track}
                 {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
                 className="flex min-h-11 items-center gap-3 px-4 py-2 text-sm hover:bg-black/5"
               >

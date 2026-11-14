@@ -5,6 +5,7 @@ const PRODUCTION_HOST = "ashishk9670.github.io";
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const SESSION_KEY = "ak_session";
 const ENTRY_KEY = "ak_entry_sent";
+const BIODATA_VISITOR_KEY = "ak_bio_visitor";
 
 export const ACTION_EVENT = "analytics:action";
 export const OPT_OUT_KEY = "ak_no_track";
@@ -19,11 +20,17 @@ type EventPayload = {
   action?: string;
   seconds?: number;
   scroll?: number;
+  visitor?: string;
 };
 
 export const isBiodataPath = (path: string) => path.startsWith("/marriage");
 // The biodata short link only redirects; the biodata page records the visit.
 export const isShortLinkPath = (path: string) => path === "/m" || path.startsWith("/m/");
+// Biodata clicks are counted only for these marked controls (data-bio-track), never in general.
+export const BIODATA_ACTION = /^bio-[a-z-]{1,36}$/;
+// A group link (/m/?for=mama) tags the visits it brings in.
+export const groupTag = (name: string) =>
+  name.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 32);
 
 // Only real visitors on the production site are counted: never local dev, the
 // e2e suite, Lighthouse, the owner's opted-out browser, or anyone who has asked
@@ -70,7 +77,9 @@ export function normalizePath(pathname: string): string {
 
 export function send(event: EventPayload): void {
   if (!visitorAllowed() || !ENDPOINT) return;
-  if (!trackingAllowed() && !(event.type === "pageview" && isBiodataPath(event.path))) return;
+  const biodataEvent =
+    isBiodataPath(event.path) && (event.type === "pageview" || (event.type === "click" && BIODATA_ACTION.test(event.action ?? "")));
+  if (!trackingAllowed() && !biodataEvent) return;
   const body = JSON.stringify({ ...event, session: sessionId(), width: window.innerWidth });
   // text/plain keeps this a "simple" request: no CORS preflight per event.
   const blob = new Blob([body], { type: "text/plain" });
@@ -83,8 +92,26 @@ export function send(event: EventPayload): void {
   }
 }
 
+// A random id kept in this browser, sent only with biodata page views, so the dashboard can
+// show that someone came back. It names no one and is never used on the rest of the site.
+function biodataVisitorId(): string | undefined {
+  try {
+    let id = localStorage.getItem(BIODATA_VISITOR_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(BIODATA_VISITOR_KEY, id);
+    }
+    return id;
+  } catch {
+    return undefined;
+  }
+}
+
 function entrySource(): string | undefined {
-  const utm = new URLSearchParams(window.location.search).get("utm_source");
+  const params = new URLSearchParams(window.location.search);
+  const group = groupTag(params.get("for") ?? "");
+  if (group) return `for:${group}`;
+  const utm = params.get("utm_source");
   if (utm) return utm.slice(0, 100);
   if (!document.referrer) return undefined;
   try {
@@ -103,7 +130,8 @@ export function trackPageview(path: string): void {
   } catch {
     entry = false;
   }
-  send({ type: "pageview", path, entry, source: entry ? entrySource() : undefined });
+  const visitor = isBiodataPath(path) ? biodataVisitorId() : undefined;
+  send({ type: "pageview", path, entry, source: entry ? entrySource() : undefined, visitor });
 }
 
 const clean = (text: string | null | undefined) => (text ?? "").replace(/\s+/g, " ").trim().slice(0, 120);

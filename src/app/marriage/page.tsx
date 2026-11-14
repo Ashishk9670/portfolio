@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import { siteUrl } from "@/lib/data";
 import { BiodataView } from "@/components/BiodataView";
 
-const serif = Playfair_Display({ subsets: ["latin"], weight: ["500", "600"], variable: "--font-serif" });
+const playfair = localFont({ src: "../../fonts/playfair-display-latin.woff2", weight: "400 900", variable: "--font-serif", adjustFontFallback: "Times New Roman" });
 
 const url = `${siteUrl}/marriage`;
 const og = `${siteUrl}/images/biodata/og.jpg?v=2`;
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function MarriagePage() {
   return (
-    <div className={serif.variable}>
+    <div className={playfair.variable}>
       <BiodataView lang="en" />
     </div>
   );

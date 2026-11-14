@@ -9,6 +9,17 @@ export function ShortLinkRedirect({ to, label }: { to: string; label: string }) 
   const href = withBasePath(to);
   useEffect(() => {
     let target = href;
+    // A tagged link (/m/?utm_source=whatsapp, or a group link /m/?for=mama) keeps its tag.
+    const params = new URLSearchParams(window.location.search);
+    const tagged = new URLSearchParams();
+    for (const key of ["for", "utm_source"]) {
+      const value = params.get(key);
+      if (value) tagged.set(key, value);
+    }
+    if (tagged.size) {
+      window.location.replace(`${target}?${tagged}`);
+      return;
+    }
     try {
       const ref = document.referrer && new URL(document.referrer).hostname;
       if (ref && ref !== window.location.hostname) target += `?utm_source=${encodeURIComponent(ref)}`;

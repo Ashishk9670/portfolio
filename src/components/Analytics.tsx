@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { ACTION_EVENT, describeClick, isBiodataPath, isShortLinkPath, normalizePath, send, trackPageview, trackingAllowed, visitorAllowed } from "@/lib/analytics";
+import { ACTION_EVENT, BIODATA_ACTION, describeClick, isBiodataPath, isShortLinkPath, normalizePath, send, trackPageview, trackingAllowed, visitorAllowed } from "@/lib/analytics";
 
 const TRACKED = "a, button, summary, [data-track]";
 
@@ -61,6 +61,18 @@ export function Analytics() {
       window.removeEventListener("pagehide", onPageHide);
     };
   }, []);
+
+  // Biodata pages count only clicks on their marked controls (downloads, sharing, contact).
+  useEffect(() => {
+    const path = normalizePath(pathname);
+    if (!isBiodataPath(path) || !visitorAllowed()) return;
+    const onClick = (e: MouseEvent) => {
+      const action = (e.target as Element | null)?.closest<HTMLElement>("[data-bio-track]")?.dataset.bioTrack;
+      if (action && BIODATA_ACTION.test(action)) send({ type: "click", path, action, label: action });
+    };
+    document.addEventListener("click", onClick, { capture: true });
+    return () => document.removeEventListener("click", onClick, { capture: true });
+  }, [pathname]);
 
   // A pageview per route change; the previous page's engagement is flushed first.
   useEffect(() => {
