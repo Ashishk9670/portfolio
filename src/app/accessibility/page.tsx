@@ -58,7 +58,7 @@ export default function AccessibilityPage() {
           11 km), again without storing IP addresses.
         </p>
         <p className="mt-3">
-          Questions typed into the &quot;Ask about Ashish&quot; assistant are sent to Cloudflare Workers AI to generate an
+          A couple of unlisted personal pages only record that they were opened and where the visit came from. Questions typed into the &quot;Ask about Ashish&quot; assistant are sent to Cloudflare Workers AI to generate an
           answer and are not stored; only the fact that a question was asked is counted.
         </p>
       </section>

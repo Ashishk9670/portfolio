@@ -21,21 +21,30 @@ type EventPayload = {
   scroll?: number;
 };
 
+export const isBiodataPath = (path: string) => path.startsWith("/marriage");
+
 // Only real visitors on the production site are counted: never local dev, the
-// e2e suite, Lighthouse, or anyone who has asked not to be tracked.
-export function trackingAllowed(): boolean {
+// e2e suite, Lighthouse, the owner's opted-out browser, or anyone who has asked
+// not to be tracked.
+export function visitorAllowed(): boolean {
   if (typeof window === "undefined" || !ENDPOINT) return false;
   if (window.location.hostname !== PRODUCTION_HOST) return false;
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean; webdriver?: boolean };
   if (nav.webdriver || nav.globalPrivacyControl || nav.doNotTrack === "1") return false;
-  const path = normalizePath(window.location.pathname);
-  if (path.startsWith("/insights") || path.startsWith("/marriage")) return false;
   try {
     if (localStorage.getItem(OPT_OUT_KEY) === "1") return false;
   } catch {
     // Storage unavailable: fall through and count the visit.
   }
   return true;
+}
+
+// Full tracking (clicks, time on page). The dashboard is never tracked, and the
+// biodata pages only ever record a page view.
+export function trackingAllowed(): boolean {
+  if (!visitorAllowed()) return false;
+  const path = normalizePath(window.location.pathname);
+  return !path.startsWith("/insights") && !isBiodataPath(path);
 }
 
 function sessionId(): string {
@@ -58,7 +67,8 @@ export function normalizePath(pathname: string): string {
 }
 
 export function send(event: EventPayload): void {
-  if (!trackingAllowed() || !ENDPOINT) return;
+  if (!visitorAllowed() || !ENDPOINT) return;
+  if (!trackingAllowed() && !(event.type === "pageview" && isBiodataPath(event.path))) return;
   const body = JSON.stringify({ ...event, session: sessionId(), width: window.innerWidth });
   // text/plain keeps this a "simple" request: no CORS preflight per event.
   const blob = new Blob([body], { type: "text/plain" });

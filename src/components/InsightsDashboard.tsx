@@ -204,7 +204,7 @@ export function InsightsDashboard() {
 
 function Report({ stats }: { stats: Stats }) {
   const { totals, funnel } = stats;
-  if (totals.pageviews === 0) {
+  if (totals.pageviews === 0 && !stats.biodata?.views) {
     return (
       <p className="mt-8 rounded-xl border border-border bg-surface p-6 text-muted">
         No visits recorded in the last {stats.rangeDays} days yet.
@@ -279,6 +279,28 @@ function Report({ stats }: { stats: Stats }) {
           <BarList rows={stats.devices.map((d) => ({ label: d.device, value: d.sessions }))} />
         </Panel>
       </div>
+
+      {stats.biodata && (
+        <Panel title="Biodata views (private)" note="Opens of /marriage and /marriage/hi. Not included in any numbers above.">
+          <div className="grid gap-6 sm:grid-cols-[auto_1fr_1fr] sm:items-start">
+            <div className="flex gap-6">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Views</p>
+                <p className="mt-1 font-mono text-[28px] font-bold leading-9">{stats.biodata.views}</p>
+              </div>
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-subtle">Visits</p>
+                <p className="mt-1 font-mono text-[28px] font-bold leading-9">{stats.biodata.visits}</p>
+              </div>
+            </div>
+            <BarList
+              rows={stats.biodata.pages.map((pg) => ({ label: pg.path === "/marriage/hi" ? "Hindi" : "English", value: pg.views }))}
+              empty="No biodata views yet."
+            />
+            <BarList rows={stats.biodata.sources.map((r) => ({ label: r.source, value: r.visits }))} empty="No biodata visits yet." />
+          </div>
+        </Panel>
+      )}
 
       <Panel title="Pages">
         <DataTable

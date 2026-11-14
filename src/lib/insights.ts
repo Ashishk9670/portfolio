@@ -31,6 +31,14 @@ export const StatsSchema = z.object({
   keyActions: z.array(z.object({ action: z.string(), clicks: count, sessions: count })),
   countries: z.array(z.object({ country: z.string(), sessions: count })),
   devices: z.array(z.object({ device: z.string(), sessions: count })),
+  biodata: z
+    .object({
+      views: count,
+      visits: count,
+      pages: z.array(z.object({ path: z.string(), views: count })),
+      sources: z.array(z.object({ source: z.string(), visits: count })),
+    })
+    .optional(),
   funnel: z.object({
     sessions: count,
     viewedDossier: count,
